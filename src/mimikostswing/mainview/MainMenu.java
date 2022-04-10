@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import mimikostswing.Konek;
 
 /**
@@ -26,6 +27,8 @@ public class MainMenu extends javax.swing.JFrame {
         this.setResizable(false);
         DisplayCount();
         comboBoxBlok();
+        TableModelBlok();
+        Desc();
     }
 
     
@@ -106,8 +109,38 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }
     
-    public void TableModel(){
-        
+    public void TableModelBlok(){
+         DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("No Kamar");
+        tbl.addColumn("Jumlah Penghuni");
+        jTable_K_basedOnBlok.setModel(tbl);
+        try {
+            Statement statement =(Statement)Konek.getConnection().createStatement();
+            ResultSet res = statement.executeQuery("SELECT no_kamar,jumlah_penghuni FROM tb_kamar WHERE kode_blok='"+jComboBox_Blok.getSelectedItem().toString()+"'");
+           
+            
+            while (res.next()) {                
+                tbl.addRow(new Object[]{
+                    res.getString("no_kamar"),
+                    res.getString("jumlah_penghuni")+(" orang"),
+                });
+                
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"ERROR: " +e.getMessage());
+        }
+    }
+    
+    public void Desc(){
+          try {
+        java.sql.Statement stm = (Statement)Konek.getConnection().createStatement();
+        java.sql.ResultSet rs = stm.executeQuery("SELECT deskripsi FROM tb_blok WHERE kode_blok='"+jComboBox_Blok.getSelectedItem().toString()+"'");
+            if (rs.next()) {
+        jTextField_desc.setText(rs.getString("deskripsi"));        
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -159,6 +192,8 @@ public class MainMenu extends javax.swing.JFrame {
         jTable_K_basedOnBlok = new javax.swing.JTable();
         jButton_aturBlok = new javax.swing.JButton();
         jButton_aturKamar = new javax.swing.JButton();
+        jTextField_desc = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jPanel_Trnsksee = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
 
@@ -593,6 +628,11 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(0, 0, 0));
         jLabel19.setText("Pilih Blok");
 
+        jComboBox_Blok.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_BlokItemStateChanged(evt);
+            }
+        });
         jComboBox_Blok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_BlokActionPerformed(evt);
@@ -624,6 +664,16 @@ public class MainMenu extends javax.swing.JFrame {
         jButton_aturKamar.setBorder(null);
         jButton_aturKamar.setOpaque(false);
 
+        jTextField_desc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_descActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Deskripsi");
+
         javax.swing.GroupLayout jPanel_BlkNKLayout = new javax.swing.GroupLayout(jPanel_BlkNK);
         jPanel_BlkNK.setLayout(jPanel_BlkNKLayout);
         jPanel_BlkNKLayout.setHorizontalGroup(
@@ -642,34 +692,43 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGap(103, 103, 103)
                         .addComponent(jButton_aturBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton_aturKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(27, 27, 27)
+                        .addComponent(jButton_aturKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_BlkNKLayout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jTextField_desc, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_BlkNKLayout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel22)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel_BlkNKLayout.setVerticalGroup(
             jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_BlkNKLayout.createSequentialGroup()
-                .addGroup(jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(36, 36, 36)
+                .addGroup(jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel_BlkNKLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
                         .addComponent(jLabel20)
                         .addGap(34, 34, 34)
                         .addGroup(jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBox_Blok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(270, 270, 270)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField_desc, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
                         .addGroup(jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_aturBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton_aturKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel_BlkNKLayout.createSequentialGroup()
-                        .addGap(103, 103, 103)
                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         jPanel_MainP.add(jPanel_BlkNK, "card5");
@@ -819,6 +878,16 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_BlokActionPerformed
 
+    private void jComboBox_BlokItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_BlokItemStateChanged
+        // TODO add your handling code here:
+        TableModelBlok();
+        Desc();
+    }//GEN-LAST:event_jComboBox_BlokItemStateChanged
+
+    private void jTextField_descActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_descActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_descActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -878,6 +947,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
@@ -898,5 +968,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel_lprn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_K_basedOnBlok;
+    private javax.swing.JTextField jTextField_desc;
     // End of variables declaration//GEN-END:variables
 }
