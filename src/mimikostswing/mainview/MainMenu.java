@@ -37,9 +37,35 @@ public class MainMenu extends javax.swing.JFrame {
         comboBoxBlok();
         TableModelBlok();
         Desc();
+        //TableModelDataPenyewa1();
     }
 
-    
+//    private void TableModelDataPenyewa1(){
+//        DefaultTableModel tb = new DefaultTableModel();
+//        tb.addColumn("NIK");
+//        tb.addColumn("Nama");
+//        tb.addColumn("Asal Kota");
+//        tb.addColumn("Usia");
+//        tb.addColumn("No.Telp");
+//        tb.addColumn("E-mail");
+//        jTable_DataPenyewa.setModel(tb);
+//        try {
+//            java.sql.Statement statement = (Statement)Konek.getConnection();
+//            java.sql.ResultSet rs =statement.executeQuery("SELECT NIK, nama_penyewa, usia, asal_kota, telp, email FROM tb_penyewa");
+//            while (rs.next()) {                
+//                tb.addRow(new Object[]{
+//                    rs.getString("NIK"),
+//                    rs.getString("nama_penyewa"),
+//                    rs.getString("usia"),
+//                    rs.getString("asal_kota"),
+//                    rs.getString("telp"),
+//                    rs.getString("email")
+//                });
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+//        }
+//    }
     
     private void DisplayCount(){
         
@@ -111,6 +137,7 @@ public class MainMenu extends javax.swing.JFrame {
             ResultSet res = statement.executeQuery("SELECT * FROM tb_blok");
             while (res.next()) {                
                 jComboBox_Blok.addItem(res.getString("kode_blok"));
+                jComboBoxBlok_DataPenyewa.addItem(res.getString("kode_blok"));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
@@ -118,7 +145,8 @@ public class MainMenu extends javax.swing.JFrame {
     }
     
     public void TableModelBlok(){
-         DefaultTableModel tbl = new DefaultTableModel();
+        //Tabel ModelBlok
+        DefaultTableModel tbl = new DefaultTableModel();
         tbl.addColumn("No Kamar");
         tbl.addColumn("Jumlah Penghuni");
         jTable_K_basedOnBlok.setModel(tbl);
@@ -137,6 +165,8 @@ public class MainMenu extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"ERROR: " +e.getMessage());
         }
+        
+        
     }
     
     public void Desc(){
@@ -191,11 +221,11 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel_DataPeny = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_DataPenyewa = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jTextField_cariPenyewa = new javax.swing.JTextField();
+        jComboBoxBlok_DataPenyewa = new javax.swing.JComboBox<>();
         jTextField_nik = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -216,7 +246,9 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jTextField_ImgAddress = new javax.swing.JTextField();
         jButton_ImageChooser = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        jButton_batal = new javax.swing.JButton();
+        jButton_konfedit1 = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
         jPanel_lprn = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -243,7 +275,6 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jPanel_Body.setBackground(new java.awt.Color(149, 165, 166));
 
@@ -625,18 +656,18 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Data Penyewa");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_DataPenyewa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "NIK", "Name", "Alamat", "No. Kamar"
+                "NIK", "Nama", "Asal Kota", "Usia", "No. Telp", "E-Mail"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(jTable_DataPenyewa);
 
         jPanel9.setBackground(new java.awt.Color(193, 222, 174));
 
@@ -664,10 +695,23 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTextField1.setFont(new java.awt.Font("Dialog", 2, 11)); // NOI18N
-        jTextField1.setText("Cari Nama");
+        jTextField_cariPenyewa.setFont(new java.awt.Font("Dialog", 2, 11)); // NOI18N
+        jTextField_cariPenyewa.setText("Cari Nama");
+        jTextField_cariPenyewa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField_cariPenyewaMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jTextField_cariPenyewaMouseExited(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTextField_cariPenyewaMouseReleased(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---Pilih Blok---" }));
+        jComboBoxBlok_DataPenyewa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---Pilih Blok---" }));
+
+        jTextField_nik.setEditable(false);
 
         jButton1.setText("Detail Info Penyewa");
 
@@ -688,21 +732,31 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel_nik1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel_nik1.setText("Nama Penyewa");
 
+        jTextField_nik1.setEditable(false);
+
         jLabel_nik2.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel_nik2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel_nik2.setText("Usia");
+
+        jTextField_nik2.setEditable(false);
 
         jLabel_nik3.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel_nik3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel_nik3.setText("Asal Kota");
 
+        jTextField_nik3.setEditable(false);
+
         jLabel_nik4.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel_nik4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel_nik4.setText("No. Telp");
 
+        jTextField_nik4.setEditable(false);
+
         jLabel_nik5.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel_nik5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel_nik5.setText("E-Mail");
+
+        jTextField_nik5.setEditable(false);
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Tahun");
@@ -726,10 +780,31 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton_ImageChooser.setText("Pilih File");
+        jTextField_ImgAddress.setEditable(false);
 
-        jButton8.setFont(new java.awt.Font("Elephant", 1, 12)); // NOI18N
-        jButton8.setText("Ganti Data");
+        jButton_ImageChooser.setText("Pilih File");
+        jButton_ImageChooser.setEnabled(false);
+
+        jButton_batal.setFont(new java.awt.Font("Malgun Gothic Semilight", 1, 12)); // NOI18N
+        jButton_batal.setText("Batal");
+        jButton_batal.setEnabled(false);
+        jButton_batal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_batalActionPerformed(evt);
+            }
+        });
+
+        jButton_konfedit1.setFont(new java.awt.Font("Malgun Gothic Semilight", 1, 12)); // NOI18N
+        jButton_konfedit1.setText("Konfirmasi Edit Data");
+        jButton_konfedit1.setEnabled(false);
+        jButton_konfedit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_konfedit1ActionPerformed(evt);
+            }
+        });
+
+        jLabel23.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel_DataPenyLayout = new javax.swing.GroupLayout(jPanel_DataPeny);
         jPanel_DataPeny.setLayout(jPanel_DataPenyLayout);
@@ -746,9 +821,9 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGap(33, 33, 33)
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBoxBlok_DataPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(64, 64, 64)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextField_cariPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(52, 52, 52)
@@ -792,11 +867,16 @@ public class MainMenu extends javax.swing.JFrame {
                                 .addComponent(jTextField_ImgAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton_ImageChooser))
-                            .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36)
-                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(53, Short.MAX_VALUE))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton_batal, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_konfedit1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(36, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(258, 258, 258))
         );
         jPanel_DataPenyLayout.setVerticalGroup(
             jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -808,8 +888,8 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField_cariPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxBlok_DataPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -856,13 +936,18 @@ public class MainMenu extends javax.swing.JFrame {
                                     .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                                         .addComponent(jLabel_nik5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField_nik5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                                .addGap(159, 159, 159)
-                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(149, Short.MAX_VALUE))
+                                        .addComponent(jTextField_nik5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(151, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_konfedit1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(jButton_batal, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(125, 125, 125))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -886,6 +971,11 @@ public class MainMenu extends javax.swing.JFrame {
         jButton4.setText("Detail Tagihan Penyewa");
 
         jButton5.setText("Detail Laporan Pelanggaran");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Detail Tagihan Fasilitas");
 
@@ -1312,8 +1402,54 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      jTextField_nik.setEditable(false);
+      jTextField_nik.setEditable(true);
+      jTextField_nik1.setEditable(true);
+      jTextField_nik2.setEditable(true);
+      jTextField_nik3.setEditable(true);
+      jTextField_nik4.setEditable(true);
+      jTextField_nik5.setEditable(true);
+      jButton_batal.setEnabled(true);
+      jButton2.setEnabled(false);
+      jLabel23.setText("Ubah foto baru");
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton_batalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_batalActionPerformed
+        // TODO add your handling code here:
+         jTextField_nik.setEditable(false);
+      jTextField_nik1.setEnabled(false);
+      jTextField_nik2.setEnabled(false);
+      jTextField_nik3.setEnabled(false);
+      jTextField_nik4.setEnabled(false);
+      jTextField_nik5.setEnabled(false);
+      jButton_batal.setEnabled(false);
+      jButton2.setEnabled(true);
+    }//GEN-LAST:event_jButton_batalActionPerformed
+
+    private void jButton_konfedit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_konfedit1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_konfedit1ActionPerformed
+
+    private void jTextField_cariPenyewaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_cariPenyewaMouseClicked
+        // TODO add your handling code here:
+        jTextField_cariPenyewa.setText("");
+    }//GEN-LAST:event_jTextField_cariPenyewaMouseClicked
+
+    private void jTextField_cariPenyewaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_cariPenyewaMouseExited
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jTextField_cariPenyewaMouseExited
+
+    private void jTextField_cariPenyewaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_cariPenyewaMouseReleased
+        // TODO add your handling code here:
+     
+    }//GEN-LAST:event_jTextField_cariPenyewaMouseReleased
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new DaftarPelanggaran().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1358,11 +1494,12 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton_ImageChooser;
     private javax.swing.JButton jButton_aturBlok;
     private javax.swing.JButton jButton_aturKamar;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton jButton_batal;
+    private javax.swing.JButton jButton_konfedit1;
+    private javax.swing.JComboBox<String> jComboBoxBlok_DataPenyewa;
     private javax.swing.JComboBox<String> jComboBox_Blok;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1383,6 +1520,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -1422,10 +1560,10 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel_lprn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable_DataPenyewa;
     private javax.swing.JTable jTable_K_basedOnBlok;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField_ImgAddress;
+    private javax.swing.JTextField jTextField_cariPenyewa;
     private javax.swing.JTextField jTextField_desc;
     private javax.swing.JTextField jTextField_nik;
     private javax.swing.JTextField jTextField_nik1;
