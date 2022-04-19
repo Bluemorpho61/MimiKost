@@ -6,12 +6,20 @@
 package mimikostswing.mainview;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Locale;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import mimikostswing.Konek;
 import org.jfree.chart.ChartFactory;
@@ -290,7 +298,7 @@ public void showTableDataPenyewa(){
         jButton_ImageChooser = new javax.swing.JButton();
         jButton_batal = new javax.swing.JButton();
         jButton_konfedit1 = new javax.swing.JButton();
-        jLabel23 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
         jPanel_lprn = new javax.swing.JPanel();
         jPanel1_laporan = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -320,7 +328,6 @@ public void showTableDataPenyewa(){
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 744));
 
         jPanel_Body.setBackground(new java.awt.Color(149, 165, 166));
 
@@ -675,7 +682,7 @@ public void showTableDataPenyewa(){
                         .addGroup(jPanel_DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
         jPanel_DashboardLayout.setVerticalGroup(
             jPanel_DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -837,8 +844,13 @@ public void showTableDataPenyewa(){
 
         jTextField_ImgAddress.setEditable(false);
 
-        jButton_ImageChooser.setText("Pilih File");
+        jButton_ImageChooser.setText("Pilih File Untk mengganti foto profil");
         jButton_ImageChooser.setEnabled(false);
+        jButton_ImageChooser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ImageChooserActionPerformed(evt);
+            }
+        });
 
         jButton_batal.setFont(new java.awt.Font("Malgun Gothic Semilight", 1, 12)); // NOI18N
         jButton_batal.setText("Batal");
@@ -858,8 +870,8 @@ public void showTableDataPenyewa(){
             }
         });
 
-        jLabel23.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel27.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel27.setText("*untuk foto, silahkan pilih dengan extensi jpg dan png ");
 
         javax.swing.GroupLayout jPanel_DataPenyLayout = new javax.swing.GroupLayout(jPanel_DataPeny);
         jPanel_DataPeny.setLayout(jPanel_DataPenyLayout);
@@ -922,16 +934,13 @@ public void showTableDataPenyewa(){
                                 .addComponent(jTextField_ImgAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton_ImageChooser))
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel27))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_batal, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton_konfedit1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(36, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(258, 258, 258))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_DataPenyLayout.setVerticalGroup(
             jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -994,21 +1003,21 @@ public void showTableDataPenyewa(){
                                         .addComponent(jTextField_nik5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                                 .addComponent(jButton_konfedit1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
                                 .addComponent(jButton_batal, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(125, 125, 125))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_ImgAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton_ImageChooser))
-                        .addGap(62, 62, 62))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel27)
+                        .addGap(41, 41, 41))))
         );
 
         jPanel_MainP.add(jPanel_DataPeny, "card3");
@@ -1072,7 +1081,7 @@ public void showTableDataPenyewa(){
                 .addGroup(jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 291, Short.MAX_VALUE)
                 .addGroup(jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1199,7 +1208,7 @@ public void showTableDataPenyewa(){
                 .addGroup(jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel22)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
         jPanel_BlkNKLayout.setVerticalGroup(
             jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1276,7 +1285,7 @@ public void showTableDataPenyewa(){
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
         jPanel_TrnskseeLayout.setVerticalGroup(
             jPanel_TrnskseeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1457,7 +1466,7 @@ public void showTableDataPenyewa(){
       jButton_ImageChooser.setEnabled(true);
       
       jButton2.setEnabled(false);
-      jLabel23.setText("Ubah foto baru");
+      //jLabel23.setText("Ubah foto baru");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton_batalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_batalActionPerformed
@@ -1508,24 +1517,49 @@ public void showTableDataPenyewa(){
         String alamat =jTable_DataPenyewa.getValueAt(row, 2).toString();
         String usia =jTable_DataPenyewa.getValueAt(row, 3).toString();
         String telp =jTable_DataPenyewa.getValueAt(row, 4).toString();
-        String email=jTable_DataPenyewa.getValueAt(row, 5).toString();
-        
-        if (email.isEmpty()) {
-            jTextField_nik.setText(NIK);
-        jTextField_nik1.setText(Nama);
-        jTextField_nik2.setText(usia);
-        jTextField_nik3.setText(alamat);
-        jTextField_nik4.setText(telp);
-            jTextField_nik5.setText(" ");
-        } else{
+        //String email=jTable_DataPenyewa.getValueAt(row, 5).toString();
+       
         jTextField_nik.setText(NIK);
         jTextField_nik1.setText(Nama);
         jTextField_nik2.setText(usia);
         jTextField_nik3.setText(alamat);
         jTextField_nik4.setText(telp);
-        jTextField_nik5.setText(email);
+        //jTextField_nik5.setText(email);
+        
+        
+        try {
+        String sql="SELECT foto FROM tb_penyewa WHERE NIK='"+NIK+"'";
+        java.sql.Connection conn=(Connection)mimikostswing.Config.configDB();
+        java.sql.Statement pst = conn.prepareStatement(sql);
+        java.sql.ResultSet rs =pst.executeQuery(sql);
+            if (rs.next()) {
+                BufferedImage im = ImageIO.read(rs.getBinaryStream("foto"));
+                ImageIcon imic = new ImageIcon(im);
+                Image imm = imic.getImage();
+                Image setImage = imm.getScaledInstance(jLabel8.getWidth(), jLabel8.getHeight(), Image.SCALE_SMOOTH);
+                jLabel8.setIcon(new ImageIcon(setImage));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+e.getMessage());
         }
+        
     }//GEN-LAST:event_jTable_DataPenyewaMouseClicked
+
+    private void jButton_ImageChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ImageChooserActionPerformed
+        // TODO add your handling code here:
+        JFileChooser jf = new JFileChooser();
+        FileNameExtensionFilter fi = new FileNameExtensionFilter("jpg", "png");
+        jf.setFileFilter(fi);
+        jf.showOpenDialog(null);
+        
+        File f = jf.getSelectedFile();
+        String FileN =f.getAbsolutePath();
+        jTextField_ImgAddress.setText(FileN.toString());
+        Image getAbsolutePath = null;
+        ImageIcon imeg = new ImageIcon(FileN);
+        Image img = imeg.getImage().getScaledInstance(jLabel8.getWidth(), jLabel8.getHeight(), Image.SCALE_SMOOTH);
+        jLabel8.setIcon(new ImageIcon(img));
+    }//GEN-LAST:event_jButton_ImageChooserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1595,10 +1629,10 @@ public void showTableDataPenyewa(){
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
