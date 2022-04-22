@@ -11,9 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mimikostswing.Konek;
+import model.Enkapsulasi;
 
 /**
  *
@@ -28,6 +30,7 @@ public class AturBlok extends javax.swing.JFrame {
         initComponents();
         ShowTableBlok();
         ShowTableFasilitas();
+        comboBox();
         jTextArea_Deskripsi.setLineWrap(true);
     }
 
@@ -40,7 +43,7 @@ public class AturBlok extends javax.swing.JFrame {
         tb.addColumn("Tagihan Perbulan");
         jTable2.setModel(tb);
         try {
-            String sql ="SELECT tb_fasilitas.id_fasilitas, tb_fasilitas.nama_fasilitas, tb_blok.kode_blok,tb_fasilitas.banyak_fasilitas ,tb_fasilitas.tagihan_perbulan FROM tb_fasilitas,tb_blok WHERE tb_fasilitas.id_blok = tb_blok.id_blok";
+            String sql ="SELECT tb_fasilitas.id_fasilitas, tb_fasilitas.nama_fasilitas, tb_blok.kode_blok, tb_fasilitas.banyak_fasilitas, tb_fasilitas.tagihan_perbulan FROM tb_fasilitas, tb_blok WHERE tb_fasilitas.kode_blok = tb_blok.kode_blok";
             Statement stm = (Statement)Konek.getConnection().createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {                
@@ -53,13 +56,12 @@ public class AturBlok extends javax.swing.JFrame {
                 });
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
+            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
         }
     }
     public void ShowTableBlok(){
         
         DefaultTableModel tb = new DefaultTableModel();
-        tb.addColumn("id_blok");
         tb.addColumn("Kode Blok");
         tb.addColumn("Jumlah Kamar");
         tb.addColumn("Harga");
@@ -67,13 +69,12 @@ public class AturBlok extends javax.swing.JFrame {
         //jTable1.removeColumn(jTable1.getColumnModel().getColumn(0));
         
         try {
-            String sql="SELECT tb_blok.id_blok, tb_blok.kode_blok, COUNT(tb_kamar.no_kamar) AS jumlah_kamar, tb_blok.harga FROM tb_blok LEFT JOIN tb_kamar ON tb_blok.id_blok = tb_kamar.id_blok GROUP BY tb_blok.kode_blok";
+            String sql="SELECT tb_blok.kode_blok, COUNT(tb_kamar.no_kamar) AS jumlah_kamar, tb_blok.harga FROM tb_blok LEFT JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok GROUP BY tb_blok.kode_blok";
             
             java.sql.Statement statemeeent =(Statement)Konek.getConnection().createStatement();
             java.sql.ResultSet ress = statemeeent.executeQuery(sql);
             while (ress.next()) {                
                 tb.addRow(new Object[]{
-                    ress.getString("id_blok"),
                     ress.getString("kode_blok"),
                     ress.getString("jumlah_kamar"),
                     ress.getString("harga")
@@ -88,7 +89,19 @@ public class AturBlok extends javax.swing.JFrame {
         
     }
     
-    
+    public void comboBox(){
+        try {
+            // String sql="SELECT tb_blok.id_blok, tb_blok.kode_blok FROM tb_blok, tb_fasilitas WHERE tb_blok.id_blok = tb_fasilitas.id_blok";
+       String sql ="SELECT kode_blok FROM tb_blok";
+       Statement stm =(Statement)Konek.getConnection().createStatement();
+       ResultSet rs =stm.executeQuery(sql);
+        while (rs.next()) {            
+            jComboBox_blok.addItem(rs.getString("kode_blok"));
+        }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -123,10 +136,10 @@ public class AturBlok extends javax.swing.JFrame {
         jTextField_namaFasilitas = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jComboBox_blok = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        jTextField_banyakFas = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextField_Harga = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea_Deskripsi = new javax.swing.JTextArea();
         jButton_konfEdit = new javax.swing.JButton();
@@ -183,13 +196,13 @@ public class AturBlok extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "id_blok", "Kode Blok", "Jumlah Kamar", "Harga"
+                "Kode Blok", "Jumlah Kamar", "Harga"
             }
         ));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -213,6 +226,11 @@ public class AturBlok extends javax.swing.JFrame {
                 "id_fasilitas", "Nama Fasilitas", "Kode Blok ", "Banyak Fasilitas ", "Tagihan Perbulan"
             }
         ));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jButton2.setBackground(new java.awt.Color(232, 232, 166));
@@ -252,6 +270,11 @@ public class AturBlok extends javax.swing.JFrame {
         jButton6.setForeground(new java.awt.Color(0, 0, 0));
         jButton6.setText("Tambah");
         jButton6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(232, 232, 166));
         jButton7.setForeground(new java.awt.Color(0, 0, 0));
@@ -262,16 +285,17 @@ public class AturBlok extends javax.swing.JFrame {
         jButton8.setForeground(new java.awt.Color(0, 0, 0));
         jButton8.setText("Hapus");
         jButton8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jTextField_kodeBlok.setEnabled(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Kode Blok");
 
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Harga");
-
-        jTextField_harga.setEnabled(false);
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Deskripsi");
@@ -282,18 +306,19 @@ public class AturBlok extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Pilih Blok ");
 
+        jComboBox_blok.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----- Pilih Blok -----" }));
+
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Banyak Fasilitas");
 
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Tagihan  Perbulan");
 
-        jTextField2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jTextField_Harga.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         jTextArea_Deskripsi.setColumns(20);
         jTextArea_Deskripsi.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextArea_Deskripsi.setRows(5);
-        jTextArea_Deskripsi.setEnabled(false);
         jScrollPane3.setViewportView(jTextArea_Deskripsi);
 
         jButton_konfEdit.setBackground(new java.awt.Color(232, 232, 166));
@@ -352,9 +377,9 @@ public class AturBlok extends javax.swing.JFrame {
                             .addComponent(jLabel8)
                             .addComponent(jComboBox_blok, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_banyakFas, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField_Harga, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(222, 222, 222))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -445,11 +470,11 @@ public class AturBlok extends javax.swing.JFrame {
                         .addGap(8, 8, 8)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField_banyakFas, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField_Harga, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 31, Short.MAX_VALUE))
         );
 
@@ -496,7 +521,7 @@ public class AturBlok extends javax.swing.JFrame {
         int row = jTable1.getSelectedRow();
         String blok =jTable1.getValueAt(row, 0).toString();
         try {
-            String sql="DELETE FROM tb_blok WHERE id_blok='"+blok+"'";
+            String sql="DELETE FROM tb_blok WHERE kode_blok='"+blok+"'";
             Connection conn =(Connection)mimikostswing.Config.configDB();
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.execute();
@@ -510,11 +535,12 @@ public class AturBlok extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         int row =jTable1.getSelectedRow();
-        String kodeBlok=jTable1.getValueAt(row, 1).toString();
-        String Harga = jTable1.getValueAt(row, 3).toString();
+        String kodeBlok=jTable1.getValueAt(row, 0).toString();
+        String jumlah = jTable1.getValueAt(row, 1).toString();
+        String harga = jTable1.getValueAt(row, 2).toString();
         
         jTextField_kodeBlok.setText(kodeBlok);
-        jTextField_harga.setText(Harga);
+        jTextField_harga.setText(harga);
         try {
             String SQL ="SELECT deskripsi FROM tb_blok WHERE kode_blok='"+kodeBlok+"'";
             java.sql.Statement statement =(Statement)Konek.getConnection().createStatement();
@@ -533,17 +559,19 @@ public class AturBlok extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        jTextField_kodeBlok.setEnabled(true);
-        jTextField_harga.setEnabled(true);
-        jTextArea_Deskripsi.setEnabled(true);
-        jButton4.setEnabled(false);
         jButton_konfEdit.setEnabled(true);
         jButton_konfEdit1.setEnabled(true);
+        jButton4.setEnabled(false);
+//        jTextField_kodeBlok.setEnabled(true);
+//        jTextField_harga.setEnabled(true);
+//        jTextArea_Deskripsi.setEnabled(true);
+//        jButton4.setEnabled(false);
+//        jButton_konfEdit.setEnabled(true);
+//        jButton_konfEdit1.setEnabled(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton_konfEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_konfEditActionPerformed
         // TODO add your handling code here
-        
         try {
             int row = jTable1.getSelectedRow();
             String id = jTable1.getValueAt(row, 0).toString();
@@ -553,15 +581,15 @@ public class AturBlok extends javax.swing.JFrame {
             pst.execute();
             JOptionPane.showMessageDialog(this, "Data telah berhasil diubah");
             ShowTableBlok();
-            jButton_konfEdit.setEnabled(false);
-             jTextField_kodeBlok.setEnabled(false);
-        jTextField_harga.setEnabled(false);
-        jTextArea_Deskripsi.setEnabled(false);
+//            jButton_konfEdit.setEnabled(false);
+//             jTextField_kodeBlok.setEnabled(false);
+//        jTextField_harga.setEnabled(false);
+//        jTextArea_Deskripsi.setEnabled(false);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error: "+e.getMessage());
-             jTextField_kodeBlok.setEnabled(false);
-        jTextField_harga.setEnabled(false);
-        jTextArea_Deskripsi.setEnabled(false);
+//             jTextField_kodeBlok.setEnabled(false);
+//        jTextField_harga.setEnabled(false);
+//        jTextArea_Deskripsi.setEnabled(false);
         }
         
     }//GEN-LAST:event_jButton_konfEditActionPerformed
@@ -579,6 +607,73 @@ public class AturBlok extends javax.swing.JFrame {
         jButton_konfEdit1.setEnabled(false);
         jButton4.setEnabled(true);
     }//GEN-LAST:event_jButton_konfEdit1ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here: Benenerin Combobox_Blok
+        String nama = jTextField_namaFasilitas.getText();
+        String blok = jComboBox_blok.getSelectedItem().toString();
+        String banyak = jTextField_banyakFas.getText();
+        Integer harga = Integer.valueOf(jTextField_Harga.getText()); 
+        
+        try {
+             String sql = "INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `kode_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES("+Types.NULL+",'"+nama+"','"+blok+"','"+banyak+"','"+harga+"')";
+             Connection conn = (Connection)mimikostswing.Config.configDB();
+             PreparedStatement pst = conn.prepareStatement(sql);
+             pst.execute(sql);
+             JOptionPane.showMessageDialog(this, "Input data berhasil");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+        }
+//        try {
+//            ResultSet convertedString = new Enkapsulasi().getByKode(blok);
+//            int kode_blok = 0;
+//            if(convertedString.next()) {
+//                kode_blok = convertedString.getInt("id_blok");
+//            }
+//            String SQL = "INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `id_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES (NULL,'" + nama + "', '" + kode_blok + "', '" + banyak + "', '" + harga + "')";
+//            Connection cn = (Connection)mimikostswing.Config.configDB();     
+//            PreparedStatement ps = cn.prepareStatement(SQL);
+//            ps.execute();
+//            ShowTableFasilitas();
+//            JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan!");
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this,"Error"+ e.getMessage());
+//        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+          int row = jTable2.getSelectedRow();
+          String nama =jTable2.getValueAt(row, 0).toString();
+          //String blok =jTable2.getValueAt(row, 2).toString();
+          String banyak =jTable2.getValueAt(row, 2).toString();
+          String harga =jTable2.getValueAt(row, 3).toString();
+          
+          jTextField_namaFasilitas.setText(nama);
+          //jTextField_kodeBlok.set
+          jTextField_banyakFas.setText(banyak);
+          jTextField_Harga.setText(harga);
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        int row = jTable2.getSelectedRow();
+        String id = jTable2.getValueAt(row, 0).toString();
+        jTextField_namaFasilitas.setText("");
+        jTextField_banyakFas.setText("");
+        jTextField_Harga.setText("");
+        try {
+            String SQL ="DELETE FROM tb_fasilitas WHERE id_fasilitas='"+id+"'";
+        Connection conn =(Connection)mimikostswing.Config.configDB();
+        PreparedStatement pst = conn.prepareStatement(SQL);
+        pst.execute(SQL);
+        JOptionPane.showMessageDialog(this, "Data telah berhasil dihapus");
+        ShowTableFasilitas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error "+ e.getMessage());
+        }
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -644,8 +739,8 @@ public class AturBlok extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea_Deskripsi;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField_Harga;
+    private javax.swing.JTextField jTextField_banyakFas;
     private javax.swing.JTextField jTextField_harga;
     private javax.swing.JTextField jTextField_kodeBlok;
     private javax.swing.JTextField jTextField_namaFasilitas;

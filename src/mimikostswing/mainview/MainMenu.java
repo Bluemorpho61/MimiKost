@@ -56,7 +56,6 @@ public class MainMenu extends javax.swing.JFrame {
 public void showTableDataPenyewa(){
     DefaultTableModel tb = new DefaultTableModel();
     tb.addColumn("NIK");
-    
     tb.addColumn("Nama");
     tb.addColumn("Asal Kota");
     tb.addColumn("Usia");
