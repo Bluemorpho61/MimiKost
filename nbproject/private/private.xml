@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/Programming%20Project/Java/MimiKostSwing/src/model/Enkapsulasi.java</file>
+            <file>file:/F:/Programming%20Project/Java/MimiKostSwing/src/mimikostswing/mainview/DetailTagihanPenyewa.java</file>
+            <file>file:/F:/Programming%20Project/Java/MimiKostSwing/src/mimikostswing/mainview/AturBlok.java</file>
+            <file>file:/F:/Programming%20Project/Java/MimiKostSwing/src/mimikostswing/mainview/DaftarPelanggaran.java</file>
             <file>file:/F:/Programming%20Project/Java/MimiKostSwing/src/mimikostswing/mainview/PerpanjangKos.java</file>
             <file>file:/F:/Programming%20Project/Java/MimiKostSwing/src/mimikostswing/mainview/MainMenu.java</file>
+            <file>file:/F:/Programming%20Project/Java/MimiKostSwing/src/mimikostswing/mainview/AturKamar.java</file>
         </group>
     </open-files>
 </project-private>

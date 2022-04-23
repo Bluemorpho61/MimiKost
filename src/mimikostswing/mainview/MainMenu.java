@@ -19,8 +19,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import mimikostswing.Konek;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
@@ -53,8 +55,10 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     
+ 
 public void showTableDataPenyewa(){
     DefaultTableModel tb = new DefaultTableModel();
+    tb.addColumn("Kode Blok");
     tb.addColumn("NIK");
     tb.addColumn("Nama");
     tb.addColumn("Asal Kota");
@@ -64,10 +68,13 @@ public void showTableDataPenyewa(){
     
     jTable_DataPenyewa.setModel(tb);
     try {
+        String sql ="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_penyewa.asal_kota, tb_penyewa.usia, tb_penyewa.telp, tb_penyewa.email, tb_blok.kode_blok FROM tb_penyewa JOIN tb_blok ON tb_blok.kode_blok=tb_penyewa.kode_blok";
+        String newQuery="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_penyewa.asal_kota, tb_penyewa.usia, tb_penyewa.telp, tb_penyewa.email, tb_blok.kode_blok FROM tb_penyewa JOIN tb_blok ON tb_blok.kode_blok=tb_penyewa.kode_blok WHERE tb_blok.kode_blok='"+jComboBox_Blok.getSelectedItem().toString()+"' AND tb_blok.kode_blok='"+jComboBox_Blok.getSelectedItem().toString()+"'";
         java.sql.Statement stm = (Statement)Konek.getConnection().createStatement();
-        java.sql.ResultSet rs = stm.executeQuery("SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_penyewa.asal_kota, tb_penyewa.usia, tb_penyewa.telp, tb_penyewa.email, tb_blok.kode_blok FROM tb_penyewa JOIN tb_blok ON tb_blok.id_blok=tb_penyewa.id_blok");
+        java.sql.ResultSet rs = stm.executeQuery(sql);
         while (rs.next()) {            
             tb.addRow(new Object[]{
+                rs.getString("kode_blok"),
                 rs.getString("NIK"),
                 rs.getString("nama_penyewa"),
                 rs.getString("asal_kota"),
@@ -84,6 +91,7 @@ public void showTableDataPenyewa(){
     
 }
     
+
     private void ChartlilinDiagram(){
         DefaultCategoryDataset dcd = new DefaultCategoryDataset();
         dcd.setValue(78.80, "Mark", "Yudhi");
@@ -172,6 +180,8 @@ public void showTableDataPenyewa(){
             ResultSet res=pst.executeQuery();
              if (res.next()) {
                  jLabel1_CountBelumLunas.setText(res.getString("blmlunas"));
+             } else{
+                 jLabel1_CountBelumLunas.setText("Kosong");
              }
          } catch (Exception e) {
              JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
@@ -183,7 +193,7 @@ public void showTableDataPenyewa(){
         
         try {
             Statement statement = (Statement)Konek.getConnection().createStatement();
-            ResultSet res = statement.executeQuery("SELECT * FROM tb_blok");
+            ResultSet res = statement.executeQuery("SELECT kode_blok FROM tb_blok");
             while (res.next()) {                
                 jComboBox_Blok.addItem(res.getString("kode_blok"));
                 jComboBoxBlok_DataPenyewa.addItem(res.getString("kode_blok"));
@@ -216,6 +226,11 @@ public void showTableDataPenyewa(){
         }
         
         
+    }
+    
+    private void tbKamarNjumlahPenghuni(){
+        //Lnjut sini
+        String SQL ="";
     }
     
     public void Desc(){
@@ -274,7 +289,6 @@ public void showTableDataPenyewa(){
         jPanel9 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jTextField_cariPenyewa = new javax.swing.JTextField();
-        jComboBoxBlok_DataPenyewa = new javax.swing.JComboBox<>();
         jTextField_nik = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -298,6 +312,7 @@ public void showTableDataPenyewa(){
         jButton_batal = new javax.swing.JButton();
         jButton_konfedit1 = new javax.swing.JButton();
         jLabel27 = new javax.swing.JLabel();
+        jComboBoxBlok_DataPenyewa = new javax.swing.JComboBox<>();
         jPanel_lprn = new javax.swing.JPanel();
         jPanel1_laporan = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -324,7 +339,10 @@ public void showTableDataPenyewa(){
         jPanel_Trnsksee = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel23 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -681,7 +699,7 @@ public void showTableDataPenyewa(){
                         .addGroup(jPanel_DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(260, Short.MAX_VALUE))
+                .addContainerGap(278, Short.MAX_VALUE))
         );
         jPanel_DashboardLayout.setVerticalGroup(
             jPanel_DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -710,13 +728,13 @@ public void showTableDataPenyewa(){
 
         jTable_DataPenyewa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "NIK", "Nama", "Asal Kota", "Usia", "No. Telp", "E-Mail"
+                "kode_blok", "NIK", "Nama", "Asal Kota", "Usia", "No. Telp", "E-Mail"
             }
         ));
         jTable_DataPenyewa.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -763,12 +781,6 @@ public void showTableDataPenyewa(){
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jTextField_cariPenyewaMouseReleased(evt);
-            }
-        });
-
-        jComboBoxBlok_DataPenyewa.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxBlok_DataPenyewaItemStateChanged(evt);
             }
         });
 
@@ -872,6 +884,18 @@ public void showTableDataPenyewa(){
         jLabel27.setForeground(new java.awt.Color(0, 0, 0));
         jLabel27.setText("*untuk foto, silahkan pilih dengan extensi jpg dan png ");
 
+        jComboBoxBlok_DataPenyewa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---Silahkan Pilih Blok---" }));
+        jComboBoxBlok_DataPenyewa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxBlok_DataPenyewaItemStateChanged(evt);
+            }
+        });
+        jComboBoxBlok_DataPenyewa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxBlok_DataPenyewaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_DataPenyLayout = new javax.swing.GroupLayout(jPanel_DataPeny);
         jPanel_DataPeny.setLayout(jPanel_DataPenyLayout);
         jPanel_DataPenyLayout.setHorizontalGroup(
@@ -887,8 +911,9 @@ public void showTableDataPenyewa(){
                         .addGap(33, 33, 33)
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                                .addComponent(jComboBoxBlok_DataPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(64, 64, 64)
+                                .addGap(9, 9, 9)
+                                .addComponent(jComboBoxBlok_DataPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(36, 36, 36)
                                 .addComponent(jTextField_cariPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -939,7 +964,7 @@ public void showTableDataPenyewa(){
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_batal, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton_konfedit1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel_DataPenyLayout.setVerticalGroup(
             jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -950,9 +975,9 @@ public void showTableDataPenyewa(){
                         .addGap(32, 32, 32)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField_cariPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxBlok_DataPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField_cariPenyewa, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(jComboBoxBlok_DataPenyewa))
                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1033,6 +1058,11 @@ public void showTableDataPenyewa(){
         jPanel10.setBackground(new java.awt.Color(242, 245, 200));
 
         jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/house 3.png"))); // NOI18N
+        jLabel26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel26MouseClicked(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(0, 0, 0));
@@ -1080,7 +1110,7 @@ public void showTableDataPenyewa(){
                 .addGroup(jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 291, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 309, Short.MAX_VALUE)
                 .addGroup(jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1112,6 +1142,11 @@ public void showTableDataPenyewa(){
         jPanel_BlkNK.setBackground(new java.awt.Color(193, 222, 174));
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/house 5.png"))); // NOI18N
+        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel20MouseClicked(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(0, 0, 0));
@@ -1177,6 +1212,9 @@ public void showTableDataPenyewa(){
         jLabel24.setForeground(new java.awt.Color(0, 0, 0));
         jLabel24.setText("Sewa Per-bulan");
 
+        jTextField1.setEditable(false);
+        jTextField1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel_BlkNKLayout = new javax.swing.GroupLayout(jPanel_BlkNK);
         jPanel_BlkNK.setLayout(jPanel_BlkNKLayout);
         jPanel_BlkNKLayout.setHorizontalGroup(
@@ -1207,7 +1245,7 @@ public void showTableDataPenyewa(){
                 .addGroup(jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel22)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         jPanel_BlkNKLayout.setVerticalGroup(
             jPanel_BlkNKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1247,51 +1285,93 @@ public void showTableDataPenyewa(){
         jLabel21.setText("jLabel21");
 
         jPanel1.setBackground(new java.awt.Color(33, 159, 148));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
+
+        jLabel23.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel23.setText("Reservasi Kamar untuk Penyewa Baru");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(33, 159, 148));
+        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel3MouseClicked(evt);
+            }
+        });
+
+        jLabel28.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setText("Perpanjang Sewa Kos");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(97, Short.MAX_VALUE)
+                .addComponent(jLabel28)
+                .addGap(90, 90, 90))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(72, Short.MAX_VALUE))
         );
+
+        jLabel30.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel30.setText("Silahkan Pilih Salah Satu Transaksi yang Ingin Anda Lakukan");
 
         javax.swing.GroupLayout jPanel_TrnskseeLayout = new javax.swing.GroupLayout(jPanel_Trnsksee);
         jPanel_Trnsksee.setLayout(jPanel_TrnskseeLayout);
         jPanel_TrnskseeLayout.setHorizontalGroup(
             jPanel_TrnskseeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_TrnskseeLayout.createSequentialGroup()
-                .addGap(112, 112, 112)
                 .addGroup(jPanel_TrnskseeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel_TrnskseeLayout.createSequentialGroup()
+                        .addGap(112, 112, 112)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(213, Short.MAX_VALUE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_TrnskseeLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(99, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_TrnskseeLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel30)
+                .addGap(179, 179, 179))
         );
         jPanel_TrnskseeLayout.setVerticalGroup(
             jPanel_TrnskseeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_TrnskseeLayout.createSequentialGroup()
-                .addGap(92, 92, 92)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(83, 83, 83)
+                .addGap(23, 23, 23)
+                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
                 .addGroup(jPanel_TrnskseeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1338,11 +1418,7 @@ public void showTableDataPenyewa(){
       
       jPanel_MainP.add(jPanel_DataPeny);
       jPanel_MainP.repaint();
-      jPanel_MainP.revalidate();
-     
-       
-     
-      
+      jPanel_MainP.revalidate(); 
       
     }//GEN-LAST:event_jLabel12MouseClicked
 
@@ -1465,6 +1541,7 @@ public void showTableDataPenyewa(){
       jButton_ImageChooser.setEnabled(true);
       
       jButton2.setEnabled(false);
+      jButton_konfedit1.setEnabled(true);
       //jLabel23.setText("Ubah foto baru");
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -1501,21 +1578,16 @@ public void showTableDataPenyewa(){
      
     }//GEN-LAST:event_jTextField_cariPenyewaMouseReleased
 
-    private void jComboBoxBlok_DataPenyewaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxBlok_DataPenyewaItemStateChanged
-        // TODO add your handling code here:
-        showTableDataPenyewa();
-    }//GEN-LAST:event_jComboBoxBlok_DataPenyewaItemStateChanged
-
     private void jTable_DataPenyewaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DataPenyewaMouseClicked
         // TODO add your handling code here:
         
         //Kode bwt bkin klo semisal ngeklik record data di tabel, jd lgsung ke-isi di textfield 
         int row = jTable_DataPenyewa.getSelectedRow();
-        String NIK = jTable_DataPenyewa.getValueAt(row, 0).toString();
-        String Nama = jTable_DataPenyewa.getValueAt(row, 1).toString();
-        String alamat =jTable_DataPenyewa.getValueAt(row, 2).toString();
-        String usia =jTable_DataPenyewa.getValueAt(row, 3).toString();
-        String telp =jTable_DataPenyewa.getValueAt(row, 4).toString();
+        String NIK = jTable_DataPenyewa.getValueAt(row, 1).toString();
+        String Nama = jTable_DataPenyewa.getValueAt(row, 2).toString();
+        String alamat =jTable_DataPenyewa.getValueAt(row, 3).toString();
+        String usia =jTable_DataPenyewa.getValueAt(row, 4).toString();
+        String telp =jTable_DataPenyewa.getValueAt(row, 5).toString();
         //String email=jTable_DataPenyewa.getValueAt(row, 5).toString();
        
         jTextField_nik.setText(NIK);
@@ -1559,6 +1631,59 @@ public void showTableDataPenyewa(){
         Image img = imeg.getImage().getScaledInstance(jLabel8.getWidth(), jLabel8.getHeight(), Image.SCALE_SMOOTH);
         jLabel8.setIcon(new ImageIcon(img));
     }//GEN-LAST:event_jButton_ImageChooserActionPerformed
+
+    private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MouseClicked
+        // TODO add your handling code here:
+         jPanel_MainP.removeAll();
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+      
+      jPanel_MainP.add(jPanel_Dashboard);
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+    }//GEN-LAST:event_jLabel26MouseClicked
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new ReservasiKamarKos().setVisible(true);
+    }//GEN-LAST:event_jPanel1MouseClicked
+
+    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new PerpanjangKos().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel3MouseClicked
+
+    private void jComboBoxBlok_DataPenyewaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxBlok_DataPenyewaActionPerformed
+        // TODO add your handling code here:
+       
+       //RowFilter<DefaultTableModel,Object> rf =RowFilter.regexFilter(string, ints)
+        //System.out.println(test);
+    }//GEN-LAST:event_jComboBoxBlok_DataPenyewaActionPerformed
+
+    private void jComboBoxBlok_DataPenyewaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxBlok_DataPenyewaItemStateChanged
+        // TODO add your handling code here:
+        String kodeBl =jComboBoxBlok_DataPenyewa.getSelectedItem().toString();
+        TableRowSorter tr = new TableRowSorter(jTable_DataPenyewa.getModel());
+        jTable_DataPenyewa.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(kodeBl, 0));
+        if (jComboBoxBlok_DataPenyewa.getSelectedItem().equals("---Silahkan Pilih Blok---")) {
+            jTable_DataPenyewa.setRowSorter(new TableRowSorter<>(jTable_DataPenyewa.getModel()));
+        }
+    }//GEN-LAST:event_jComboBoxBlok_DataPenyewaItemStateChanged
+
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+        // TODO add your handling code here:
+         jPanel_MainP.removeAll();
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+      
+      jPanel_MainP.add(jPanel_Dashboard);
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+    }//GEN-LAST:event_jLabel20MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1628,12 +1753,15 @@ public void showTableDataPenyewa(){
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

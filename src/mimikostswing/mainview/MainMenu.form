@@ -400,7 +400,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace pref="260" max="32767" attributes="0"/>
+                          <EmptySpace pref="278" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -694,8 +694,9 @@
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="jComboBoxBlok_DataPenyewa" min="-2" pref="148" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                                          <Component id="jComboBoxBlok_DataPenyewa" min="-2" pref="167" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                                           <Component id="jTextField_cariPenyewa" min="-2" pref="180" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
@@ -766,7 +767,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="29" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -781,9 +782,9 @@
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTextField_cariPenyewa" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="jComboBoxBlok_DataPenyewa" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTextField_cariPenyewa" pref="30" max="32767" attributes="0"/>
+                              <Component id="jComboBoxBlok_DataPenyewa" max="32767" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
@@ -899,7 +900,8 @@
                     <Component class="javax.swing.JTable" name="jTable_DataPenyewa">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="6" rowCount="4">
+                          <Table columnCount="7" rowCount="4">
+                            <Column editable="true" title="kode_blok" type="java.lang.Object"/>
                             <Column editable="true" title="NIK" type="java.lang.Object"/>
                             <Column editable="true" title="Nama" type="java.lang.Object"/>
                             <Column editable="true" title="Asal Kota" type="java.lang.Object"/>
@@ -910,6 +912,11 @@
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -1004,19 +1011,6 @@
                     <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField_cariPenyewaMouseExited"/>
                     <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField_cariPenyewaMouseReleased"/>
                   </Events>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBoxBlok_DataPenyewa">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="0"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxBlok_DataPenyewaItemStateChanged"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField_nik">
                   <Properties>
@@ -1218,6 +1212,22 @@
                     <Property name="text" type="java.lang.String" value="*untuk foto, silahkan pilih dengan extensi jpg dan png "/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JComboBox" name="jComboBoxBlok_DataPenyewa">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="1">
+                        <StringItem index="0" value="---Silahkan Pilih Blok---"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxBlok_DataPenyewaItemStateChanged"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxBlok_DataPenyewaActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel_lprn">
@@ -1242,7 +1252,7 @@
                               <Component id="jPanel5" alignment="0" min="-2" pref="308" max="-2" attributes="0"/>
                               <Component id="jPanel1_laporan" alignment="0" min="-2" pref="508" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="291" max="32767" attributes="0"/>
+                          <EmptySpace pref="309" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jButton4" pref="226" max="32767" attributes="0"/>
                               <Component id="jButton5" max="32767" attributes="0"/>
@@ -1337,6 +1347,9 @@
                           <Image iconType="3" name="/mimikostswing/images/house 3.png"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel26MouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel18">
                       <Properties>
@@ -1422,7 +1435,7 @@
                               <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="159" max="32767" attributes="0"/>
+                          <EmptySpace pref="177" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1470,6 +1483,9 @@
                       <Image iconType="3" name="/mimikostswing/images/house 5.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel20MouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel19">
                   <Properties>
@@ -1599,6 +1615,12 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField1">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="18" style="1"/>
+                    </Property>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -1617,26 +1639,36 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel21" min="-2" pref="80" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
                                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                                  <Component id="jLabel21" min="-2" pref="80" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace pref="213" max="32767" attributes="0"/>
+                          <EmptySpace pref="99" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jLabel30" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="179" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                           <Component id="jLabel21" min="-2" pref="64" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="jLabel30" min="-2" pref="62" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
@@ -1661,19 +1693,43 @@
                       <Color blue="94" green="9f" red="21" type="rgb"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel1MouseClicked"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="382" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel23" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="201" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                              <Component id="jLabel23" min="-2" pref="62" max="-2" attributes="0"/>
+                              <EmptySpace pref="78" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="jLabel23">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Dialog" size="24" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Reservasi Kamar untuk Penyewa Baru"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanel3">
                   <Properties>
@@ -1681,20 +1737,55 @@
                       <Color blue="94" green="9f" red="21" type="rgb"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel3MouseClicked"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="382" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace pref="97" max="32767" attributes="0"/>
+                              <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="201" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                              <Component id="jLabel28" min="-2" pref="62" max="-2" attributes="0"/>
+                              <EmptySpace pref="72" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="jLabel28">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Dialog" size="24" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Perpanjang Sewa Kos"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
                 </Container>
+                <Component class="javax.swing.JLabel" name="jLabel30">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="24" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="0" red="0" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Silahkan Pilih Salah Satu Transaksi yang Ingin Anda Lakukan"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>

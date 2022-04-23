@@ -52,7 +52,7 @@ public class AturKamar extends javax.swing.JFrame {
                 jLabel_FotoProfil.setIcon(new ImageIcon(setImage));
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: "+ e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error1: "+ e.getMessage());
         }
     }
 
@@ -65,7 +65,7 @@ public class AturKamar extends javax.swing.JFrame {
         tbl.addColumn("Kamar");
         jTable_nama.setModel(tbl);
         try {
-            String sql="SELECT NIK,nama_penyewa,no_kamar FROM tb_penyewa";
+            String sql="SELECT NIK,nama_penyewa,kode_blok,  FROM tb_penyewa";
             Statement statement =(Statement)mimikostswing.Konek.getConnection().createStatement();
             ResultSet res = statement.executeQuery(sql);
             while (res.next()) {                
@@ -73,12 +73,12 @@ public class AturKamar extends javax.swing.JFrame {
                 res.getString("NIK"),
                 res.getString("nama_penyewa"),
                 res.getString("kode_blok"),
-                res.getString("no_kamar"),
+                //res.getString("no_kamar"),
             });    
             }
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+            JOptionPane.showMessageDialog(this,"Error2: "+ e.getMessage());
         }
     }
     
@@ -88,7 +88,7 @@ public class AturKamar extends javax.swing.JFrame {
         tb.addColumn("No Kamar");
         jTable1.setModel(tb);
         try {
-            String SQL ="SELECT tb_kamar.id_kamar,tb_kamar.no_kamar FROM tb_kamar,tb_blok WHERE tb_blok.kode_blok ='"+jTextField2.getText()+"' AND tb_blok.id_blok = tb_kamar.id_blok";
+            String SQL ="SELECT tb_kamar.id_kamar,tb_kamar.no_kamar FROM tb_kamar,tb_blok WHERE tb_blok.kode_blok ='"+jTextField2.getText()+"' AND tb_blok.kode_blok = tb_kamar.kode_blok";
             Statement stm =(Statement)Konek.getConnection().createStatement();
             ResultSet rs = stm.executeQuery(SQL);
             while(rs.next()){
@@ -107,13 +107,13 @@ public class AturKamar extends javax.swing.JFrame {
     private void comboBoxBlok(){
         try {
             Statement statement = (Statement)Konek.getConnection().createStatement();
-            ResultSet res = statement.executeQuery("SELECT * FROM tb_blok");
+            ResultSet res = statement.executeQuery("SELECT kode_blok FROM tb_blok");
             while (res.next()) {                
                 jComboBox1.addItem(res.getString("kode_blok"));
             }
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+            JOptionPane.showMessageDialog(this,"Error3: "+ e.getMessage());
         }
     }
     /**
@@ -198,6 +198,11 @@ public class AturKamar extends javax.swing.JFrame {
         jTextField2.setEnabled(false);
 
         jButton_Hapus.setText("Hapus Kamar");
+        jButton_Hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_HapusActionPerformed(evt);
+            }
+        });
 
         jTable_nama.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -337,7 +342,7 @@ public class AturKamar extends javax.swing.JFrame {
                                         .addComponent(jTextField_maxPenghuni, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(29, 29, 29)
                                         .addComponent(jButton_tmbh)))))
-                        .addGap(86, 86, 86)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -438,6 +443,7 @@ public class AturKamar extends javax.swing.JFrame {
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.execute();
         JOptionPane.showMessageDialog(this, "Tambah data berhasil");
+        showKamar();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"ERROR:"+ e.getMessage());
         }
@@ -457,6 +463,23 @@ public class AturKamar extends javax.swing.JFrame {
         this.setVisible(false);
         new MainMenu().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton_HapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_HapusActionPerformed
+        // TODO add your handling code here:
+        try {
+        int row =jTable1.getSelectedRow();
+        String id = jTable1.getValueAt(row,0).toString();
+        String sql="DELETE FROM tb_kamar WHERE id_kamar='"+id+"'";
+        Connection conn=(Connection)mimikostswing.Config.configDB();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.execute(sql);
+        JOptionPane.showMessageDialog(this, "Kamar telah berhasil dihapus");
+        showKamar();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
+        }
+        
+    }//GEN-LAST:event_jButton_HapusActionPerformed
 
     /**
      * @param args the command line arguments
