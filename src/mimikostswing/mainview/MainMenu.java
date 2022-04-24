@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -283,17 +286,12 @@ public void showTableDataPenyewa(){
         jLabel1_CountBelumLunas = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jPanel_DataPeny = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_DataPenyewa = new javax.swing.JTable();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel29 = new javax.swing.JLabel();
         jTextField_cariPenyewa = new javax.swing.JTextField();
-        jTextField_nik = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButton_DetailInfoPenyewa = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jLabel_nik = new javax.swing.JLabel();
         jLabel_nik1 = new javax.swing.JLabel();
         jTextField_nik1 = new javax.swing.JTextField();
         jLabel_nik2 = new javax.swing.JLabel();
@@ -307,12 +305,15 @@ public void showTableDataPenyewa(){
         jLabel7 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField_ImgAddress = new javax.swing.JTextField();
-        jButton_ImageChooser = new javax.swing.JButton();
         jButton_batal = new javax.swing.JButton();
         jButton_konfedit1 = new javax.swing.JButton();
         jLabel27 = new javax.swing.JLabel();
         jComboBoxBlok_DataPenyewa = new javax.swing.JComboBox<>();
+        jButton7 = new javax.swing.JButton();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jPanel_lprn = new javax.swing.JPanel();
         jPanel1_laporan = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -529,7 +530,7 @@ public void showTableDataPenyewa(){
         jPanel_DropDownLayout.setVerticalGroup(
             jPanel_DropDownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_DropDownLayout.createSequentialGroup()
-                .addGap(101, 101, 101)
+                .addGap(112, 112, 112)
                 .addComponent(jPanel_TambahPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
                 .addComponent(jPanel_Laporan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -721,11 +722,6 @@ public void showTableDataPenyewa(){
 
         jPanel_DataPeny.setBackground(new java.awt.Color(193, 222, 174));
 
-        jLabel5.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Data Penyewa");
-
         jTable_DataPenyewa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -744,32 +740,6 @@ public void showTableDataPenyewa(){
         });
         jScrollPane2.setViewportView(jTable_DataPenyewa);
 
-        jPanel9.setBackground(new java.awt.Color(193, 222, 174));
-
-        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/house 5.png"))); // NOI18N
-        jLabel29.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel29MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel29)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel29)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         jTextField_cariPenyewa.setFont(new java.awt.Font("Dialog", 2, 11)); // NOI18N
         jTextField_cariPenyewa.setText("Cari Nama");
         jTextField_cariPenyewa.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -784,9 +754,13 @@ public void showTableDataPenyewa(){
             }
         });
 
-        jTextField_nik.setEditable(false);
-
-        jButton1.setText("Detail Info Penyewa");
+        jButton_DetailInfoPenyewa.setText("Detail Info Penyewa");
+        jButton_DetailInfoPenyewa.setEnabled(false);
+        jButton_DetailInfoPenyewa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_DetailInfoPenyewaActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Edit Data Diri Penyewa");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -796,10 +770,6 @@ public void showTableDataPenyewa(){
         });
 
         jButton3.setText("Berhentikan Penyewa Kos");
-
-        jLabel_nik.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jLabel_nik.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel_nik.setText("NIK");
 
         jLabel_nik1.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel_nik1.setForeground(new java.awt.Color(0, 0, 0));
@@ -853,16 +823,6 @@ public void showTableDataPenyewa(){
                 .addContainerGap())
         );
 
-        jTextField_ImgAddress.setEditable(false);
-
-        jButton_ImageChooser.setText("Pilih File Untk mengganti foto profil");
-        jButton_ImageChooser.setEnabled(false);
-        jButton_ImageChooser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_ImageChooserActionPerformed(evt);
-            }
-        });
-
         jButton_batal.setFont(new java.awt.Font("Malgun Gothic Semilight", 1, 12)); // NOI18N
         jButton_batal.setText("Batal");
         jButton_batal.setEnabled(false);
@@ -896,17 +856,73 @@ public void showTableDataPenyewa(){
             }
         });
 
+        jButton7.setText("Klik disini untuk mengubah foto");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jPanel11.setBackground(new java.awt.Color(242, 245, 200));
+
+        jPanel9.setBackground(new java.awt.Color(242, 245, 200));
+
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/house 5.png"))); // NOI18N
+        jLabel29.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel29MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel29)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel29)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel5.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel5.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Data Penyewa");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(515, 515, 515))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel_DataPenyLayout = new javax.swing.GroupLayout(jPanel_DataPeny);
         jPanel_DataPeny.setLayout(jPanel_DataPenyLayout);
         jPanel_DataPenyLayout.setHorizontalGroup(
             jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5))
                     .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -919,17 +935,17 @@ public void showTableDataPenyewa(){
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(52, 52, 52)
                                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton_DetailInfoPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                        .addGap(45, 45, 45)
+                        .addGap(51, 51, 51)
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel_nik)
-                                    .addComponent(jTextField_nik, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                                    .addComponent(jLabel_nik1)
+                                    .addComponent(jTextField_nik1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel_nik2)
                                     .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
@@ -942,48 +958,39 @@ public void showTableDataPenyewa(){
                                     .addComponent(jTextField_nik4, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel_nik1)
-                                    .addComponent(jTextField_nik1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel_nik3)
                                     .addComponent(jTextField_nik3, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel_nik5)
                                     .addComponent(jTextField_nik5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(93, 93, 93)
+                        .addGap(97, 97, 97)
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                                .addComponent(jTextField_ImgAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_ImageChooser))
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel27))
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel27)
+                            .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(89, 89, 89)
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_batal, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton_konfedit1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(29, Short.MAX_VALUE))
+            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel_DataPenyLayout.setVerticalGroup(
             jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField_cariPenyewa, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(jComboBoxBlok_DataPenyewa))
+                    .addComponent(jComboBoxBlok_DataPenyewa, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jTextField_cariPenyewa))
                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                                 .addGap(73, 73, 73)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton_DetailInfoPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(25, 25, 25)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(25, 25, 25)
@@ -994,40 +1001,34 @@ public void showTableDataPenyewa(){
                         .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                                 .addGap(91, 91, 91)
+                                .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
+                                        .addComponent(jLabel_nik2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jTextField_nik2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel7)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
+                                        .addComponent(jLabel_nik4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField_nik4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
+                                        .addComponent(jLabel_nik1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField_nik1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                                        .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
-                                                .addComponent(jLabel_nik)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTextField_nik, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
-                                                .addComponent(jLabel_nik2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jTextField_nik2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel7)))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
-                                                .addComponent(jLabel_nik4)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTextField_nik4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                                                .addComponent(jLabel_nik1)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTextField_nik1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
-                                                .addComponent(jLabel_nik3)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTextField_nik3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jLabel_nik3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField_nik3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel_DataPenyLayout.createSequentialGroup()
                                         .addComponent(jLabel_nik5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jTextField_nik5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_DataPenyLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                                 .addComponent(jButton_konfedit1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
                                 .addComponent(jButton_batal, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1036,9 +1037,7 @@ public void showTableDataPenyewa(){
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel_DataPenyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_ImgAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton_ImageChooser))
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel27)
                         .addGap(41, 41, 41))))
@@ -1093,6 +1092,11 @@ public void showTableDataPenyewa(){
         );
 
         jButton4.setText("Detail Tagihan Penyewa");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Laporan Denda & Pelanggaran");
         jButton5.setPreferredSize(new java.awt.Dimension(150, 25));
@@ -1531,14 +1535,14 @@ public void showTableDataPenyewa(){
     }//GEN-LAST:event_jButton_aturBlokActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      jTextField_nik.setEditable(true);
+      //jTextField_nik.setEditable(true);
       jTextField_nik1.setEditable(true);
       jTextField_nik2.setEditable(true);
       jTextField_nik3.setEditable(true);
       jTextField_nik4.setEditable(true);
       jTextField_nik5.setEditable(true);
       jButton_batal.setEnabled(true);
-      jButton_ImageChooser.setEnabled(true);
+      //jButton_ImageChooser.setEnabled(true);
       
       jButton2.setEnabled(false);
       jButton_konfedit1.setEnabled(true);
@@ -1547,20 +1551,54 @@ public void showTableDataPenyewa(){
 
     private void jButton_batalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_batalActionPerformed
         // TODO add your handling code here:
-         jTextField_nik.setEditable(false);
-      jTextField_nik1.setEnabled(false);
-      jTextField_nik2.setEnabled(false);
-      jTextField_nik3.setEnabled(false);
-      jTextField_nik4.setEnabled(false);
-      jTextField_nik5.setEnabled(false);
-      jButton_ImageChooser.setEnabled(false);
+         //jTextField_nik.setEditable(false);
+      jTextField_nik1.setEditable(false);
+      jTextField_nik2.setEditable(false);
+      jTextField_nik3.setEditable(false);
+      jTextField_nik4.setEditable(false);
+      jTextField_nik5.setEditable(false);
+//      jButton_ImageChooser.setEnabled(false);
       jButton_batal.setEnabled(false);
-      
+      jButton_konfedit1.setEnabled(false);
       jButton2.setEnabled(true);
     }//GEN-LAST:event_jButton_batalActionPerformed
 
     private void jButton_konfedit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_konfedit1ActionPerformed
         // TODO add your handling code here:
+        int row = jTable_DataPenyewa.getSelectedRow();
+        String NIK =jTable_DataPenyewa.getValueAt(row, 1).toString();
+        String Nama = jTextField_nik1.getText();
+        String usia = jTextField_nik2.getText();
+        String asal=jTextField_nik3.getText();
+        String email=jTextField_nik5.getText();
+        String no=jTextField_nik4.getText();
+       // String gmbr =jTextField_ImgAddress.getText();
+        String kodBlok =jTable_DataPenyewa.getValueAt(row, 0).toString();
+      //jTextField_nik.setEditable(false);
+      jTextField_nik1.setEditable(false);
+      jTextField_nik2.setEditable(false);
+      jTextField_nik3.setEditable(false);
+      jTextField_nik4.setEditable(false);
+      jTextField_nik5.setEditable(false);
+     // jButton_ImageChooser.setEnabled(false);
+      jButton_batal.setEnabled(false);
+        try {
+      //InputStream is = new FileInputStream(new File(gmbr));
+      String SQL ="UPDATE tb_penyewa SET nama_penyewa='"+Nama+"', usia='"+usia+"', asal_kota='"+asal+"', telp='"+no+"', email='"+jTextField_nik5.getText()+"' WHERE NIK='"+NIK+"'";
+      Connection conn =(Connection)mimikostswing.Config.configDB();
+      PreparedStatement pst =conn.prepareStatement(SQL);
+      //pst.setBinaryStream(1, is);
+      pst.execute();
+      JOptionPane.showMessageDialog(this, "Data telah berhasil di edit");
+      showTableDataPenyewa();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+            System.err.print(e);
+        }
+      
+      jButton_konfedit1.setEnabled(false);
+      
+      jButton2.setEnabled(true);
     }//GEN-LAST:event_jButton_konfedit1ActionPerformed
 
     private void jTextField_cariPenyewaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_cariPenyewaMouseClicked
@@ -1588,13 +1626,19 @@ public void showTableDataPenyewa(){
         String alamat =jTable_DataPenyewa.getValueAt(row, 3).toString();
         String usia =jTable_DataPenyewa.getValueAt(row, 4).toString();
         String telp =jTable_DataPenyewa.getValueAt(row, 5).toString();
+        String email =jTable_DataPenyewa.getValueAt(row, 6).toString();
+        if (jTable_DataPenyewa.getValueAt(row, 6)==null) {
+            jTextField_nik5.setText("");
+        }
         //String email=jTable_DataPenyewa.getValueAt(row, 5).toString();
        
-        jTextField_nik.setText(NIK);
+        //jTextField_nik.setText(NIK);
         jTextField_nik1.setText(Nama);
         jTextField_nik2.setText(usia);
         jTextField_nik3.setText(alamat);
         jTextField_nik4.setText(telp);
+        jTextField_nik5.setText(email);
+        jButton_DetailInfoPenyewa.setEnabled(true);
         //jTextField_nik5.setText(email);
         
         
@@ -1615,22 +1659,6 @@ public void showTableDataPenyewa(){
         }
         
     }//GEN-LAST:event_jTable_DataPenyewaMouseClicked
-
-    private void jButton_ImageChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ImageChooserActionPerformed
-        // TODO add your handling code here:
-        JFileChooser jf = new JFileChooser();
-        FileNameExtensionFilter fi = new FileNameExtensionFilter("jpg", "png");
-        jf.setFileFilter(fi);
-        jf.showOpenDialog(null);
-        
-        File f = jf.getSelectedFile();
-        String FileN =f.getAbsolutePath();
-        jTextField_ImgAddress.setText(FileN.toString());
-        Image getAbsolutePath = null;
-        ImageIcon imeg = new ImageIcon(FileN);
-        Image img = imeg.getImage().getScaledInstance(jLabel8.getWidth(), jLabel8.getHeight(), Image.SCALE_SMOOTH);
-        jLabel8.setIcon(new ImageIcon(img));
-    }//GEN-LAST:event_jButton_ImageChooserActionPerformed
 
     private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MouseClicked
         // TODO add your handling code here:
@@ -1685,6 +1713,20 @@ public void showTableDataPenyewa(){
       jPanel_MainP.revalidate();
     }//GEN-LAST:event_jLabel20MouseClicked
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        new Foto().setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton_DetailInfoPenyewaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DetailInfoPenyewaActionPerformed
+        // TODO add your handling code here:
+        new DetailInfoPenyewa().setVisible(true);
+    }//GEN-LAST:event_jButton_DetailInfoPenyewaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1721,13 +1763,13 @@ public void showTableDataPenyewa(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton_ImageChooser;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton_DetailInfoPenyewa;
     private javax.swing.JButton jButton_aturBlok;
     private javax.swing.JButton jButton_aturKamar;
     private javax.swing.JButton jButton_batal;
@@ -1768,7 +1810,6 @@ public void showTableDataPenyewa(){
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabel_nik;
     private javax.swing.JLabel jLabel_nik1;
     private javax.swing.JLabel jLabel_nik2;
     private javax.swing.JLabel jLabel_nik3;
@@ -1776,6 +1817,7 @@ public void showTableDataPenyewa(){
     private javax.swing.JLabel jLabel_nik5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel1_laporan;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1802,10 +1844,8 @@ public void showTableDataPenyewa(){
     private javax.swing.JTable jTable_DataPenyewa;
     private javax.swing.JTable jTable_K_basedOnBlok;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField_ImgAddress;
     private javax.swing.JTextField jTextField_cariPenyewa;
     private javax.swing.JTextField jTextField_desc;
-    private javax.swing.JTextField jTextField_nik;
     private javax.swing.JTextField jTextField_nik1;
     private javax.swing.JTextField jTextField_nik2;
     private javax.swing.JTextField jTextField_nik3;

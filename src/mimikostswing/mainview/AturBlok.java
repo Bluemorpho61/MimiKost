@@ -503,7 +503,7 @@ public class AturBlok extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         try {
-            String SQL ="INSERT INTO `tb_blok` (`id_blok`, `kode_blok`, `deskripsi`, `harga`) VALUES("+Types.NULL+",'"+jTextField_kodeBlok.getText()+"','"+jTextArea_Deskripsi.getText()+"','"+jTextField_harga.getText()+"')";
+            String SQL ="INSERT INTO `tb_blok` (`kode_blok`, `deskripsi`, `harga`) VALUES('"+jTextField_kodeBlok.getText()+"','"+jTextArea_Deskripsi.getText()+"','"+jTextField_harga.getText()+"')";
             Connection conn = mimikostswing.Config.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(SQL);
             pst.execute();
