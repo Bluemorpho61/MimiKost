@@ -7,8 +7,13 @@ package mimikostswing.mainview;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -102,11 +107,11 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jComboBox_kamar = new javax.swing.JComboBox<>();
-        jPanel3 = new javax.swing.JPanel();
+        jPanel_FOTO = new javax.swing.JPanel();
         jLabel_foto = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jTextField_addressfoto = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        jButton_pilihFot = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jTextField_nominal = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
@@ -206,18 +211,18 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel_FOTOLayout = new javax.swing.GroupLayout(jPanel_FOTO);
+        jPanel_FOTO.setLayout(jPanel_FOTOLayout);
+        jPanel_FOTOLayout.setHorizontalGroup(
+            jPanel_FOTOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_FOTOLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel_foto, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+        jPanel_FOTOLayout.setVerticalGroup(
+            jPanel_FOTOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_FOTOLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel_foto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -227,10 +232,12 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Foto KTP (Jika ada)");
 
-        jButton2.setText("Pilih Foto");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_addressfoto.setEditable(false);
+
+        jButton_pilihFot.setText("Pilih Foto");
+        jButton_pilihFot.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton_pilihFotActionPerformed(evt);
             }
         });
 
@@ -321,7 +328,7 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel15)))
                                         .addGap(150, 150, 150)))
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jPanel_FOTO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(219, 219, 219)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -333,7 +340,7 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
                                         .addComponent(jButton_lakukanTransaksi))
                                     .addComponent(jTextField_addressfoto, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jButton_pilihFot, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(197, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -392,7 +399,7 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
                         .addGap(7, 7, 7)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel_FOTO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -403,7 +410,7 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_addressfoto, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jButton_pilihFot, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -454,7 +461,7 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_kamarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton_pilihFotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_pilihFotActionPerformed
         // TODO add your handling code here:
         JFileChooser chsr = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE","jpg","png","jpeg");
@@ -467,11 +474,46 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
         ImageIcon ico = new ImageIcon(fileN);
         Image img = ico.getImage().getScaledInstance(jLabel_foto.getWidth(), jLabel_foto.getHeight(), Image.SCALE_SMOOTH);
         jLabel_foto.setIcon(new ImageIcon(img));
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton_pilihFotActionPerformed
 
     private void jButton_lakukanTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_lakukanTransaksiActionPerformed
         // TODO add your handling code here:
-        String sql="";
+        String nama= jTextField_Nama.getText();
+        String NIK = jTextField_NIK.getText();
+        String usia = jTextField_Usia.getText();
+        String asalKot = jTextField_asalkot.getText();
+        String telp = jTextField_telp.getText();
+        String email = jTextField_email.getText();
+        String blok = jComboBox_Blok.getSelectedItem().toString();
+        String idKam = jComboBox_kamar.getSelectedItem().toString(); 
+        
+        //testing hasil inpt di console
+        System.out.println(NIK);
+        System.out.println(nama);
+        System.out.println(usia);
+        System.out.println(asalKot);
+        System.out.println(telp);
+        System.out.println(email);
+        System.out.println(blok);
+        System.out.println(idKam);
+        //System.out.println(email);
+        
+        try {
+            String foto=jTextField_addressfoto.getText();
+            InputStream is = new FileInputStream(new File(foto));
+            System.out.println(is);
+            String sql="INSERT INTO tb_penyewa (`NIK`, `nama_penyewa`, `usia`, `asal_kota`, `telp`, `email`, `foto`, `kode_blok`, `id_kamar`, `waktu_sewa_pertama`)"
+                    + "VALUES('"+NIK+"','"+nama+"','"+usia+"','"+asalKot+"','"+telp+"','"+email+"','"+is+"','"+blok+"','"+idKam+"')";
+        Connection conn =(Connection)mimikostswing.Config.configDB();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setBinaryStream(1, is);
+            ps.execute(sql);
+            JOptionPane.showMessageDialog(this, "Penyewa baru telah berhasil ditambahkan");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Tambah Penyewa Gagal: "+ e.getMessage());
+            System.err.println(e);
+        }
+        
     }//GEN-LAST:event_jButton_lakukanTransaksiActionPerformed
 
     /**
@@ -511,8 +553,8 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton_lakukanTransaksi;
+    private javax.swing.JButton jButton_pilihFot;
     private javax.swing.JComboBox<String> jComboBox_Blok;
     private javax.swing.JComboBox<String> jComboBox_kamar;
     private javax.swing.JLabel jLabel1;
@@ -533,7 +575,7 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_foto;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel_FOTO;
     private javax.swing.JTextField jTextField_NIK;
     private javax.swing.JTextField jTextField_Nama;
     private javax.swing.JTextField jTextField_Usia;

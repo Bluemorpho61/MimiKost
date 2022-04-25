@@ -72,7 +72,7 @@
                               <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jPanel3" max="32767" attributes="0"/>
-                                  <Component id="jSeparator1" max="32767" attributes="0"/>
+                                  <Component id="jSeparator1" pref="319" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -131,7 +131,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel3" pref="295" max="32767" attributes="0"/>
+                          <Component id="jLabel_Foto" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -140,14 +140,14 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel3" pref="160" max="32767" attributes="0"/>
+                          <Component id="jLabel_Foto" pref="160" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel3">
+                <Component class="javax.swing.JLabel" name="jLabel_Foto">
                 </Component>
               </SubComponents>
             </Container>
@@ -223,10 +223,14 @@
             <Container class="javax.swing.JPanel" name="jPanel_Konfirmasi">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="c8" green="f5" red="f2" type="rgb"/>
+                  <Color blue="0" green="66" red="99" type="rgb"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel_KonfirmasiMouseClicked"/>
+              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">
