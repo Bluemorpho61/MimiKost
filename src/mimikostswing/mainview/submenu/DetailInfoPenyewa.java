@@ -222,6 +222,11 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
         jPanel_Konfir.setBackground(new java.awt.Color(33, 159, 148));
         jPanel_Konfir.setEnabled(false);
         jPanel_Konfir.setOpaque(false);
+        jPanel_Konfir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel_KonfirMouseClicked(evt);
+            }
+        });
 
         jLabel1_Konfir.setEnabled(false);
         jLabel1_Konfir.setOpaque(true);
@@ -265,9 +270,16 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
+        jPanel5.setBackground(new java.awt.Color(33, 159, 148));
+
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Waktu Pertama Kali Mendaftar Kos");
 
+        jLabel_tglPertamaKOs.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_tglPertamaKOs.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        jLabel_tglPertamaKOs.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_tglPertamaKOs.setText("jLabel11");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -375,7 +387,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -401,7 +413,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addContainerGap(201, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -429,11 +441,34 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
         // TODO add your handling code here:
         jPanel_Konfir.setOpaque(true);
         jPanel_Konfir.setEnabled(true);
+        jTextField_NIK.setEditable(true);
         jLabel1_Konfir.setText("Konfirmasi");
         jPanel_batal.setOpaque(true);
         jPanel_batal.setEnabled(true);
         jLabel1_batal.setText("Batal");
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jPanel_KonfirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_KonfirMouseClicked
+        // TODO add your handling code here:
+        try {
+         String SQL ="UPDATE tb_penyewa SET NIK='"+jTextField_NIK.getText()+"' WHERE NIK='"+model.SetterGetter.getNIK()+"'";
+         Connection conn = (Connection)mimikostswing.Config.configDB();
+         PreparedStatement ps = conn.prepareStatement(SQL);
+         ps.execute();
+         jPanel_Konfir.setOpaque(false);
+         jPanel_Konfir.setEnabled(false);
+         jLabel1_Konfir.setText(null);
+         jPanel_batal.setOpaque(false);
+         jPanel_batal.setEnabled(false);
+         jLabel1_batal.setText(null);
+         jTextField_NIK.setEditable(false);
+         JOptionPane.showMessageDialog(this, "Ubah data NIK telah berhasil");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error"+ e.getMessage());
+        }
+        
+        
+    }//GEN-LAST:event_jPanel_KonfirMouseClicked
 
     /**
      * @param args the command line arguments

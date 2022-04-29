@@ -145,7 +145,6 @@ public class AturKamar extends javax.swing.JFrame {
         jTable_nama = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel_FotoProfil = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
         jTextField3 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -154,6 +153,7 @@ public class AturKamar extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -244,14 +244,6 @@ public class AturKamar extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/Component 27.png"))); // NOI18N
-        jButton3.setBorder(null);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Cari Nama");
 
@@ -282,6 +274,16 @@ public class AturKamar extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTable1);
 
+        jButton2.setBackground(new java.awt.Color(41, 148, 0));
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton2.setText("Pindah Blok dan Kamar Penyewa");
+        jButton2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -292,12 +294,11 @@ public class AturKamar extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(52, 52, 52)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(183, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addGap(44, 44, 44))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -392,8 +393,8 @@ public class AturKamar extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(95, 95, 95)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
 
@@ -411,12 +412,6 @@ public class AturKamar extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        new PindahBlokNKamar().setVisible(true);
-        
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         // TODO add your handling code here:
@@ -442,8 +437,22 @@ public class AturKamar extends javax.swing.JFrame {
 
     private void jTable_namaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_namaMouseClicked
         // TODO add your handling code here:
-        int row=jTable_nama.getSelectedRow();
+        try {
+            int row=jTable_nama.getSelectedRow();
         String nik =jTable_nama.getValueAt(row, 0).toString();
+        String sql="SELECT foto FROM tb_penyewa WHERE NIK='"+nik+"'";
+        Connection c =(Connection)mimikostswing.Config.configDB();
+        Statement st = c.prepareStatement(sql);
+        ResultSet r =st.executeQuery(sql);
+            if (r.next()) {
+                BufferedImage im = ImageIO.read(r.getBinaryStream("foto"));
+                ImageIcon imc = new ImageIcon(im);
+                Image img = imc.getImage();
+                Image setIM = img.getScaledInstance(jLabel_FotoProfil.getWidth(), jLabel_FotoProfil.getHeight(), Image.SCALE_SMOOTH);
+                jLabel_FotoProfil.setIcon(new ImageIcon(setIM));
+            }
+        } catch (Exception e) {
+        }
         
     }//GEN-LAST:event_jTable_namaMouseClicked
 
@@ -469,6 +478,14 @@ public class AturKamar extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton_HapusActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+         int row = jTable_nama.getSelectedRow();
+        String NIK2 = jTable_nama.getValueAt(row, 0).toString();
+        model.SetterGetter.setNIK(NIK2);
+        new PindahBlokNKamar().setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -507,7 +524,7 @@ public class AturKamar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton_Hapus;
     private javax.swing.JButton jButton_tmbh;
     private javax.swing.JComboBox<String> jComboBox1;

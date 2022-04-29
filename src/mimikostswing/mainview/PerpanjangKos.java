@@ -6,10 +6,12 @@
 package mimikostswing.mainview;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDate;
-import javafx.scene.control.Tab;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -33,7 +35,8 @@ public class PerpanjangKos extends javax.swing.JFrame {
        showcombobox2();
        
     }
-
+    
+    
     public void showCombobox(){
         
         try {
@@ -103,6 +106,77 @@ public class PerpanjangKos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
         }
     }
+    
+    public void paymentLogic(){
+        
+        if (Integer.valueOf(jTextField_nom.getText()) == Integer.valueOf(jTextField_biaya.getText())) {
+              LocalDate ld = LocalDate.now();
+        DateTimeFormatter d =DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String tglSKRG = d.format(ld);
+        String NIK = jTextField_NIK.getText();
+        String bln = jComboBox_bulan.getSelectedItem().toString();
+        model.SetterGetter.setBulan(bln);
+        String blnConver=model.SetterGetter.getBulan();
+        String thn = jTextField_thn.getText();
+        String ua=jTextField_nom.getText();
+        
+        
+        try {
+        String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Terbayar','"+ tglSKRG+"')";
+        Connection conn = (Connection)mimikostswing.Config.configDB();
+        PreparedStatement pst =conn.prepareStatement(sql);
+        pst.execute();
+        JOptionPane.showMessageDialog(this, "Transaksi Perpanjangan Berhasil");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e);
+        }
+        } else if(Integer.valueOf(jTextField_nom.getText()) >= Integer.valueOf(jTextField_biaya.getText())) {
+             LocalDate ld = LocalDate.now();
+        DateTimeFormatter d =DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String tglSKRG = d.format(ld);
+        String NIK = jTextField_NIK.getText();
+        String bln = jComboBox_bulan.getSelectedItem().toString();
+        model.SetterGetter.setBulan(bln);
+        String blnConver=model.SetterGetter.getBulan();
+        String thn = jTextField_thn.getText();
+        String ua=jTextField_nom.getText();
+        
+        
+        try {
+        String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Terbayar','"+ tglSKRG+"')";
+        Connection conn = (Connection)mimikostswing.Config.configDB();
+        PreparedStatement pst =conn.prepareStatement(sql);
+        pst.execute();
+        JOptionPane.showMessageDialog(this, "Transaksi Perpanjangan Berhasil");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e);
+        }
+        } else{
+               LocalDate ld = LocalDate.now();
+        DateTimeFormatter d =DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String tglSKRG = d.format(ld);
+        String NIK = jTextField_NIK.getText();
+        String bln = jComboBox_bulan.getSelectedItem().toString();
+        model.SetterGetter.setBulan(bln);
+        String blnConver=model.SetterGetter.getBulan();
+        String thn = jTextField_thn.getText();
+        String ua=jTextField_nom.getText();
+        
+        
+        try {
+        String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Belum Lunas','"+ tglSKRG+"')";
+        Connection conn = (Connection)mimikostswing.Config.configDB();
+        PreparedStatement pst =conn.prepareStatement(sql);
+        pst.execute();
+        JOptionPane.showMessageDialog(this, "Transaksi telah berhasil, namun penyewa masih belum melunasi tagihan");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e);
+        }
+        }
+        
+       
+      
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -128,10 +202,10 @@ public class PerpanjangKos extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jTextField_thn = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        jTextField_nom = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Perpanjang = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        jButton_bayar = new javax.swing.JButton();
         jTextField_criNM = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jTextField_biaya = new javax.swing.JTextField();
@@ -202,7 +276,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Masukkan Nominal");
 
-        jTextField6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jTextField_nom.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
 
         jTable_Perpanjang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -222,7 +296,12 @@ public class PerpanjangKos extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable_Perpanjang);
 
-        jButton2.setText("Lakukan Transaksi & Cetak Struk");
+        jButton_bayar.setText("Lakukan Transaksi & Cetak Struk");
+        jButton_bayar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_bayarActionPerformed(evt);
+            }
+        });
 
         jTextField_criNM.setFont(new java.awt.Font("Arial", 2, 11)); // NOI18N
         jTextField_criNM.setText("Cari Nama");
@@ -307,7 +386,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jTextField_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(141, 141, 141)
@@ -318,7 +397,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(95, 95, 95)
-                                .addComponent(jButton2))
+                                .addComponent(jButton_bayar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
                                 .addComponent(jLabel9)
@@ -379,7 +458,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(15, 15, 15)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
@@ -387,7 +466,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField_biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton_bayar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -453,6 +532,32 @@ public class PerpanjangKos extends javax.swing.JFrame {
           dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_bayarActionPerformed
+        // TODO add your handling code here:
+        paymentLogic();
+//        LocalDate ld = LocalDate.now();
+//        DateTimeFormatter d =DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        String tglSKRG = d.format(ld);
+//        String NIK = jTextField_NIK.getText();
+//        String bln = jComboBox_bulan.getSelectedItem().toString();
+//        model.SetterGetter.setBulan(bln);
+//        String blnConver=model.SetterGetter.getBulan();
+//        String thn = jTextField_thn.getText();
+//        String ua=jTextField_nom.getText();
+//        
+//        
+//        try {
+//        String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Belum Terbayar','"+ tglSKRG+"')";
+//        Connection conn = (Connection)mimikostswing.Config.configDB();
+//        PreparedStatement pst =conn.prepareStatement(sql);
+//        pst.execute();
+//        JOptionPane.showMessageDialog(this, "Transaksi Perpanjangan Berhasil");
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this,"Error: "+ e);
+//        }
+        
+    }//GEN-LAST:event_jButton_bayarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -489,8 +594,8 @@ public class PerpanjangKos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton_bayar;
     private javax.swing.JComboBox<String> jComboBox_blok;
     private javax.swing.JComboBox<String> jComboBox_bulan;
     private javax.swing.JLabel jLabel1;
@@ -508,13 +613,13 @@ public class PerpanjangKos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Perpanjang;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField_NIK;
     private javax.swing.JTextField jTextField_Nama;
     private javax.swing.JTextField jTextField_biaya;
     private javax.swing.JTextField jTextField_criNM;
     private javax.swing.JTextField jTextField_k_blok;
     private javax.swing.JTextField jTextField_noKam;
+    private javax.swing.JTextField jTextField_nom;
     private javax.swing.JTextField jTextField_thn;
     // End of variables declaration//GEN-END:variables
 }

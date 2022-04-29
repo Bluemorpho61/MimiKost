@@ -621,6 +621,7 @@ public class AturBlok extends javax.swing.JFrame {
              PreparedStatement pst = conn.prepareStatement(sql);
              pst.execute(sql);
              JOptionPane.showMessageDialog(this, "Input data berhasil");
+             ShowTableFasilitas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
         }

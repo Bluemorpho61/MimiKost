@@ -5,6 +5,11 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 /**
  *
  * @author Alkin PC
@@ -12,6 +17,63 @@ package model;
 public class SetterGetter {
   
         private static String NIK;
+        private static String NoKam;
+        private static String Bulan;
+
+    public static String getBulan() {
+        return Bulan;
+    }
+
+    public static void setBulan(String Bulan) {
+        String sql="SELECT id_bulan FROM tb_bulan WHERE bulan='"+Bulan+"'";
+        try {
+            Statement s =(Statement)mimikostswing.Konek.getConnection().createStatement();
+        ResultSet r =s.executeQuery(sql);
+        if (r.next()) {
+            SetterGetter.Bulan =r.getString("id_bulan");
+        }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    public static String getNoKam() {
+        return NoKam;
+    }
+
+    public static void setNoKam(String NoKam) {
+        try {
+            String sql="SELECT id_kamar FROM tb_kamar WHERE no_kamar='"+NoKam+"'";
+            Statement st = (Statement)mimikostswing.Konek.getConnection().createStatement();
+            ResultSet r = st.executeQuery(sql);
+            if (r.next()) {
+                SetterGetter.NoKam=r.getString("id_kamar");
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+     
+    }
+       
+    private String NIK2;
+
+    /**
+     * Get the value of NIK2
+     *
+     * @return the value of NIK2
+     */
+    public String getNIK2() {
+        return NIK2;
+    }
+
+    /**
+     * Set the value of NIK2
+     *
+     * @param NIK2 new value of NIK2
+     */
+    public void setNIK2(String NIK2) {
+        this.NIK2 = NIK2;
+    }
 
     /**
      * Get the value of NIK
@@ -33,6 +95,9 @@ public class SetterGetter {
         
     }
 
-
-    
+    public String getCurDate(){
+        LocalDate ld =LocalDate.now();
+    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy MM dd");
+    return df.format(ld).toString();
+    }
 }

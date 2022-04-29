@@ -477,42 +477,64 @@ public class ReservasiKamarKos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_pilihFotActionPerformed
 
     private void jButton_lakukanTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_lakukanTransaksiActionPerformed
-        // TODO add your handling code here:
-        String nama= jTextField_Nama.getText();
-        String NIK = jTextField_NIK.getText();
-        String usia = jTextField_Usia.getText();
-        String asalKot = jTextField_asalkot.getText();
-        String telp = jTextField_telp.getText();
-        String email = jTextField_email.getText();
-        String blok = jComboBox_Blok.getSelectedItem().toString();
-        String idKam = jComboBox_kamar.getSelectedItem().toString(); 
-        
-        //testing hasil inpt di console
-        System.out.println(NIK);
-        System.out.println(nama);
-        System.out.println(usia);
-        System.out.println(asalKot);
-        System.out.println(telp);
-        System.out.println(email);
-        System.out.println(blok);
-        System.out.println(idKam);
-        //System.out.println(email);
-        
+        String Foto = jTextField_addressfoto.getText();
+        String noKamar = jComboBox_kamar.getSelectedItem().toString();
+        String kodB = jComboBox_Blok.getSelectedItem().toString();
+        model.SetterGetter.setNoKam(noKamar);
+        String convNoKam=model.SetterGetter.getNoKam();
         try {
-            String foto=jTextField_addressfoto.getText();
-            InputStream is = new FileInputStream(new File(foto));
-            System.out.println(is);
-            String sql="INSERT INTO tb_penyewa (`NIK`, `nama_penyewa`, `usia`, `asal_kota`, `telp`, `email`, `foto`, `kode_blok`, `id_kamar`, `waktu_sewa_pertama`)"
-                    + "VALUES('"+NIK+"','"+nama+"','"+usia+"','"+asalKot+"','"+telp+"','"+email+"','"+is+"','"+blok+"','"+idKam+"')";
+        InputStream is = new FileInputStream(new File(Foto));
+        String sql ="INSERT INTO tb_penyewa VALUES('"+jTextField_NIK.getText()+
+                "','"+jTextField_Nama.getText()+"','"+jTextField_Usia.getText()+
+                "','"+jTextField_asalkot.getText()+"','"+jTextField_telp.getText()+
+                "','"+jTextField_telp.getText()+"','"+jTextField_email.getText()+"','"+is
+                +"','"+kodB+"','"+convNoKam+"')";
         Connection conn =(Connection)mimikostswing.Config.configDB();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setBinaryStream(1, is);
-            ps.execute(sql);
-            JOptionPane.showMessageDialog(this, "Penyewa baru telah berhasil ditambahkan");
+        PreparedStatement ps =conn.prepareStatement(sql);
+        //ps.setBinaryStream(1, is);
+        ps.setBlob(1, is);
+        ps.execute();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Tambah Penyewa Gagal: "+ e.getMessage());
-            System.err.println(e);
+            JOptionPane.showMessageDialog(this,"Error: "+ e);
         }
+        
+        
+//        String nama= jTextField_Nama.getText();
+//        String NIK = jTextField_NIK.getText();
+//        String usia = jTextField_Usia.getText();
+//        String asalKot = jTextField_asalkot.getText();
+//        String telp = jTextField_telp.getText();
+//        String email = jTextField_email.getText();
+//        String blok = jComboBox_Blok.getSelectedItem().toString();
+//        String noKam = jComboBox_kamar.getSelectedItem().toString(); 
+//        model.SetterGetter.setNoKam(noKam);
+//        String convertedKam = model.SetterGetter.getNoKam();
+//        //testing hasil inpt di console
+//        System.out.println(NIK);
+//        System.out.println(nama);
+//        System.out.println(usia);
+//        System.out.println(asalKot);
+//        System.out.println(telp);
+//        System.out.println(email);
+//        System.out.println(blok);
+//        System.out.println(noKam);
+//        //System.out.println(email);
+//        
+//        try {
+//            String foto=jTextField_addressfoto.getText();
+//            InputStream is = new FileInputStream(new File(foto));
+//            System.out.println(is);
+//            String sql="INSERT INTO tb_penyewa (`NIK`, `nama_penyewa`, `usia`, `asal_kota`, `telp`, `email`, `foto`, `kode_blok`, `id_kamar`, `waktu_sewa_pertama`)"
+//                    + "VALUES=('"+NIK+"','"+nama+"','"+usia+"','"+asalKot+"','"+telp+"','"+email+"','"+is+"','"+blok+"','"+convertedKam+"')";
+//        Connection conn =(Connection)mimikostswing.Config.configDB();
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setBinaryStream(1, is);
+//            ps.execute(sql);
+//            JOptionPane.showMessageDialog(this, "Penyewa baru telah berhasil ditambahkan");
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this,"Tambah Penyewa Gagal: "+ e.getMessage());
+//            System.err.println(e);
+//        }
         
     }//GEN-LAST:event_jButton_lakukanTransaksiActionPerformed
 
