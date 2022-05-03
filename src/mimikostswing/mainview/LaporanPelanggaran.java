@@ -23,6 +23,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -37,23 +38,43 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         initComponents();
         showTablePelanggar();
         ShowChart();
+        
     }
 
-    public void ShowChart(){
-        DefaultCategoryDataset dodd = new DefaultCategoryDataset();
-        dodd.setValue(78.80, "Mark", "Yudhi");
-        dodd.setValue(60, "Mark", "Yunus");
-        dodd.setValue(59, "Mark", "Yusron");
-        JFreeChart jChart = ChartFactory.createBarChart("Kunyuk", "Nama Siswa", "Nilai", dodd, PlotOrientation.HORIZONTAL, true, true, false);
-        CategoryPlot plot = jChart.getCategoryPlot();
-        plot.setRangeCrosshairPaint(Color.BLACK);
+    public void showDaftarPelanggaran(){
+        DefaultTableModel tb = new DefaultTableModel();
+        tb.addColumn("id_pelanggaran");
+        tb.addColumn("Pelanggaran");
+        tb.addColumn("Waktu Pelanggaran");
+        jTable_DaftarPelanggaran.setModel(tb);
+        try {
+            int row =jTable_Pelanggar.getSelectedRow();
+            String NIK=jTable_Pelanggar.getValueAt(row, 0).toString();
+            String sql="SELECT tb_pelanggar.id_pelanggar, tb_penyewa.nama_penyewa ,tb_pelanggaran.pelanggaran, tb_pelanggar.waktu_pelanggaran FROM tb_pelanggar, tb_penyewa,tb_pelanggaran WHERE tb_pelanggar.NIK = '"+NIK+"' AND tb_penyewa.NIK ='"+NIK+"' AND tb_pelanggaran.id_pelanggaran =tb_pelanggar.id_pelanggaran";
+            Statement st =(Statement)Konek.getConnection().createStatement();
+            ResultSet r = st.executeQuery(sql);
+            
+            while (r.next()) {
+                tb.addRow(new Object[]{
+                    r.getString("id_pelanggar"),
+                    r.getString("pelanggaran"),
+                    r.getString("waktu_pelanggaran")
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+        }
         
-        ChartFrame chartFrame = new ChartFrame("Nilai", jChart,Boolean.TRUE);
-        chartFrame.setVisible(false);
-        chartFrame.setSize(jPanel_PieCh.getWidth(), jPanel_PieCh.getHeight());
-        ChartPanel chartPanel = new ChartPanel(jChart);
-        jPanel_PieCh.removeAll();
-        jPanel_PieCh.add(chartPanel);
+    }
+    public void ShowChart(){
+        
+            DefaultPieDataset dps = new DefaultPieDataset();
+        dps.setValue("Penghuni", 60);
+        dps.setValue("Kamar kosong", 40);
+        JFreeChart chart = ChartFactory.createPieChart("PieChart", dps,true, true, false);
+        ChartPanel cpnl = new ChartPanel(chart);
+       jPanel_PieCh.removeAll();
+        jPanel_PieCh.add(cpnl);
         jPanel_PieCh.updateUI();
         
     }
@@ -369,16 +390,7 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Daftar Keseluruhan Nama Pelanggar");
 
-        javax.swing.GroupLayout jPanel_PieChLayout = new javax.swing.GroupLayout(jPanel_PieCh);
-        jPanel_PieCh.setLayout(jPanel_PieChLayout);
-        jPanel_PieChLayout.setHorizontalGroup(
-            jPanel_PieChLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
-        );
-        jPanel_PieChLayout.setVerticalGroup(
-            jPanel_PieChLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 219, Short.MAX_VALUE)
-        );
+        jPanel_PieCh.setLayout(new javax.swing.BoxLayout(jPanel_PieCh, javax.swing.BoxLayout.LINE_AXIS));
 
         jButton2.setText("Tambah Pelanggar Baru");
 
@@ -402,24 +414,23 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(123, 123, 123)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel_PieCh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(181, 181, 181)
                         .addComponent(jLabel11)
                         .addGap(144, 144, 144)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton6)))
+                        .addComponent(jButton6))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel_PieCh, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 74, Short.MAX_VALUE)
+                .addGap(0, 59, Short.MAX_VALUE)
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
         );
@@ -436,10 +447,10 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
                     .addComponent(jButton3)
                     .addComponent(jButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel_PieCh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel_PieCh, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -465,7 +476,7 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        ShowChart();
+      
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTable_PelanggarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_PelanggarMouseClicked
@@ -492,7 +503,7 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
         }
-        
+        showDaftarPelanggaran();
         
     }//GEN-LAST:event_jTable_PelanggarMouseClicked
 

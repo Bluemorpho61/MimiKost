@@ -5,6 +5,15 @@
  */
 package mimikostswing.mainview.submenu;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Types;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mimikostswing.Konek;
+
 /**
  *
  * @author Alkin PC
@@ -16,8 +25,76 @@ public class BlokNFasilitas extends javax.swing.JFrame {
      */
     public BlokNFasilitas() {
         initComponents();
+        ShowTableBlok();
+        ShowTableFasilitas();
+        comboBox();
     }
 
+     public void ShowTableFasilitas(){
+        DefaultTableModel tb = new DefaultTableModel();
+        tb.addColumn("id_fasilitas");
+        tb.addColumn("Nama Fasilitas");
+        tb.addColumn("Kode Blok");
+        tb.addColumn("Banyak Fasilitas");
+        tb.addColumn("Tagihan Perbulan");
+        jTable_Fasilitas.setModel(tb);
+        try {
+            String sql ="SELECT tb_fasilitas.id_fasilitas, tb_fasilitas.nama_fasilitas, tb_blok.kode_blok, tb_fasilitas.banyak_fasilitas, tb_fasilitas.tagihan_perbulan FROM tb_fasilitas, tb_blok WHERE tb_fasilitas.kode_blok = tb_blok.kode_blok";
+            Statement stm = (Statement)Konek.getConnection().createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {                
+                tb.addRow(new Object[]{
+                    rs.getString("id_fasilitas"),
+                    rs.getString("nama_fasilitas"),
+                    rs.getString("kode_blok"),
+                    rs.getString("banyak_fasilitas"),
+                    rs.getString("tagihan_perbulan")
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+        }
+    }
+       public void ShowTableBlok(){
+        DefaultTableModel tb = new DefaultTableModel();
+        tb.addColumn("Kode Blok");
+        tb.addColumn("Jumlah Kamar");
+        tb.addColumn("Harga");
+        jTable_Blok.setModel(tb);
+        //jTable1.removeColumn(jTable1.getColumnModel().getColumn(0));
+        
+        try {
+            String sql="SELECT tb_blok.kode_blok, COUNT(tb_kamar.no_kamar) AS jumlah_kamar, tb_blok.harga FROM tb_blok LEFT JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok GROUP BY tb_blok.kode_blok";
+            
+            java.sql.Statement statemeeent =(Statement)Konek.getConnection().createStatement();
+            java.sql.ResultSet ress = statemeeent.executeQuery(sql);
+            while (ress.next()) {                
+                tb.addRow(new Object[]{
+                    ress.getString("kode_blok"),
+                    ress.getString("jumlah_kamar"),
+                    ress.getString("harga")
+                });
+            }
+           // java.sql.ResultSet ress = stm.executeQuery(sql);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
+        }
+       }
+       
+        public void comboBox(){
+        try {
+            // String sql="SELECT tb_blok.id_blok, tb_blok.kode_blok FROM tb_blok, tb_fasilitas WHERE tb_blok.id_blok = tb_fasilitas.id_blok";
+       String sql ="SELECT kode_blok FROM tb_blok";
+       Statement stm =(Statement)Konek.getConnection().createStatement();
+       ResultSet rs =stm.executeQuery(sql);
+        while (rs.next()) {            
+            jComboBox_kdBlok.addItem(rs.getString("kode_blok"));
+        }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,42 +111,45 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound1 = new model.panelRound();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTable_Fasilitas = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         panelRound6 = new model.panelRound();
-        jTextField3 = new javax.swing.JTextField();
+        jTextField_namFas = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox_kdBlok = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        jButton_Edit = new javax.swing.JButton();
+        jButton_tmbHFas = new javax.swing.JButton();
+        jButton_hps = new javax.swing.JButton();
         panelRound7 = new model.panelRound();
-        jTextField4 = new javax.swing.JTextField();
+        jTextField_bykFas = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         panelRound8 = new model.panelRound();
-        jTextField5 = new javax.swing.JTextField();
+        jTextField_Tagihan = new javax.swing.JTextField();
+        jButton_KonfEditFas = new javax.swing.JButton();
+        jButton_BatEditFas = new javax.swing.JButton();
         panelRound3 = new model.panelRound();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_Blok = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         panelRound2 = new model.panelRound();
-        jTextField1 = new javax.swing.JTextField();
+        jTextField_kdBlok = new javax.swing.JTextField();
         panelRound4 = new model.panelRound();
-        jTextField2 = new javax.swing.JTextField();
+        jTextField_Harga = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         panelRound5 = new model.panelRound();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jTextArea_Desc = new javax.swing.JTextArea();
+        jButton_EditBlok = new javax.swing.JButton();
+        jButton_Hps = new javax.swing.JButton();
+        jButton_tmbhBlok = new javax.swing.JButton();
+        jButton_BatEdit = new javax.swing.JButton();
+        jButton_KonfEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -78,6 +158,11 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(41, 148, 0));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/akar-icons_arrow-back-thick-fill (1).png"))); // NOI18N
         jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
@@ -115,7 +200,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Fasilitas");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_Fasilitas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -126,7 +211,12 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                 "id_fasilitas", "Nama Fasilitas", "Kode Blok", "Banyak Fasilitas", "Tagihan Perbulan"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jTable_Fasilitas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_FasilitasMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable_Fasilitas);
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -138,22 +228,25 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound6.setRoundTopRight(30);
         panelRound6.setRoundedTopLeft(30);
 
-        jTextField3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextField3.setText("E4");
-        jTextField3.setBorder(null);
-        jTextField3.setOpaque(false);
+        jTextField_namFas.setBackground(new java.awt.Color(229, 229, 229));
+        jTextField_namFas.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextField_namFas.setBorder(null);
+        jTextField_namFas.setOpaque(false);
 
         javax.swing.GroupLayout panelRound6Layout = new javax.swing.GroupLayout(panelRound6);
         panelRound6.setLayout(panelRound6Layout);
         panelRound6Layout.setHorizontalGroup(
             panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+            .addGroup(panelRound6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField_namFas, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelRound6Layout.setVerticalGroup(
             panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound6Layout.createSequentialGroup()
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField_namFas, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
         );
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 0));
@@ -166,35 +259,55 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Nama Fasilitas");
 
-        jButton7.setText("Edit");
+        jButton_Edit.setText("Edit");
+        jButton_Edit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_EditActionPerformed(evt);
+            }
+        });
 
-        jButton8.setText("Tambah");
+        jButton_tmbHFas.setText("Tambah");
+        jButton_tmbHFas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_tmbHFas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_tmbHFasActionPerformed(evt);
+            }
+        });
 
-        jButton9.setText("Hapus");
+        jButton_hps.setText("Hapus");
+        jButton_hps.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_hps.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_hpsActionPerformed(evt);
+            }
+        });
 
         panelRound7.setRoundBottomLeft(30);
         panelRound7.setRoundBottomRight(30);
         panelRound7.setRoundTopRight(30);
         panelRound7.setRoundedTopLeft(30);
 
-        jTextField4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextField4.setText("2");
-        jTextField4.setBorder(null);
-        jTextField4.setOpaque(false);
+        jTextField_bykFas.setBackground(new java.awt.Color(229, 229, 229));
+        jTextField_bykFas.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextField_bykFas.setBorder(null);
+        jTextField_bykFas.setOpaque(false);
 
         javax.swing.GroupLayout panelRound7Layout = new javax.swing.GroupLayout(panelRound7);
         panelRound7.setLayout(panelRound7Layout);
         panelRound7Layout.setHorizontalGroup(
             panelRound7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound7Layout.createSequentialGroup()
-                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField_bykFas, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelRound7Layout.setVerticalGroup(
             panelRound7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound7Layout.createSequentialGroup()
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jTextField_bykFas, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel10.setBackground(new java.awt.Color(0, 0, 0));
@@ -207,23 +320,45 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound8.setRoundTopRight(30);
         panelRound8.setRoundedTopLeft(30);
 
-        jTextField5.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        jTextField5.setText("2340000");
-        jTextField5.setBorder(null);
-        jTextField5.setOpaque(false);
+        jTextField_Tagihan.setBackground(new java.awt.Color(229, 229, 229));
+        jTextField_Tagihan.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        jTextField_Tagihan.setBorder(null);
+        jTextField_Tagihan.setOpaque(false);
 
         javax.swing.GroupLayout panelRound8Layout = new javax.swing.GroupLayout(panelRound8);
         panelRound8.setLayout(panelRound8Layout);
         panelRound8Layout.setHorizontalGroup(
             panelRound8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound8Layout.createSequentialGroup()
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField_Tagihan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelRound8Layout.setVerticalGroup(
             panelRound8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+            .addGroup(panelRound8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField_Tagihan, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        jButton_KonfEditFas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jButton_KonfEditFas.setText("Konfirmasi Edit");
+        jButton_KonfEditFas.setEnabled(false);
+        jButton_KonfEditFas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_KonfEditFasActionPerformed(evt);
+            }
+        });
+
+        jButton_BatEditFas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jButton_BatEditFas.setText("Batalkan Edit");
+        jButton_BatEditFas.setEnabled(false);
+        jButton_BatEditFas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_BatEditFasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
@@ -231,21 +366,18 @@ public class BlokNFasilitas extends javax.swing.JFrame {
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addGap(156, 156, 156)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton_tmbHFas, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton_hps, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
                 .addContainerGap(94, Short.MAX_VALUE)
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel7)
                     .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
                             .addComponent(jLabel3)
@@ -254,7 +386,17 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(77, 77, 77)))
                     .addComponent(panelRound6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addComponent(jComboBox_kdBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton_KonfEditFas, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_BatEditFas, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(66, 66, 66))))
         );
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,9 +407,9 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_tmbHFas, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_hps, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -275,16 +417,22 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addComponent(jComboBox_kdBlok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addComponent(jButton_KonfEditFas, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_BatEditFas, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         panelRound3.setBackground(new java.awt.Color(236, 236, 236));
@@ -297,7 +445,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Atur Blok");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_Blok.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -308,7 +456,12 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                 "Kode Blok", "Jumlah Kamar", "Harga"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jTable_Blok.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_BlokMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable_Blok);
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -320,24 +473,26 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound2.setRoundTopRight(30);
         panelRound2.setRoundedTopLeft(30);
 
-        jTextField1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextField1.setText("E4");
-        jTextField1.setBorder(null);
-        jTextField1.setOpaque(false);
+        jTextField_kdBlok.setBackground(new java.awt.Color(229, 229, 229));
+        jTextField_kdBlok.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextField_kdBlok.setBorder(null);
+        jTextField_kdBlok.setOpaque(false);
 
         javax.swing.GroupLayout panelRound2Layout = new javax.swing.GroupLayout(panelRound2);
         panelRound2.setLayout(panelRound2Layout);
         panelRound2Layout.setHorizontalGroup(
             panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound2Layout.createSequentialGroup()
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField_kdBlok, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelRound2Layout.setVerticalGroup(
             panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound2Layout.createSequentialGroup()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jTextField_kdBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelRound4.setRoundBottomLeft(30);
@@ -345,24 +500,26 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound4.setRoundTopRight(30);
         panelRound4.setRoundedTopLeft(30);
 
-        jTextField2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextField2.setText("tes ");
-        jTextField2.setBorder(null);
-        jTextField2.setOpaque(false);
+        jTextField_Harga.setBackground(new java.awt.Color(229, 229, 229));
+        jTextField_Harga.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jTextField_Harga.setBorder(null);
+        jTextField_Harga.setOpaque(false);
 
         javax.swing.GroupLayout panelRound4Layout = new javax.swing.GroupLayout(panelRound4);
         panelRound4.setLayout(panelRound4Layout);
         panelRound4Layout.setHorizontalGroup(
             panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound4Layout.createSequentialGroup()
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jTextField_Harga, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRound4Layout.setVerticalGroup(
             panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound4Layout.createSequentialGroup()
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jTextField_Harga, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
@@ -380,44 +537,75 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound5.setRoundTopRight(45);
         panelRound5.setRoundedTopLeft(45);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setBorder(null);
-        jTextArea1.setOpaque(false);
-        jScrollPane2.setViewportView(jTextArea1);
+        jTextArea_Desc.setBackground(new java.awt.Color(229, 229, 229));
+        jTextArea_Desc.setColumns(20);
+        jTextArea_Desc.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jTextArea_Desc.setRows(5);
+        jTextArea_Desc.setBorder(null);
+        jTextArea_Desc.setOpaque(false);
+        jScrollPane2.setViewportView(jTextArea_Desc);
 
         javax.swing.GroupLayout panelRound5Layout = new javax.swing.GroupLayout(panelRound5);
         panelRound5.setLayout(panelRound5Layout);
         panelRound5Layout.setHorizontalGroup(
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound5Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelRound5Layout.setVerticalGroup(
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound5Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButton2.setText("Edit");
+        jButton_EditBlok.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButton_EditBlok.setText("Edit");
+        jButton_EditBlok.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_EditBlok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_EditBlokActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButton3.setText("Hapus");
+        jButton_Hps.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButton_Hps.setText("Hapus");
+        jButton_Hps.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_Hps.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_HpsActionPerformed(evt);
+            }
+        });
 
-        jButton4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButton4.setText("Tambah");
+        jButton_tmbhBlok.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButton_tmbhBlok.setText("Tambah");
+        jButton_tmbhBlok.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_tmbhBlok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_tmbhBlokActionPerformed(evt);
+            }
+        });
 
-        jButton5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jButton5.setText("Batalkan Edit");
+        jButton_BatEdit.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jButton_BatEdit.setText("Batalkan Edit");
+        jButton_BatEdit.setEnabled(false);
+        jButton_BatEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_BatEditActionPerformed(evt);
+            }
+        });
 
-        jButton6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jButton6.setText("Konfirmasi Edit");
+        jButton_KonfEdit.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jButton_KonfEdit.setText("Konfirmasi Edit");
+        jButton_KonfEdit.setEnabled(false);
+        jButton_KonfEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_KonfEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
         panelRound3.setLayout(panelRound3Layout);
@@ -436,8 +624,8 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                             .addGroup(panelRound3Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jButton_KonfEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton_BatEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -457,11 +645,11 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                         .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound3Layout.createSequentialGroup()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton_tmbhBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(42, 42, 42)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton_EditBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton_Hps, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(66, 66, 66)))))
                 .addGap(0, 62, Short.MAX_VALUE))
         );
@@ -474,9 +662,9 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton_EditBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_Hps, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_tmbhBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -492,10 +680,10 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11)
                         .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(jButton_KonfEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton_BatEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42))))
         );
 
@@ -515,7 +703,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -536,6 +724,211 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton_EditBlokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EditBlokActionPerformed
+        // TODO add your handling code here:
+        jButton_EditBlok.setEnabled(false);
+        jButton_Hps.setEnabled(false);
+        jButton_tmbhBlok.setEnabled(false);
+        jButton_KonfEdit.setEnabled(true);
+        jButton_BatEdit.setEnabled(true);
+    }//GEN-LAST:event_jButton_EditBlokActionPerformed
+
+    private void jTable_BlokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_BlokMouseClicked
+        // TODO add your handling code here:
+          int row =jTable_Blok.getSelectedRow();
+        String kodeBlok=jTable_Blok.getValueAt(row, 0).toString();
+        String jumlah = jTable_Blok.getValueAt(row, 1).toString();
+        String harga = jTable_Blok.getValueAt(row, 2).toString();
+        
+        jTextField_kdBlok.setText(kodeBlok);
+        jTextField_Harga.setText(harga);
+        try {
+            String SQL ="SELECT deskripsi FROM tb_blok WHERE kode_blok='"+kodeBlok+"'";
+            java.sql.Statement statement =(Statement)Konek.getConnection().createStatement();
+            java.sql.ResultSet rs = statement.executeQuery(SQL);
+            if (rs.next()) {
+                jTextArea_Desc.setText(rs.getString("deskripsi"));
+            } else{
+                jTextArea_Desc.setText("-----Tidak ada deskripsi-----");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }//GEN-LAST:event_jTable_BlokMouseClicked
+
+    private void jButton_KonfEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_KonfEditActionPerformed
+        // TODO add your handling code here:
+         try {
+            int row = jTable_Blok.getSelectedRow();
+            String id = jTable_Blok.getValueAt(row, 0).toString();
+            String SQL ="UPDATE tb_blok SET kode_blok='"+jTextField_kdBlok.getText()+"', deskripsi='"+jTextArea_Desc.getText()+"', harga='"+jTextField_Harga.getText()+"' WHERE id_blok='"+id+"'";
+            Connection conn=(Connection)mimikostswing.Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(SQL);
+            pst.execute();
+            JOptionPane.showMessageDialog(this, "Data telah berhasil diubah");
+            ShowTableBlok();
+//            jButton_konfEdit.setEnabled(false);
+//             jTextField_kodeBlok.setEnabled(false);
+//        jTextField_harga.setEnabled(false);
+//        jTextArea_Deskripsi.setEnabled(false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+e.getMessage());
+//             jTextField_kodeBlok.setEnabled(false);
+//        jTextField_harga.setEnabled(false);
+//        jTextArea_Deskripsi.setEnabled(false);
+        }
+        jButton_BatEdit.setEnabled(false);
+        jButton_KonfEdit.setEnabled(false);
+        jButton_EditBlok.setEnabled(true);
+        jButton_Hps.setEnabled(true);
+        jButton_Edit.setEnabled(true);
+        jButton_tmbhBlok.setEnabled(true);
+    }//GEN-LAST:event_jButton_KonfEditActionPerformed
+
+    private void jButton_BatEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BatEditActionPerformed
+        // TODO add your handling code here:
+        jButton_BatEdit.setEnabled(false);
+        jButton_KonfEdit.setEnabled(false);
+        jButton_EditBlok.setEnabled(true);
+        jButton_Hps.setEnabled(true);
+        jButton_Edit.setEnabled(true);
+        jButton_tmbhBlok.setEnabled(true);
+    }//GEN-LAST:event_jButton_BatEditActionPerformed
+
+    private void jButton_tmbhBlokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_tmbhBlokActionPerformed
+        // TODO add your handling code here:
+         try {
+            String SQL ="INSERT INTO `tb_blok` (`kode_blok`, `deskripsi`, `harga`) VALUES('"+jTextField_kdBlok.getText()+"','"+jTextArea_Desc.getText()+"','"+jTextField_Harga.getText()+"')";
+            Connection conn = mimikostswing.Config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(SQL);
+            pst.execute();
+            JOptionPane.showMessageDialog(this, "Data blok berhasil ditambahkan");
+            ShowTableBlok();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: " +e.getMessage());
+        }
+    }//GEN-LAST:event_jButton_tmbhBlokActionPerformed
+
+    private void jButton_HpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_HpsActionPerformed
+        // TODO add your handling code here:
+        int row = jTable_Blok.getSelectedRow();
+        String blok =jTable_Blok.getValueAt(row, 0).toString();
+        try {
+            String sql="DELETE FROM tb_blok WHERE kode_blok='"+blok+"'";
+            Connection conn =(Connection)mimikostswing.Config.configDB();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(this, "Blok telah berhasil dihapus");
+            ShowTableBlok();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+        }
+    }//GEN-LAST:event_jButton_HpsActionPerformed
+
+    private void jTable_FasilitasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_FasilitasMouseClicked
+        // TODO add your handling code here:
+          int row = jTable_Fasilitas.getSelectedRow();
+          String nama =jTable_Fasilitas.getValueAt(row, 1).toString();
+          String kdBlok = jTable_Fasilitas.getValueAt(row, 2).toString();
+          //String blok =jTable2.getValueAt(row, 2).toString();
+          String banyak =jTable_Fasilitas.getValueAt(row, 3).toString();
+          String harga =jTable_Fasilitas.getValueAt(row, 4).toString();
+          
+          jTextField_namFas.setText(nama);
+          //jTextField_kodeBlok.set
+          jTextField_bykFas.setText(banyak);
+          jTextField_Tagihan.setText(harga);
+          jComboBox_kdBlok.setSelectedItem(kdBlok);
+    }//GEN-LAST:event_jTable_FasilitasMouseClicked
+
+    private void jButton_KonfEditFasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_KonfEditFasActionPerformed
+        // TODO add your handling code here:
+        try {
+            int row = jTable_Fasilitas.getSelectedRow();
+            String id = jTable_Fasilitas.getValueAt(row, 0).toString();
+            String SQL ="UPDATE tb_fasilitas SET nama_fasilitas='"+jTextField_namFas.getText()+"', kode_blok='"+jComboBox_kdBlok.getSelectedItem().toString()
+                    +"', banyak_fasilitas='"+jTextField_bykFas.getText()+"', tagihan_perbulan='"+jTextField_Tagihan.getText()+"' WHERE id_fasilitas='"+id+"'";
+            Connection conn =(Connection)mimikostswing.Config.configDB();
+            PreparedStatement ps = conn.prepareStatement(SQL);
+            ps.execute();
+            JOptionPane.showMessageDialog(this, "Data telah berhasil diubah");
+            ShowTableFasilitas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+        }
+        
+        
+         jButton_BatEditFas.setEnabled(false);
+        jButton_KonfEditFas.setEnabled(false);
+        jButton_Edit.setEnabled(true);
+        jButton_hps.setEnabled(true);
+        jButton_Edit.setEnabled(true);
+        jButton_tmbHFas.setEnabled(true);
+    }//GEN-LAST:event_jButton_KonfEditFasActionPerformed
+
+    private void jButton_BatEditFasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BatEditFasActionPerformed
+        // TODO add your handling code here:
+         jButton_BatEditFas.setEnabled(false);
+        jButton_KonfEditFas.setEnabled(false);
+        jButton_Edit.setEnabled(true);
+        jButton_hps.setEnabled(true);
+        jButton_Edit.setEnabled(true);
+        jButton_tmbHFas.setEnabled(true);
+    }//GEN-LAST:event_jButton_BatEditFasActionPerformed
+
+    private void jButton_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EditActionPerformed
+        // TODO add your handling code here:
+         jButton_Edit.setEnabled(false);
+        jButton_hps.setEnabled(false);
+        jButton_tmbHFas.setEnabled(false);
+        jButton_KonfEditFas.setEnabled(true);
+        jButton_BatEditFas.setEnabled(true);
+    }//GEN-LAST:event_jButton_EditActionPerformed
+
+    private void jButton_tmbHFasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_tmbHFasActionPerformed
+        // TODO add your handling code here:
+         String nama = jTextField_namFas.getText();
+        String blok = jComboBox_kdBlok.getSelectedItem().toString();
+        String banyak = jTextField_bykFas.getText();
+        Integer harga = Integer.valueOf(jTextField_Tagihan.getText()); 
+        
+        try {
+             String sql = "INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `kode_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES("+Types.NULL+",'"+nama+"','"+blok+"','"+banyak+"','"+harga+"')";
+             Connection conn = (Connection)mimikostswing.Config.configDB();
+             PreparedStatement pst = conn.prepareStatement(sql);
+             pst.execute(sql);
+             JOptionPane.showMessageDialog(this, "Input data berhasil");
+             ShowTableFasilitas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+        }
+    }//GEN-LAST:event_jButton_tmbHFasActionPerformed
+
+    private void jButton_hpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_hpsActionPerformed
+        // TODO add your handling code here:
+         int row = jTable_Fasilitas.getSelectedRow();
+        String id = jTable_Fasilitas.getValueAt(row, 0).toString();
+        jTextField_namFas.setText("");
+        jTextField_bykFas.setText("");
+        jTextField_Tagihan.setText("");
+        try {
+            String SQL ="DELETE FROM tb_fasilitas WHERE id_fasilitas='"+id+"'";
+        Connection conn =(Connection)mimikostswing.Config.configDB();
+        PreparedStatement pst = conn.prepareStatement(SQL);
+        pst.execute(SQL);
+        JOptionPane.showMessageDialog(this, "Data telah berhasil dihapus");
+        ShowTableFasilitas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error "+ e.getMessage());
+        }
+    }//GEN-LAST:event_jButton_hpsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -574,15 +967,17 @@ public class BlokNFasilitas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton jButton_BatEdit;
+    private javax.swing.JButton jButton_BatEditFas;
+    private javax.swing.JButton jButton_Edit;
+    private javax.swing.JButton jButton_EditBlok;
+    private javax.swing.JButton jButton_Hps;
+    private javax.swing.JButton jButton_KonfEdit;
+    private javax.swing.JButton jButton_KonfEditFas;
+    private javax.swing.JButton jButton_hps;
+    private javax.swing.JButton jButton_tmbHFas;
+    private javax.swing.JButton jButton_tmbhBlok;
+    private javax.swing.JComboBox<String> jComboBox_kdBlok;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -598,14 +993,14 @@ public class BlokNFasilitas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTable jTable_Blok;
+    private javax.swing.JTable jTable_Fasilitas;
+    private javax.swing.JTextArea jTextArea_Desc;
+    private javax.swing.JTextField jTextField_Harga;
+    private javax.swing.JTextField jTextField_Tagihan;
+    private javax.swing.JTextField jTextField_bykFas;
+    private javax.swing.JTextField jTextField_kdBlok;
+    private javax.swing.JTextField jTextField_namFas;
     private model.panelRound panelRound1;
     private model.panelRound panelRound2;
     private model.panelRound panelRound3;
