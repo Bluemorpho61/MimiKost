@@ -19,6 +19,26 @@ public class SetterGetter {
         private static String NIK;
         private static String NoKam;
         private static String Bulan;
+    private static String getActualNoKam;
+
+    /**
+     * Get the value of getActualNoKam
+     *
+     * @return the value of getActualNoKam
+     */
+    public static String getGetActualNoKam() {
+        return getActualNoKam;
+    }
+
+    /**
+     * Set the value of getActualNoKam
+     *
+     * @param getActualNoKam new value of getActualNoKam
+     */
+    public static void setGetActualNoKam(String getActualNoKam) {
+        SetterGetter.getActualNoKam = getActualNoKam;
+    }
+
 
     public static String getBulan() {
         return Bulan;

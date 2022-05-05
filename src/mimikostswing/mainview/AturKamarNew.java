@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mimikostswing.Config;
 import mimikostswing.Konek;
+import mimikostswing.mainview.submenu.PindahBlokNKamar;
 
 /**
  *
@@ -261,6 +262,11 @@ public class AturKamarNew extends javax.swing.JFrame {
         jButton_pindahBlokNk.setBackground(new java.awt.Color(153, 153, 0));
         jButton_pindahBlokNk.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton_pindahBlokNk.setText("Pindah Blok & Kamar");
+        jButton_pindahBlokNk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_pindahBlokNkActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
@@ -575,6 +581,20 @@ public class AturKamarNew extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jTable_nmPenyewaMouseClicked
+
+    private void jButton_pindahBlokNkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_pindahBlokNkActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+          int row = jTable_nmPenyewa.getSelectedRow();
+        String NIK2 = jTable_nmPenyewa.getValueAt(row, 0).toString();
+        model.SetterGetter.setNIK(NIK2);    
+        new PindahBlokNKamar().setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Untuk bisa menggunakan fitur ini, pastikan anda terlebih dahulu memilih salah satu penyewa yang ada pada tabel diatas");
+        }
+        
+    }//GEN-LAST:event_jButton_pindahBlokNkActionPerformed
 
     /**
      * @param args the command line arguments

@@ -5,25 +5,20 @@
  */
 package mimikostswing.mainview;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import mimikostswing.Config;
 import mimikostswing.Konek;
 import mimikostswing.mainview.submenu.DaftarPelanggaran;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
+import mimikostswing.mainview.submenu.TambahPelanggarBaru;
 
 /**
  *
@@ -37,8 +32,7 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
     public LaporanPelanggaran() {
         initComponents();
         showTablePelanggar();
-        ShowChart();
-        
+  
     }
 
     public void showDaftarPelanggaran(){
@@ -66,18 +60,7 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         }
         
     }
-    public void ShowChart(){
-        
-            DefaultPieDataset dps = new DefaultPieDataset();
-        dps.setValue("Penghuni", 60);
-        dps.setValue("Kamar kosong", 40);
-        JFreeChart chart = ChartFactory.createPieChart("PieChart", dps,true, true, false);
-        ChartPanel cpnl = new ChartPanel(chart);
-       jPanel_PieCh.removeAll();
-        jPanel_PieCh.add(cpnl);
-        jPanel_PieCh.updateUI();
-        
-    }
+    
     
     public void showTablePelanggar(){
         DefaultTableModel tb = new DefaultTableModel();
@@ -136,14 +119,12 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jButton_tmbhPelanggar = new javax.swing.JButton();
-        jButton_TmbhPelanggaran = new javax.swing.JButton();
+        jButton_HpsRiwayatPel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Pelanggar = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
-        jPanel_PieCh = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -263,10 +244,20 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         jButton_tmbhPelanggar.setBackground(new java.awt.Color(153, 51, 0));
         jButton_tmbhPelanggar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton_tmbhPelanggar.setText("Tambah Pelanggaran");
+        jButton_tmbhPelanggar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_tmbhPelanggarActionPerformed(evt);
+            }
+        });
 
-        jButton_TmbhPelanggaran.setBackground(new java.awt.Color(102, 204, 0));
-        jButton_TmbhPelanggaran.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton_TmbhPelanggaran.setText("Hapus Riwayat Pelanggaran");
+        jButton_HpsRiwayatPel.setBackground(new java.awt.Color(102, 204, 0));
+        jButton_HpsRiwayatPel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton_HpsRiwayatPel.setText("Hapus Riwayat Pelanggaran");
+        jButton_HpsRiwayatPel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_HpsRiwayatPelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
@@ -317,7 +308,7 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
                                     .addGroup(panelRound1Layout.createSequentialGroup()
                                         .addComponent(jButton_tmbhPelanggar)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton_TmbhPelanggaran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                        .addComponent(jButton_HpsRiwayatPel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                     .addGroup(panelRound1Layout.createSequentialGroup()
                         .addGap(280, 280, 280)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -336,7 +327,7 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_tmbhPelanggar, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
-                            .addComponent(jButton_TmbhPelanggaran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jButton_HpsRiwayatPel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(panelRound1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,21 +381,19 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Daftar Keseluruhan Nama Pelanggar");
 
-        jPanel_PieCh.setLayout(new javax.swing.BoxLayout(jPanel_PieCh, javax.swing.BoxLayout.LINE_AXIS));
-
+        jButton2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jButton2.setText("Tambah Pelanggar Baru");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
+        jButton3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jButton3.setText("Tambah Jenis Pelanggaran Baru");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Lihat Diagram");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
             }
         });
 
@@ -416,18 +405,13 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(123, 123, 123)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(144, 144, 144)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel_PieCh, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 59, Short.MAX_VALUE)
@@ -441,16 +425,17 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel_PieCh, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(99, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -473,11 +458,6 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         this.setVisible(false);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-      
-    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTable_PelanggarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_PelanggarMouseClicked
         // TODO add your handling code here:
@@ -511,6 +491,37 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         // TODO add your handling code here:
         new DaftarPelanggaran().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        new TambahPelanggarBaru().setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton_HpsRiwayatPelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_HpsRiwayatPelActionPerformed
+        // TODO add your handling code here:
+        int row = jTable_DaftarPelanggaran.getSelectedRow();
+        String id =jTable_DaftarPelanggaran.getValueAt(row, 0).toString();
+        try {
+            String sql="DELETE FROM tb_pelanggar WHERE id_pelanggar='"+id+"'";
+        Connection c = (Connection)Config.configDB();
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.execute();
+            showDaftarPelanggaran();
+            JOptionPane.showMessageDialog(this, "Data telah berhasil terhapus");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+    }//GEN-LAST:event_jButton_HpsRiwayatPelActionPerformed
+
+    private void jButton_tmbhPelanggarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_tmbhPelanggarActionPerformed
+        // TODO add your handling code here:
+        int row =jTable_Pelanggar.getSelectedRow();
+        String nik = jTextField_nik.getText();
+        model.SetterGetter.setNIK(nik);
+        model.SetterGetter.setGetActualNoKam(jTable_Pelanggar.getValueAt(row, 3).toString());
+        new TambahPelanggaran().setVisible(true);
+    }//GEN-LAST:event_jButton_tmbhPelanggarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -551,8 +562,7 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton_TmbhPelanggaran;
+    private javax.swing.JButton jButton_HpsRiwayatPel;
     private javax.swing.JButton jButton_tmbhPelanggar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -567,7 +577,6 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel_FrameFoto;
-    private javax.swing.JPanel jPanel_PieCh;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;

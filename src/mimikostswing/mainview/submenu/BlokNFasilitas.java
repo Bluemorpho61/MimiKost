@@ -762,7 +762,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
          try {
             int row = jTable_Blok.getSelectedRow();
             String id = jTable_Blok.getValueAt(row, 0).toString();
-            String SQL ="UPDATE tb_blok SET kode_blok='"+jTextField_kdBlok.getText()+"', deskripsi='"+jTextArea_Desc.getText()+"', harga='"+jTextField_Harga.getText()+"' WHERE id_blok='"+id+"'";
+            String SQL ="UPDATE tb_blok SET kode_blok='"+jTextField_kdBlok.getText()+"', deskripsi='"+jTextArea_Desc.getText()+"', harga='"+jTextField_Harga.getText()+"' WHERE kode_blok='"+id+"'";
             Connection conn=(Connection)mimikostswing.Config.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(SQL);
             pst.execute();

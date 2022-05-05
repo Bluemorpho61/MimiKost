@@ -349,7 +349,6 @@ public void showTableDataPenyewa(){
         jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1300, 728));
 
         jPanel_Body.setBackground(new java.awt.Color(149, 165, 166));
 
@@ -364,7 +363,7 @@ public void showTableDataPenyewa(){
             }
         });
 
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/add-user 1.png"))); // NOI18N
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/Mask group.png"))); // NOI18N
         jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel12MouseClicked(evt);
@@ -372,7 +371,7 @@ public void showTableDataPenyewa(){
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Data Penyewa");
 
         javax.swing.GroupLayout jPanel_TambahPenyewaLayout = new javax.swing.GroupLayout(jPanel_TambahPenyewa);
@@ -406,7 +405,7 @@ public void showTableDataPenyewa(){
             }
         });
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/office-buildings 1.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/Mask group (2).png"))); // NOI18N
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel6MouseClicked(evt);
@@ -414,7 +413,7 @@ public void showTableDataPenyewa(){
         });
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Blok & Kamar");
 
         javax.swing.GroupLayout jPanel_TambahBlok2Layout = new javax.swing.GroupLayout(jPanel_TambahBlok2);
@@ -448,7 +447,7 @@ public void showTableDataPenyewa(){
             }
         });
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/bill 1.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/Mask group (3).png"))); // NOI18N
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel10MouseClicked(evt);
@@ -456,7 +455,7 @@ public void showTableDataPenyewa(){
         });
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Transaksi");
 
         javax.swing.GroupLayout jPanel_TransaksiLayout = new javax.swing.GroupLayout(jPanel_Transaksi);
@@ -489,7 +488,7 @@ public void showTableDataPenyewa(){
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/report 1.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/Mask group (1).png"))); // NOI18N
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
@@ -497,7 +496,7 @@ public void showTableDataPenyewa(){
         });
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Laporan");
 
         javax.swing.GroupLayout jPanel_LaporanLayout = new javax.swing.GroupLayout(jPanel_Laporan);
@@ -1107,6 +1106,11 @@ public void showTableDataPenyewa(){
 
         jButton6.setText("Detail Tagihan Fasilitas");
         jButton6.setPreferredSize(new java.awt.Dimension(150, 25));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jPanel13.setBackground(new java.awt.Color(108, 108, 108));
 
@@ -1831,8 +1835,12 @@ public void showTableDataPenyewa(){
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         new LaporanPelanggaran().setVisible(true);
-        
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        new TagihanFasilitas().setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
