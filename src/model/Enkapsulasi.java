@@ -5,12 +5,8 @@
  */
 package model;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.JOptionPane;
-import mimikostswing.Konek;
 
 /**
  *
@@ -47,6 +43,7 @@ public class Enkapsulasi extends Model {
     protected String table = "tb_blok";
     int id_blok, harga;
     String kode_blok, deskripsi;
+    protected float total;
     
     protected String tb_fas ="tb_fasilitas";
     
@@ -61,6 +58,11 @@ public class Enkapsulasi extends Model {
     public Enkapsulasi() {
         setTable(this.table);
     }
+    
+    public ResultSet getLunas() throws SQLException{
+    String sql="SELECT status, COUNT(NIK) AS jumlah FROM tb_tagihan_penyewa GROUP BY status LIMIT 1";
+    return this.getQuery(sql);
+}
     
     public ResultSet getByKode(String kode) throws SQLException {
         String query = "SELECT * FROM " + this.table + " WHERE kode_blok = '" + kode + "'";

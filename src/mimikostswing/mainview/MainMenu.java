@@ -10,6 +10,7 @@ import mimikostswing.mainview.submenu.DetailInfoPenyewa;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ObjectStreamField;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,9 +21,10 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import mimikostswing.Config;
 import mimikostswing.Konek;
-import mimikostswing.mainview.submenu.DaftarPelanggaran;
-import mimikostswing.mainview.submenu.DetailTagihanPenyewa;
+import mimikostswing.mainview.submenu.LaporanTagihanPenyewa;
+import model.SetterGetter;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
@@ -111,9 +113,22 @@ public void showTableDataPenyewa(){
     
     private void pieChart(){
         DefaultPieDataset dps = new DefaultPieDataset();
-        dps.setValue("Penghuni", 60);
-        dps.setValue("Kamar kosong", 40);
-        JFreeChart chart = ChartFactory.createPieChart("PieChart", dps,true, true, false);
+        
+//        String TotalPenyewa ="SELECT COUNT(*) AS 'jumlah' FROM tb_penyewa";
+//        model.SetterGetter.setTotalPenyewaForChart(TotalPenyewa);
+//        dps.setValue("Total Penghuni", Float.valueOf(SetterGetter.getTotalPenyewaForChart()));
+        String countTotalPenyewaBasedOnBlok="SELECT tb_blok.kode_blok, COUNT(tb_penyewa.NIK) AS jumlah FROM tb_penyewa LEFT JOIN tb_blok ON tb_blok.kode_blok = tb_penyewa.kode_blok GROUP BY tb_blok.kode_blok";
+        try { 
+            Statement s =(Statement)Konek.getConnection().createStatement();
+            ResultSet r =s.executeQuery(countTotalPenyewaBasedOnBlok);
+            while (r.next()) {                
+                dps.setValue(r.getString("kode_blok"), Float.valueOf(r.getString("jumlah")));
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        JFreeChart chart = ChartFactory.createPieChart("Total Jumlah Penghuni Berdasarkan Blok", dps,true, true, false);
         ChartPanel cpnl = new ChartPanel(chart);
         jPanel5.removeAll();
         jPanel5.add(cpnl);
@@ -570,10 +585,12 @@ public void showTableDataPenyewa(){
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 255));
         jLabel13.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Total Keseluruhan Penyewa");
 
         jLabel1_sumPenyewa.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1_sumPenyewa.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
+        jLabel1_sumPenyewa.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1_sumPenyewa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1_sumPenyewa.setText("Jml");
 
@@ -604,9 +621,12 @@ public void showTableDataPenyewa(){
         jPanel6.setBackground(new java.awt.Color(33, 159, 148));
 
         jLabel14.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Jumlah Kamar Kos");
 
+        jLabel1_CountKamar.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1_CountKamar.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
+        jLabel1_CountKamar.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1_CountKamar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1_CountKamar.setText("Jml");
 
@@ -637,10 +657,14 @@ public void showTableDataPenyewa(){
         jPanel7.setBackground(new java.awt.Color(33, 159, 148));
         jPanel7.setPreferredSize(new java.awt.Dimension(348, 148));
 
+        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
         jLabel15.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Yang Telah Lunas");
 
-        jLabel1_CountTelahLunas.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
+        jLabel1_CountTelahLunas.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1_CountTelahLunas.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
+        jLabel1_CountTelahLunas.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1_CountTelahLunas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1_CountTelahLunas.setText("Jml");
 
@@ -651,12 +675,12 @@ public void showTableDataPenyewa(){
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(137, 137, 137)
-                        .addComponent(jLabel1_CountTelahLunas, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel15)))
-                .addContainerGap(138, Short.MAX_VALUE))
+                        .addComponent(jLabel15))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(137, 137, 137)
+                        .addComponent(jLabel1_CountTelahLunas, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -671,10 +695,14 @@ public void showTableDataPenyewa(){
         jPanel8.setBackground(new java.awt.Color(33, 159, 148));
         jPanel8.setPreferredSize(new java.awt.Dimension(348, 148));
 
+        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
         jLabel16.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Yang Belum Lunas");
 
+        jLabel1_CountBelumLunas.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1_CountBelumLunas.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
+        jLabel1_CountBelumLunas.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1_CountBelumLunas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1_CountBelumLunas.setText("Jml");
 
@@ -1774,7 +1802,7 @@ public void showTableDataPenyewa(){
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        new DetailTagihanPenyewa().setVisible(true);
+        new LaporanTagihanPenyewa().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed

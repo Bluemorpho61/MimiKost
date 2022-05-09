@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import mimikostswing.Konek;
 /**
  *
  * @author Alkin PC
@@ -39,6 +40,33 @@ public class SetterGetter {
         SetterGetter.getActualNoKam = getActualNoKam;
     }
 
+    private static String TotalPenyewaForChart;
+
+    /**
+     * Get the value of TotalPenyewaForChart
+     *
+     * @return the value of TotalPenyewaForChart
+     */
+    public static String getTotalPenyewaForChart() {
+        return TotalPenyewaForChart;
+    }
+
+    /**
+     * Set the value of TotalPenyewaForChart
+     *
+     * @param TotalPenyewaForChart new value of TotalPenyewaForChart
+     */
+    public static void setTotalPenyewaForChart(String sql) {
+        try {
+            Statement s =(Statement)Konek.getConnection().createStatement();
+            ResultSet r =s.executeQuery(sql);
+            if(r.next()){
+                SetterGetter.TotalPenyewaForChart = r.getString("jumlah");
+                        }          
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
 
     public static String getBulan() {
         return Bulan;
@@ -120,4 +148,8 @@ public class SetterGetter {
     DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy MM dd");
     return df.format(ld).toString();
     }
+    
+    
+    
+    
 }

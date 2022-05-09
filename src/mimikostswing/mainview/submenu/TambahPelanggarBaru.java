@@ -6,8 +6,12 @@
 package mimikostswing.mainview.submenu;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mimikostswing.Config;
@@ -19,6 +23,7 @@ import mimikostswing.Konek;
  */
 public class TambahPelanggarBaru extends javax.swing.JFrame {
 
+    
     /**
      * Creates new form TambahPelanggarBaru
      */
@@ -131,6 +136,7 @@ public class TambahPelanggarBaru extends javax.swing.JFrame {
         setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(236, 236, 236));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel2.setBackground(new java.awt.Color(153, 51, 0));
 
@@ -237,7 +243,7 @@ public class TambahPelanggarBaru extends javax.swing.JFrame {
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -270,7 +276,7 @@ public class TambahPelanggarBaru extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -296,6 +302,21 @@ public class TambahPelanggarBaru extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        Date date = new Date();
+        Object par = new Timestamp(date.getTime());
+        int row = jTable_Penyewa.getSelectedRow();
+        int roww = jTable_Pelanggaran.getSelectedRow();
+        String NIK = jTable_Penyewa.getValueAt(row, 0).toString();
+        String id = jTable_Pelanggaran.getValueAt(roww, 0).toString();
+        try {
+            String sql ="INSERT INTO tb_pelanggar VALUES("+Types.NULL+",'"+NIK+"','"+id+"', '"+par+"')";
+            Connection c = (Connection)Config.configDB();
+            PreparedStatement p =c.prepareStatement(sql);
+            p.execute();
+            JOptionPane.showMessageDialog(this, "Pelanggar Baru dengan NIK '"+NIK+"' telah berhasil dicatat");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: "+e.getMessage());
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

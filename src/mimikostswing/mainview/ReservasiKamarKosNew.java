@@ -9,10 +9,13 @@ import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -26,8 +29,8 @@ import mimikostswing.Konek;
  */
 public class ReservasiKamarKosNew extends javax.swing.JFrame {
 
-    Connection conn ;
-    PreparedStatement ps ;
+    private Connection conn ;
+    private PreparedStatement ps ;
     /**
      * Creates new form ReservasiKamarKosNew
      */
@@ -676,6 +679,8 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
 
     private void jButton_KonfirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_KonfirActionPerformed
         // TODO add your handling code here:
+        Date date = new Date();
+        Object par = new Timestamp(date.getTime());
         String NIK = jTextField_NIK.getText();
         String nm = jTextField_NmCln.getText();
         String usi = jTextField_usia.getText();
@@ -687,15 +692,14 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         String foto = jTextField_addresfoto.getText();
         model.SetterGetter.setNoKam(noKam);
         String convNokam = model.SetterGetter.getNoKam();
-        String nom =jTextField_nominal.getText();
+        //String nom =jTextField_nominal.getText();
         try {
-            InputStream is = new FileInputStream(foto);
-            
+        InputStream is = new FileInputStream(foto);
         String sql ="INSERT INTO `tb_penyewa` (`NIK`, `nama_penyewa`, `usia`, `asal_kota`, `telp`, `email`, `foto`, `kode_blok`, `id_kamar`, `waktu_sewa_pertama`) VALUES"
-                + "('"+NIK+"','"+nm+"','"+usi+"','"+asalK+"','"+tel+"','"+email+"','"+is+"','"+kodB+"','"+convNokam+"')";
+                + "('"+NIK+"','"+nm+"','"+usi+"','"+asalK+"','"+tel+"','"+email+"',"+is+",'"+kodB+"','"+convNokam+"','"+par+"')";
         conn =(Connection)Config.configDB();
         ps=conn.prepareStatement(sql);
-        ps.setBinaryStream(1, is);
+        ps.setBlob(1, is);
         ps.execute();
         JOptionPane.showMessageDialog(this, "Input berhasil");
         } catch (Exception e) {
