@@ -306,6 +306,22 @@ public class PerpanjangKos extends javax.swing.JFrame {
 
         jTextField_criNM.setFont(new java.awt.Font("Arial", 2, 11)); // NOI18N
         jTextField_criNM.setText("Cari Nama");
+        jTextField_criNM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField_criNMMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jTextField_criNMMouseExited(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTextField_criNMMouseReleased(evt);
+            }
+        });
+        jTextField_criNM.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_criNMKeyReleased(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
@@ -554,6 +570,30 @@ public class PerpanjangKos extends javax.swing.JFrame {
 //        }
         
     }//GEN-LAST:event_jButton_bayarActionPerformed
+
+    private void jTextField_criNMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_criNMMouseClicked
+        // TODO add your handling code here:
+        jTextField_criNM.setText(null);
+    }//GEN-LAST:event_jTextField_criNMMouseClicked
+
+    private void jTextField_criNMMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_criNMMouseExited
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jTextField_criNMMouseExited
+
+    private void jTextField_criNMMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_criNMMouseReleased
+        // TODO add your handling code here:
+      
+    }//GEN-LAST:event_jTextField_criNMMouseReleased
+
+    private void jTextField_criNMKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_criNMKeyReleased
+        // TODO add your handling code here:
+        String find =jTextField_criNM.getText();
+        TableRowSorter tr = new TableRowSorter(jTable_Perpanjang.getModel());
+        jTable_Perpanjang.setRowSorter(tr);
+        
+        tr.setRowFilter(RowFilter.regexFilter(find, 2));
+    }//GEN-LAST:event_jTextField_criNMKeyReleased
 
     /**
      * @param args the command line arguments

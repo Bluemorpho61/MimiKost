@@ -10,21 +10,19 @@ import mimikostswing.mainview.submenu.DetailInfoPenyewa;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.ObjectStreamField;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import mimikostswing.Config;
 import mimikostswing.Konek;
 import mimikostswing.mainview.submenu.LaporanTagihanPenyewa;
-import model.SetterGetter;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
@@ -50,7 +48,7 @@ public class MainMenu extends javax.swing.JFrame {
         comboBoxBlok();
         TableModelBlok();
         Desc();
-        ChartlilinDiagram();
+        //ChartlilinDiagram();
         showTableDataPenyewa();
         pieChart();
     }
@@ -92,23 +90,23 @@ public void showTableDataPenyewa(){
 }
     
 
-    private void ChartlilinDiagram(){
-        DefaultCategoryDataset dcd = new DefaultCategoryDataset();
-        dcd.setValue(78.80, "Mark", "Yudhi");
-        dcd.setValue(60, "Mark", "Yunus");
-        dcd.setValue(59, "Mark", "Yusron");
-        JFreeChart jChart = ChartFactory.createBarChart("Kunyuk", "Nama Siswa", "Nilai", dcd, PlotOrientation.VERTICAL, true, true, false);
-        CategoryPlot plot = jChart.getCategoryPlot();
-        plot.setRangeCrosshairPaint(Color.BLACK);
-        
-        ChartFrame chartFrame = new ChartFrame("Nilai", jChart,Boolean.TRUE);
-        chartFrame.setVisible(false);
-        chartFrame.setSize(jPanel1_laporan.getWidth(), jPanel1_laporan.getHeight());
-        ChartPanel chartPanel = new ChartPanel(jChart);
-        jPanel1_laporan.removeAll();
-        jPanel1_laporan.add(chartPanel);
-        jPanel1_laporan.updateUI();
-    }
+//    private void ChartlilinDiagram(){
+//        DefaultCategoryDataset dcd = new DefaultCategoryDataset();
+//        dcd.setValue(78.80, "Mark", "Yudhi");
+//        dcd.setValue(60, "Mark", "Yunus");
+//        dcd.setValue(59, "Mark", "Yusron");
+//        JFreeChart jChart = ChartFactory.createBarChart("Kunyuk", "Nama Siswa", "Nilai", dcd, PlotOrientation.VERTICAL, true, true, false);
+//        CategoryPlot plot = jChart.getCategoryPlot();
+//        plot.setRangeCrosshairPaint(Color.BLACK);
+//        
+//        ChartFrame chartFrame = new ChartFrame("Nilai", jChart,Boolean.TRUE);
+//        chartFrame.setVisible(false);
+//        chartFrame.setSize(jPanel1_laporan.getWidth(), jPanel1_laporan.getHeight());
+//        ChartPanel chartPanel = new ChartPanel(jChart);
+//        jPanel1_laporan.removeAll();
+//        jPanel1_laporan.add(chartPanel);
+//        jPanel1_laporan.updateUI();
+//    }
     
     
     private void pieChart(){
@@ -128,7 +126,7 @@ public void showTableDataPenyewa(){
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-        JFreeChart chart = ChartFactory.createPieChart("Total Jumlah Penghuni Berdasarkan Blok", dps,true, true, false);
+        JFreeChart chart = ChartFactory.createPieChart("Presentasi Perbandingan Jumlah Penghuni Berdasarkan Blok", dps,true, true, false);
         ChartPanel cpnl = new ChartPanel(chart);
         jPanel5.removeAll();
         jPanel5.add(cpnl);
@@ -243,7 +241,9 @@ public void showTableDataPenyewa(){
         
     }
     
-    
+    private void DetectorLunasTagihan(){
+      //  Date 
+    }
     
     public void Desc(){
           try {
@@ -327,7 +327,6 @@ public void showTableDataPenyewa(){
         jLabel29 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jPanel_lprn = new javax.swing.JPanel();
-        jPanel1_laporan = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -824,6 +823,11 @@ public void showTableDataPenyewa(){
                 jTextField_cariPenyewaMouseReleased(evt);
             }
         });
+        jTextField_cariPenyewa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_cariPenyewaKeyReleased(evt);
+            }
+        });
 
         jButton_DetailInfoPenyewa.setText("Detail Info Penyewa");
         jButton_DetailInfoPenyewa.setEnabled(false);
@@ -1110,8 +1114,6 @@ public void showTableDataPenyewa(){
 
         jPanel_lprn.setBackground(new java.awt.Color(236, 236, 236));
 
-        jPanel1_laporan.setLayout(new java.awt.CardLayout());
-
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel25.setText("Pie Diagram ");
@@ -1195,12 +1197,6 @@ public void showTableDataPenyewa(){
         jPanel_lprnLayout.setHorizontalGroup(
             jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_lprnLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(166, 166, 166))
             .addGroup(jPanel_lprnLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1209,16 +1205,18 @@ public void showTableDataPenyewa(){
                 .addGap(18, 18, 18)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_lprnLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 933, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(154, 154, 154))
         );
         jPanel_lprnLayout.setVerticalGroup(
             jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_lprnLayout.createSequentialGroup()
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
-                .addGroup(jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(92, 92, 92)
                 .addGroup(jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1566,7 +1564,7 @@ public void showTableDataPenyewa(){
       
       jPanel_MainP.add(jPanel_lprn);
       jPanel_MainP.repaint();
-      ChartlilinDiagram();
+     // ChartlilinDiagram();
       jPanel_MainP.revalidate();
       
    
@@ -1683,6 +1681,7 @@ public void showTableDataPenyewa(){
       jButton_batal.setEnabled(false);
       jButton_konfedit1.setEnabled(false);
       jButton2.setEnabled(true);
+      jButton3.setEnabled(true);
     }//GEN-LAST:event_jButton_batalActionPerformed
 
     private void jButton_konfedit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_konfedit1ActionPerformed
@@ -1870,6 +1869,15 @@ public void showTableDataPenyewa(){
         new TagihanFasilitas().setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jTextField_cariPenyewaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_cariPenyewaKeyReleased
+        // TODO add your handling code here:
+          String find =jTextField_cariPenyewa.getText();
+        TableRowSorter tr = new TableRowSorter(jTable_DataPenyewa.getModel());
+        jTable_DataPenyewa.setRowSorter(tr);
+        
+        tr.setRowFilter(RowFilter.regexFilter(find, 2));
+    }//GEN-LAST:event_jTextField_cariPenyewaKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -1969,7 +1977,6 @@ public void showTableDataPenyewa(){
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel1_laporan;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

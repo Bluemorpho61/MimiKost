@@ -7,11 +7,14 @@ package mimikostswing.mainview.submenu;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import mimikostswing.Config;
 import mimikostswing.Konek;
 
 /**
@@ -75,6 +78,8 @@ public class PindahBlokNKamar extends javax.swing.JFrame {
                 jLabel1_Foto.setIcon(new ImageIcon(setIM));
                 jTextField_NIK.setText(r.getString("NIK"));
                 jTextField_nama.setText(r.getString("nama_penyewa"));
+                jTextField_kdBlok.setText(r.getString("kode_blok"));
+                jTextField_NoKama.setText(model.SetterGetter.getGetActualNoKam());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
@@ -225,6 +230,11 @@ public class PindahBlokNKamar extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jButton2.setText("Konfirmasi");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -355,6 +365,25 @@ public class PindahBlokNKamar extends javax.swing.JFrame {
         showcomboBoxKamar();
         //showHarga();
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+        String nonConvKam=jComboBox2.getSelectedItem().toString();
+        String kdBlok = jComboBox1.getSelectedItem().toString();
+        String NIK =jTextField_NIK.getText();
+        model.SetterGetter.setNoKam(nonConvKam);
+        String getIDkam = model.SetterGetter.getNoKam();
+        String sql="UPDATE `tb_penyewa` SET `kode_blok` = '"+kdBlok+"', `id_kamar` = '"+getIDkam+"' WHERE `tb_penyewa`.`NIK` = '"+NIK+"'";
+        Connection c =(Connection)Config.configDB();
+        PreparedStatement ps = c.prepareStatement(sql);
+        ps.execute();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

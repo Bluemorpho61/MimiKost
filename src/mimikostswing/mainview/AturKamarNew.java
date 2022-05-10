@@ -44,7 +44,7 @@ public class AturKamarNew extends javax.swing.JFrame {
         tbl.addColumn("Kamar");
         jTable_nmPenyewa.setModel(tbl);
         try {
-            String sql="SELECT NIK,nama_penyewa,kode_blok FROM tb_penyewa";
+            String sql="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar FROM tb_blok JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar";
             Statement statement =(Statement)mimikostswing.Konek.getConnection().createStatement();
             ResultSet res = statement.executeQuery(sql);
             while (res.next()) {                
@@ -52,6 +52,7 @@ public class AturKamarNew extends javax.swing.JFrame {
                 res.getString("NIK"),
                 res.getString("nama_penyewa"),
                 res.getString("kode_blok"),
+                res.getString("no_kamar")
                 //res.getString("no_kamar"),
             });    
             }
@@ -153,8 +154,10 @@ public class AturKamarNew extends javax.swing.JFrame {
         jTextField_maxPenghuni = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jPanel2.setBackground(new java.awt.Color(41, 148, 0));
 
@@ -182,7 +185,7 @@ public class AturKamarNew extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(433, 433, 433)
                 .addComponent(jLabel1)
-                .addContainerGap(573, Short.MAX_VALUE))
+                .addContainerGap(571, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -588,7 +591,9 @@ public class AturKamarNew extends javax.swing.JFrame {
         try {
           int row = jTable_nmPenyewa.getSelectedRow();
         String NIK2 = jTable_nmPenyewa.getValueAt(row, 0).toString();
+        String noKam =jTable_nmPenyewa.getValueAt(row, 3).toString();
         model.SetterGetter.setNIK(NIK2);    
+        model.SetterGetter.setGetActualNoKam(noKam);
         new PindahBlokNKamar().setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Untuk bisa menggunakan fitur ini, pastikan anda terlebih dahulu memilih salah satu penyewa yang ada pada tabel diatas");

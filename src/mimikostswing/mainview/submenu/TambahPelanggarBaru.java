@@ -13,7 +13,9 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import mimikostswing.Config;
 import mimikostswing.Konek;
 
@@ -200,9 +202,24 @@ public class TambahPelanggarBaru extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Filter Kode Blok--" }));
         jComboBox1.setToolTipText("");
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jTextField1.setFont(new java.awt.Font("Dialog", 2, 11)); // NOI18N
         jTextField1.setText("Cari Nama");
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField1MouseClicked(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         jTable_Pelanggaran.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -218,6 +235,11 @@ public class TambahPelanggarBaru extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable_Pelanggaran);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Filter Tingkat Pelanggaran--" }));
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(153, 51, 0));
         jButton2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -318,6 +340,42 @@ public class TambahPelanggarBaru extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: "+e.getMessage());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+         String kodeBl =jComboBox1.getSelectedItem().toString();
+        TableRowSorter tr = new TableRowSorter(jTable_Penyewa.getModel());
+        jTable_Penyewa.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(kodeBl, 2));
+        if (jComboBox1.getSelectedItem().equals("--Filter Kode Blok--")) {
+            jTable_Penyewa.setRowSorter(new TableRowSorter<>(jTable_Penyewa.getModel()));
+        }
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+        // TODO add your handling code here:
+        String tk =jComboBox2.getSelectedItem().toString();
+        TableRowSorter tr = new TableRowSorter(jTable_Pelanggaran.getModel());
+        jTable_Pelanggaran.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(tk, 2));
+        if (jComboBox2.getSelectedItem().equals("--Filter Tingkat Pelanggaran--")) {
+            jTable_Pelanggaran.setRowSorter(new TableRowSorter<>(jTable_Pelanggaran.getModel()));
+        }
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
+        // TODO add your handling code here:
+        jTextField1.setText(null);
+    }//GEN-LAST:event_jTextField1MouseClicked
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+          String find =jTextField1.getText();
+        TableRowSorter tr = new TableRowSorter(jTable_Penyewa.getModel());
+        jTable_Penyewa.setRowSorter(tr);
+        
+        tr.setRowFilter(RowFilter.regexFilter(find, 1));
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     /**
      * @param args the command line arguments
