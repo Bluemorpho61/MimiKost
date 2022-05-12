@@ -5,11 +5,21 @@
  */
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import mimikostswing.Config;
 import mimikostswing.Konek;
 /**
  *
@@ -149,7 +159,36 @@ public class SetterGetter {
     return df.format(ld).toString();
     }
     
-    
+    public static void InsertTbpPenyewa (String NIK, String namaPeny, String usia, String asal, String telp, String email, String foto, String kdBlok, String kdKamar, JFrame jframe ){
+         Date d = new Date();
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String skrg = s.format(d);
+        String sql="INSERT INTO tb_penyewa (NIK, nama_penyewa, usia, asal_kota, telp, email, foto, kode_blok, id_kamar, waktu_sewa_pertama) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+        try {
+            Connection c =(Connection)Config.configDB();
+            PreparedStatement p =c.prepareStatement(sql);
+         
+            p.setString(1, NIK);
+            p.setString(2, namaPeny);
+            p.setString(3, usia);
+            p.setString(4, asal);
+            p.setString(5, telp);
+            p.setString(6, email);
+               try {
+                InputStream inptStrm = new FileInputStream(new File(foto));
+                p.setBlob(7, inptStrm);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(jframe, e.getMessage());
+            }
+            p.setString(8, kdBlok);
+            p.setString(9, kdKamar);
+            p.setDate(10, java.sql.Date.valueOf(skrg));
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(jframe, e.getMessage());
+        }
+        
+    }
     
     
 }

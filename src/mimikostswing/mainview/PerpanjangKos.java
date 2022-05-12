@@ -123,9 +123,10 @@ public class PerpanjangKos extends javax.swing.JFrame {
         
         
         try {
-        String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Terbayar','"+ tglSKRG+"')";
+       // String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Terbayar','"+ tglSKRG+"')";
+       String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Terbayar', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`NIK` ="+NIK+";";
         Connection conn = (Connection)mimikostswing.Config.configDB();
-        PreparedStatement pst =conn.prepareStatement(sql);
+        PreparedStatement pst =conn.prepareStatement(sqlUpdate);
         pst.execute();
         JOptionPane.showMessageDialog(this, "Transaksi Perpanjangan Berhasil");
         } catch (Exception e) {
@@ -144,9 +145,10 @@ public class PerpanjangKos extends javax.swing.JFrame {
         
         
         try {
-        String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Terbayar','"+ tglSKRG+"')";
+       // String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Terbayar','"+ tglSKRG+"')";
+        String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Terbayar', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`NIK` ="+NIK+";";
         Connection conn = (Connection)mimikostswing.Config.configDB();
-        PreparedStatement pst =conn.prepareStatement(sql);
+        PreparedStatement pst =conn.prepareStatement(sqlUpdate);
         pst.execute();
         JOptionPane.showMessageDialog(this, "Transaksi Perpanjangan Berhasil");
         } catch (Exception e) {
@@ -165,9 +167,10 @@ public class PerpanjangKos extends javax.swing.JFrame {
         
         
         try {
-        String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Belum Lunas','"+ tglSKRG+"')";
+       // String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Belum Lunas','"+ tglSKRG+"')";
+        String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Belum Lunas', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`NIK` ="+NIK+";";
         Connection conn = (Connection)mimikostswing.Config.configDB();
-        PreparedStatement pst =conn.prepareStatement(sql);
+        PreparedStatement pst =conn.prepareStatement(sqlUpdate);
         pst.execute();
         JOptionPane.showMessageDialog(this, "Transaksi telah berhasil, namun penyewa masih belum melunasi tagihan");
         } catch (Exception e) {

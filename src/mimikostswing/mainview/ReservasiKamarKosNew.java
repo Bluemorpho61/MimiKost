@@ -15,6 +15,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -22,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import mimikostswing.Config;
 import mimikostswing.Konek;
+import model.SetterGetter;
 
 /**
  *
@@ -70,6 +77,12 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
+//      public void showStatus(){
+//          
+//          if () {
+//              
+//          }
+//      }
 
        public void showHarga(){
         try {
@@ -476,6 +489,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         panelRound8.setRoundTopRight(50);
         panelRound8.setRoundedTopLeft(50);
 
+        jTextField_addresfoto.setEditable(false);
         jTextField_addresfoto.setBackground(new java.awt.Color(204, 204, 204));
         jTextField_addresfoto.setBorder(null);
 
@@ -659,28 +673,45 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
 
     private void jButton_pilihFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_pilihFotoActionPerformed
         // TODO add your handling code here:
-         JFileChooser chsr = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE","jpg","png","jpeg");
-        chsr.setFileFilter(filter);
-        chsr.showOpenDialog(null);
-        File f = chsr.getSelectedFile();
-        String fileN =f.getAbsolutePath();
-        jTextField_addresfoto.setText(fileN.toString());
-        Image getAbsolutePath =null;
-        ImageIcon ico = new ImageIcon(fileN);
-        Image img = ico.getImage().getScaledInstance(jLabel_foto.getWidth(), jLabel_foto.getHeight(), Image.SCALE_SMOOTH);
-        jLabel_foto.setText(null);
-        jLabel_foto.setIcon(new ImageIcon(img));
-    }//GEN-LAST:event_jButton_pilihFotoActionPerformed
+//         JFileChooser chsr = new JFileChooser();
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE","jpg","png","jpeg");
+//        chsr.setFileFilter(filter);
+//        chsr.showOpenDialog(null);
+//        File f = chsr.getSelectedFile();
+//        String fileN =f.getAbsolutePath();
+//        jTextField_addresfoto.setText(fileN.toString());
+//        Image getAbsolutePath =null;
+//        ImageIcon ico = new ImageIcon(fileN);
+//        Image img = ico.getImage().getScaledInstance(jLabel_foto.getWidth(), jLabel_foto.getHeight(), Image.SCALE_SMOOTH);
+//        jLabel_foto.setText(null);
+//        jLabel_foto.setIcon(new ImageIcon(img));
 
-    private void jTextField_nominalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_nominalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_nominalActionPerformed
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE","jpg","png","jpeg");
+            fileChooser.setFileFilter(filter);
+            int openDialog = fileChooser.showOpenDialog(null);
+            if (openDialog == fileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                String selectedImage =selectedFile.getAbsolutePath();
+                jTextField_addresfoto.setText(selectedImage);
+                ImageIcon ico = new ImageIcon(selectedImage);
+                Image img =ico.getImage().getScaledInstance(jLabel_foto.getWidth(), jLabel_foto.getHeight(), Image.SCALE_SMOOTH);
+                jLabel_foto.setText(null);
+                jLabel_foto.setIcon(new ImageIcon(img));
+        }
+    }//GEN-LAST:event_jButton_pilihFotoActionPerformed
 
     private void jButton_KonfirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_KonfirActionPerformed
         // TODO add your handling code here:
-        Date date = new Date();
-        Object par = new Timestamp(date.getTime());
+        //Date date = new Date();
+        //Object par = new Timestamp(date.getTime());
+//       String DateFormatted =s.format(par);
+//        DateTimeFormatter fm =DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+//        LocalDateTime dtIme =LocalDateTime.now();
+//        String convDate = dtIme.format(fm);
+         Date d = new Date();
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String skrg = s.format(d);
         String NIK = jTextField_NIK.getText();
         String nm = jTextField_NmCln.getText();
         String usi = jTextField_usia.getText();
@@ -692,22 +723,86 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         String foto = jTextField_addresfoto.getText();
         model.SetterGetter.setNoKam(noKam);
         String convNokam = model.SetterGetter.getNoKam();
-        //String nom =jTextField_nominal.getText();
+        String nom =jTextField_nominal.getText();
         try {
-        InputStream is = new FileInputStream(foto);
-        String sql ="INSERT INTO `tb_penyewa` (`NIK`, `nama_penyewa`, `usia`, `asal_kota`, `telp`, `email`, `foto`, `kode_blok`, `id_kamar`, `waktu_sewa_pertama`) VALUES"
-                + "('"+NIK+"','"+nm+"','"+usi+"','"+asalK+"','"+tel+"','"+email+"',"+is+",'"+kodB+"','"+convNokam+"','"+par+"')";
-        conn =(Connection)Config.configDB();
-        ps=conn.prepareStatement(sql);
-        ps.setBlob(1, is);
-        ps.execute();
-        JOptionPane.showMessageDialog(this, "Input berhasil");
+            Connection conn = (Connection)Config.configDB();
+            PreparedStatement ps;
+            String query;
+            try {
+                conn.setAutoCommit(false);
+                InputStream is = new FileInputStream(foto);
+                //query = "INSERT INTO tb_penyewa (NIK, nama_penyewa, usia, asal_kota, telp, email, foto, kode_blok, id_kamar, waktu_sewa_pertama) VALUES"
+                    //  + "('"+NIK+"', '"+nm+"', '"+usi+"', '"+asalK+"', '"+tel+"', '"+email+"','"+foto+"', " + Types.NULL + ", '"+kodB+"', '"+convNokam+"', '"+skrg+"')";     
+                query="INSERT INTO tb_penyewa (NIK, nama_penyewa, usia, asal_kota, telp, email, foto, kode_blok, id_kamar, waktu_sewa_pertama) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+               
+                ps = conn.prepareStatement(query);
+                //ps.setBinaryStream(1, is);
+                ps.setString(1, NIK);
+                ps.setString(2, nm);
+                ps.setString(3, usi);
+                ps.setString(4, asalK);
+                ps.setString(5, tel);
+                ps.setString(6, email);
+                try {
+                    ps.setBlob(7, is);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage());
+                }
+                ps.setString(8, kodB);
+                ps.setString(9, convNokam);
+                ps.setDate(10, java.sql.Date.valueOf(LocalDate.now()));
+                ps.execute();
+                 
+                  
+                
+                Calendar c =Calendar.getInstance();
+                c.setTime(d);
+            //untuk mengcatch bulan
+                int idBln = c.get(Calendar.MONTH);
+            //untuk mengcatch Tahun
+                int thn =c.get(Calendar.YEAR);
+                //Insert ke tabel tb_tagihan_penyewa
+                query ="INSERT INTO tb_tagihan_penyewa VALUES("+Types.NULL+",'"+idBln+"','"+thn+"','"+NIK+"','"+nom+"','Terbayar','"+skrg+"')";
+                ps = conn.prepareStatement(query);
+                ps.execute();
+//        ps.setBlob(1, is);
+                conn.commit();
+        
+                JOptionPane.showMessageDialog(this, "Input berhasil");
+            } catch(Exception e) {
+                conn.rollback();
+                
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             System.err.println(e);
+            
         }
         
+        //Input ke tb_tagihan_penyewa 
+//       try {
+//            //Untuk mengambil tgl lokal yang ada pada sistem 
+//            //Date d = new Date();
+//            Calendar c =Calendar.getInstance();
+//            c.setTime(d);
+//            //untuk mengcatch bulan
+//           int idBln = c.get(Calendar.MONTH);
+//            //untuk mengcatch Tahun
+//            int thn =c.get(Calendar.YEAR);
+//            String sql="INSERT INTO tb_tagihan_penyewa VALUES("+Types.NULL+",'"+idBln+"','"+thn+"','"+NIK+"','"+nom+"','Terbayar','"+par+"')";
+//            conn =(Connection)Config.configDB();
+//            ps =conn.prepareStatement(sql);
+//            ps.execute();
+//            
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, e);
+//        }
     }//GEN-LAST:event_jButton_KonfirActionPerformed
+
+    private void jTextField_nominalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_nominalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_nominalActionPerformed
 
     /**
      * @param args the command line arguments

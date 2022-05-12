@@ -50,9 +50,9 @@ public class TagihanFasilitas extends javax.swing.JFrame {
         } catch (Exception e) {
         }
            DefaultPieDataset dps = new DefaultPieDataset();
-        dps.setValue("Penghuni", 60);
-        dps.setValue("Kamar kosong", 40);
-        JFreeChart chart = ChartFactory.createPieChart("Presentasi ", dps,true, true, false);
+        dps.setValue("Wifi", 60);
+        dps.setValue("Tv Kabel", 40);
+        JFreeChart chart = ChartFactory.createPieChart("Presentase tagihan dengan nominal terbanyak", dps,true, true, false);
         ChartPanel cpnl = new ChartPanel(chart);
         PieChart.removeAll();
         PieChart.add(cpnl);

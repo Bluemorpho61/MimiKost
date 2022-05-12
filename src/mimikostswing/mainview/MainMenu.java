@@ -15,6 +15,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import javafx.util.converter.LocalDateTimeStringConverter;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -38,6 +43,8 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class MainMenu extends javax.swing.JFrame {
 
+    ResultSet r;
+    Statement s;
     /**
      * Creates new form MainMenu
      */
@@ -218,6 +225,7 @@ public void showTableDataPenyewa(){
     public void TableModelBlok(){
         //Tabel ModelBlok
         DefaultTableModel tbl = new DefaultTableModel();
+        tbl.addColumn("Kode Blok");
         tbl.addColumn("No Kamar");
         tbl.addColumn("Jumlah Penghuni");
         jTable_K_basedOnBlok.setModel(tbl);
@@ -229,6 +237,7 @@ public void showTableDataPenyewa(){
             ResultSet res = statement.executeQuery(sqq);
             while (res.next()) {                
                 tbl.addRow(new Object[]{
+                    res.getString("kode_blok"),
                     res.getString("no_kamar"),
                     res.getString("jumlah")+(" orang"),
                 });
@@ -240,9 +249,28 @@ public void showTableDataPenyewa(){
         
         
     }
-    
+    //Todo Harus beres besok!!!!!
     private void DetectorLunasTagihan(){
-      //  Date 
+      
+    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy MM dd");
+    
+        try {
+            LocalDate ld =LocalDate.now();
+            String sql="SELECT tanggal_bayar FROM tb_tagihan_penyewa";
+            s =(Statement)Konek.getConnection().createStatement();
+            r = s.executeQuery(sql);
+            if (r.next()) {
+//                if ((r.getDate("tanggal_bayar")) => (LocalDate.now())) {
+//                    
+//                }
+            }
+ {
+                
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    
     }
     
     public void Desc(){
@@ -1152,6 +1180,11 @@ public void showTableDataPenyewa(){
         jPanel14.setBackground(new java.awt.Color(108, 108, 108));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/house 3.png"))); // NOI18N
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -1299,6 +1332,11 @@ public void showTableDataPenyewa(){
         jPanel16.setBackground(new java.awt.Color(108, 108, 108));
 
         jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/house 3.png"))); // NOI18N
+        jLabel32.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel32MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -1421,6 +1459,11 @@ public void showTableDataPenyewa(){
         jPanel18.setBackground(new java.awt.Color(108, 108, 108));
 
         jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mimikostswing/images/house 3.png"))); // NOI18N
+        jLabel34.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel34MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -1628,6 +1671,10 @@ public void showTableDataPenyewa(){
     private void jComboBox_BlokItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_BlokItemStateChanged
         // TODO add your handling code here:
        // TableModelBlok();
+//       String kodeBl =jComboBox_Blok.getSelectedItem().toString();
+//        TableRowSorter tr = new TableRowSorter(jTable_K_basedOnBlok.getModel());
+//        jTable_K_basedOnBlok.setRowSorter(tr);
+//        tr.setRowFilter(RowFilter.regexFilter(kodeBl, 0));
         Desc();
     }//GEN-LAST:event_jComboBox_BlokItemStateChanged
 
@@ -1877,6 +1924,39 @@ public void showTableDataPenyewa(){
         
         tr.setRowFilter(RowFilter.regexFilter(find, 2));
     }//GEN-LAST:event_jTextField_cariPenyewaKeyReleased
+
+    private void jLabel34MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel34MouseClicked
+        // TODO add your handling code here:
+           jPanel_MainP.removeAll();
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+      
+      jPanel_MainP.add(jPanel_Dashboard);
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+    }//GEN-LAST:event_jLabel34MouseClicked
+
+    private void jLabel32MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel32MouseClicked
+        // TODO add your handling code here:
+           jPanel_MainP.removeAll();
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+      
+      jPanel_MainP.add(jPanel_Dashboard);
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+    }//GEN-LAST:event_jLabel32MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+           jPanel_MainP.removeAll();
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+      
+      jPanel_MainP.add(jPanel_Dashboard);
+      jPanel_MainP.repaint();
+      jPanel_MainP.revalidate();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments

@@ -378,6 +378,7 @@ public class PindahBlokNKamar extends javax.swing.JFrame {
         Connection c =(Connection)Config.configDB();
         PreparedStatement ps = c.prepareStatement(sql);
         ps.execute();
+        JOptionPane.showMessageDialog(this, "Update data telah berhasil");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
