@@ -77,12 +77,28 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
-//      public void showStatus(){
-//          
-//          if () {
-//              
-//          }
-//      }
+      public void showStatus(){
+          try {
+              String kdBlok = jComboBox_Blok.getSelectedItem().toString();
+              String noKam =jComboBox_Kamar.getSelectedItem().toString();
+              model.SetterGetter.setNoKam(noKam);
+              String convertedNoKam = model.SetterGetter.getNoKam();
+              String sql="SELECT tb_blok.kode_blok, tb_kamar.no_kamar, tb_penyewa.nama_penyewa FROM tb_blok JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar";
+              String sqll ="SELECT tb_blok.kode_blok, tb_kamar.id_kamar, tb_penyewa.nama_penyewa FROM tb_blok JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok AND tb_kamar.kode_blok ='"+kdBlok+"' JOIN tb_penyewa ON tb_kamar.id_kamar = tb_penyewa.id_kamar AND tb_penyewa.id_kamar='"+convertedNoKam+"'";
+              Statement st =(Statement)Konek.getConnection().createStatement();
+              ResultSet r = st.executeQuery(sqll);
+              if (r.next()) {
+                  jLabel_warningKamar.setText("Kamar ini telah ditempati!");
+              } else{
+                  jLabel_warningKamar.setText(null);
+              }
+          } catch (Exception e) {
+              
+          }
+          
+          
+          
+      }
 
        public void showHarga(){
         try {
@@ -121,6 +137,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         jTextField_nominal = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jButton_Konfir = new javax.swing.JButton();
+        jLabel_warningKamar = new javax.swing.JLabel();
         panelRound2 = new model.panelRound();
         jLabel2 = new javax.swing.JLabel();
         panelRound3 = new model.panelRound();
@@ -209,6 +226,13 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Pilih Kamar yang Akan Ditempati");
 
+        jComboBox_Kamar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Pilih blok terlebih dahulu-" }));
+        jComboBox_Kamar.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_KamarItemStateChanged(evt);
+            }
+        });
+
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("/Bln");
@@ -262,6 +286,10 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
             }
         });
 
+        jLabel_warningKamar.setBackground(new java.awt.Color(236, 236, 236));
+        jLabel_warningKamar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel_warningKamar.setForeground(new java.awt.Color(153, 51, 0));
+
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
         panelRound1Layout.setHorizontalGroup(
@@ -283,7 +311,8 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
                     .addGroup(panelRound1Layout.createSequentialGroup()
                         .addComponent(panelRound9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
-                        .addComponent(jButton_Konfir)))
+                        .addComponent(jButton_Konfir))
+                    .addComponent(jLabel_warningKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRound1Layout.setVerticalGroup(
@@ -304,7 +333,9 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRound1Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_warningKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(panelRound9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -804,6 +835,11 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_nominalActionPerformed
 
+    private void jComboBox_KamarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_KamarItemStateChanged
+        // TODO add your handling code here:
+        showStatus();
+    }//GEN-LAST:event_jComboBox_KamarItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -860,6 +896,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_foto;
+    private javax.swing.JLabel jLabel_warningKamar;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel_Body;
     private javax.swing.JPanel jPanel_foto;

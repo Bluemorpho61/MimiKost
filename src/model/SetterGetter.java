@@ -98,6 +98,9 @@ public class SetterGetter {
     public static String getNoKam() {
         return NoKam;
     }
+    
+      
+
 
     public static void setNoKam(String NoKam) {
         try {

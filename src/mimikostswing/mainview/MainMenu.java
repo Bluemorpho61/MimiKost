@@ -5,9 +5,9 @@
  */
 package mimikostswing.mainview;
 
+import java.awt.Color;
 import mimikostswing.mainview.submenu.Foto;
 import mimikostswing.mainview.submenu.DetailInfoPenyewa;
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.sql.Connection;
@@ -61,7 +61,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     
- 
+  
 public void showTableDataPenyewa(){
     DefaultTableModel tb = new DefaultTableModel();
     tb.addColumn("Kode Blok");
@@ -325,6 +325,7 @@ public void showTableDataPenyewa(){
         jLabel1_CountBelumLunas = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         jPanel_DataPeny = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_DataPenyewa = new javax.swing.JTable();
@@ -782,6 +783,10 @@ public void showTableDataPenyewa(){
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
+        jLabel19.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel19.setText("Aplikasi masih dalam tahap pengembangan, hasil akhir mungkin berbeda");
+
         javax.swing.GroupLayout jPanel_DashboardLayout = new javax.swing.GroupLayout(jPanel_Dashboard);
         jPanel_Dashboard.setLayout(jPanel_DashboardLayout);
         jPanel_DashboardLayout.setHorizontalGroup(
@@ -797,6 +802,10 @@ public void showTableDataPenyewa(){
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(232, 232, 232))
+            .addGroup(jPanel_DashboardLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel19)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel_DashboardLayout.setVerticalGroup(
             jPanel_DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -810,7 +819,9 @@ public void showTableDataPenyewa(){
                 .addGroup(jPanel_DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
 
         jPanel_MainP.add(jPanel_Dashboard, "card2");
@@ -2019,6 +2030,7 @@ public void showTableDataPenyewa(){
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel1_CountBelumLunas;
     private javax.swing.JLabel jLabel1_CountKamar;
     private javax.swing.JLabel jLabel1_CountTelahLunas;
