@@ -10,8 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import mimikostswing.Config;
 import mimikostswing.Konek;
 
 /**
@@ -887,22 +892,96 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jButton_BatEditFas.setEnabled(true);
     }//GEN-LAST:event_jButton_EditActionPerformed
 
+   public String getid(){
+       String idd = null;
+        String sql="select id_fasilitas, @rowid:=@rowid+1 as myrow from tb_fasilitas, (SELECT @rowid:=0) as init ORDER BY myrow desc LIMIT 1;";
+        try {
+           Statement s =(Statement)Konek.getConnection().createStatement();
+           ResultSet r = s.executeQuery(sql);
+            if (r.next()) {
+                 idd =r.getString("id_fasilitas");
+            }
+       } catch (Exception e) {
+           JOptionPane.showMessageDialog(this, e.getMessage());
+       }
+       return idd;
+    }
     private void jButton_tmbHFasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_tmbHFasActionPerformed
         // TODO add your handling code here:
+        int id =Types.NULL;
          String nama = jTextField_namFas.getText();
         String blok = jComboBox_kdBlok.getSelectedItem().toString();
         String banyak = jTextField_bykFas.getText();
         Integer harga = Integer.valueOf(jTextField_Tagihan.getText()); 
         
+      
+        
+        
         try {
-             String sql = "INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `kode_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES("+Types.NULL+",'"+nama+"','"+blok+"','"+banyak+"','"+harga+"')";
-             Connection conn = (Connection)mimikostswing.Config.configDB();
-             PreparedStatement pst = conn.prepareStatement(sql);
-             pst.execute(sql);
-             JOptionPane.showMessageDialog(this, "Input data berhasil");
-             ShowTableFasilitas();
+            String query;
+            PreparedStatement ps;
+            Connection conn =(Connection)Config.configDB();
+            try {
+                
+                query="INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `kode_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES("+Types.NULL+",'"+nama+"','"+blok+"','"+banyak+"','"+harga+"')";
+                //query="INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `kode_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES (?, ?, ?, ? ,?)";
+                ps =conn.prepareStatement(query);
+//                ps.setNull(1, id);
+//                ps.setString(2, nama);
+//                ps.setString(3, blok);
+//                ps.setString(4, banyak);
+//                ps.setInt(5, harga);
+                ps.execute();
+                
+                for (int i = 1; i <= Integer.parseInt(banyak); i++) {
+                    try {
+                           Date d = new Date();
+            Calendar c =Calendar.getInstance();
+            c.setTime(d); 
+            int bln =c.get(Calendar.MONTH);
+            int thn =c.get(Calendar.YEAR);
+            int idTag =Types.NULL;
+            String status ="Sudah Dibayarkan";
+            java.sql.Date tglSkrg = java.sql.Date.valueOf(LocalDate.now());
+                query="INSERT INTO tb_tagihan_fasilitas  VALUES("+idTag+" ,'"+bln+"','"+thn+"','"+getid()+"','"+harga+"','"+status+"','"+tglSkrg+"')";
+                ps = conn.prepareStatement(query);
+                System.out.println(getid());
+//                ps.setNull(1, idTag);
+//                ps.setInt(2, bln);
+//                ps.setInt(3, thn);
+//                ps.setString(4, getid());
+//                ps.setInt(5, harga);
+//                ps.setString(6, "Sudah Dibayarkan");
+//                ps.setDate(7, tglSkrg);
+                ps.execute();
+                i++;
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, e.getMessage());
+                        System.err.println(e);
+                    }
+        
+                }
+         
+       
+               
+                ShowTableFasilitas();
+                JOptionPane.showMessageDialog(this, "Input berhasil");
+                
+                
+            } catch (Exception e) {
+                conn.rollback();
+                JOptionPane.showMessageDialog(this, e);
+                e.printStackTrace();
+            }
+            // String sql = "INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `kode_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES("+Types.NULL+",'"+nama+"','"+blok+"','"+banyak+"','"+harga+"')";
+//             //Connection conn = (Connection)mimikostswing.Config.configDB();
+//             PreparedStatement pst = conn.prepareStatement(sql);
+//             pst.execute(sql);
+//             JOptionPane.showMessageDialog(this, "Input data berhasil");
+//             ShowTableFasilitas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+            System.err.println(e);
         }
     }//GEN-LAST:event_jButton_tmbHFasActionPerformed
 

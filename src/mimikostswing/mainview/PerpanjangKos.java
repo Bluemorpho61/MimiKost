@@ -39,7 +39,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
     
     
     public void showCombobox(){
-        
+       
         try {
             Statement stm = (Statement)Konek.getConnection().createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM tb_blok");

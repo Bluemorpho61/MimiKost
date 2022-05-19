@@ -5,6 +5,7 @@
  */
 package mimikostswing.mainview;
 
+import it.sauronsoftware.cron4j.Scheduler;
 import java.awt.Color;
 import mimikostswing.mainview.submenu.Foto;
 import mimikostswing.mainview.submenu.DetailInfoPenyewa;
@@ -26,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import mimikostswing.Config;
 import mimikostswing.Konek;
 import mimikostswing.mainview.submenu.LaporanTagihanPenyewa;
 import org.jfree.chart.ChartFactory;
@@ -58,9 +60,17 @@ public class MainMenu extends javax.swing.JFrame {
         //ChartlilinDiagram();
         showTableDataPenyewa();
         pieChart();
+        DetectorLunasTagihan();
+        getLocal();
     }
 
     
+    public void getLocal(){
+       String now = LocalDate.now().toString();
+       jLabel_tgl.setText(now);
+       
+    }
+
   
 public void showTableDataPenyewa(){
     DefaultTableModel tb = new DefaultTableModel();
@@ -96,24 +106,6 @@ public void showTableDataPenyewa(){
     
 }
     
-
-//    private void ChartlilinDiagram(){
-//        DefaultCategoryDataset dcd = new DefaultCategoryDataset();
-//        dcd.setValue(78.80, "Mark", "Yudhi");
-//        dcd.setValue(60, "Mark", "Yunus");
-//        dcd.setValue(59, "Mark", "Yusron");
-//        JFreeChart jChart = ChartFactory.createBarChart("Kunyuk", "Nama Siswa", "Nilai", dcd, PlotOrientation.VERTICAL, true, true, false);
-//        CategoryPlot plot = jChart.getCategoryPlot();
-//        plot.setRangeCrosshairPaint(Color.BLACK);
-//        
-//        ChartFrame chartFrame = new ChartFrame("Nilai", jChart,Boolean.TRUE);
-//        chartFrame.setVisible(false);
-//        chartFrame.setSize(jPanel1_laporan.getWidth(), jPanel1_laporan.getHeight());
-//        ChartPanel chartPanel = new ChartPanel(jChart);
-//        jPanel1_laporan.removeAll();
-//        jPanel1_laporan.add(chartPanel);
-//        jPanel1_laporan.updateUI();
-//    }
     
     
     private void pieChart(){
@@ -249,27 +241,36 @@ public void showTableDataPenyewa(){
         
         
     }
-    //Todo Harus beres besok!!!!!
+    //Auto Reset tagihan perbulan
     private void DetectorLunasTagihan(){
-      
-    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy MM dd");
-    
         try {
-            LocalDate ld =LocalDate.now();
-            String sql="SELECT tanggal_bayar FROM tb_tagihan_penyewa";
-            s =(Statement)Konek.getConnection().createStatement();
-            r = s.executeQuery(sql);
-            if (r.next()) {
-//                if ((r.getDate("tanggal_bayar")) => (LocalDate.now())) {
-//                    
-//                }
-            }
- {
+           
+            Scheduler schedule = new Scheduler();
+            schedule.schedule("42 4 1 * *", new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                    String sql="UPDATE tb_tagihan_penyewa SET tb_tagihan_penyewa.status ='Belum Lunas'";
+                    Connection conn = (Connection)Config.configDB();
+                    PreparedStatement ps =conn.prepareStatement(sql);
+                    ps.execute();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(rootPane, e.getMessage());
+                    }
+                }
+            });
+            schedule.start();
+            try {
                 
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
             }
+          //  schedule.schedule(sp, task)
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
         }
+        
+        //schedule.schedule(, task)
     
     }
     
@@ -325,6 +326,7 @@ public void showTableDataPenyewa(){
         jLabel1_CountBelumLunas = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
+        jLabel_tgl = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jPanel_DataPeny = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -766,6 +768,9 @@ public void showTableDataPenyewa(){
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Dashboard");
 
+        jLabel_tgl.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_tgl.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
@@ -773,14 +778,22 @@ public void showTableDataPenyewa(){
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(112, 112, 112)
                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel_tgl, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel_tgl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 8, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jLabel19.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
@@ -2061,6 +2074,7 @@ public void showTableDataPenyewa(){
     private javax.swing.JLabel jLabel_nik3;
     private javax.swing.JLabel jLabel_nik4;
     private javax.swing.JLabel jLabel_nik5;
+    private javax.swing.JLabel jLabel_tgl;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;

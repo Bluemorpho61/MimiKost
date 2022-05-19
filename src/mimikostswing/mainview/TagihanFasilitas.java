@@ -5,9 +5,14 @@
  */
 package mimikostswing.mainview;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mimikostswing.Config;
 import mimikostswing.Konek;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -25,13 +30,70 @@ public class TagihanFasilitas extends javax.swing.JFrame {
      */
     public TagihanFasilitas() {
         initComponents();
-        showChart();
+        //showChart();
         comboBox();
+        showTables();
+        showTotal();
     }
     
+    
+    
+    public void showTotal(){
+        Date d = new Date();
+        try {
+            if (jComboBox_bulan.getSelectedItem() =="Bulan Ini") {
+                Calendar c = Calendar.getInstance();
+                c.setTime(d);
+                int idBln = c.get(Calendar.MONTH);
+                 String sql ="SELECT SUM(jumlah_tagihan) AS jumlah_tagihan FROM tb_tagihan_fasilitas WHERE id_bulan="+idBln;
+        Statement st =(Statement)Konek.getConnection().createStatement();
+        ResultSet r =st.executeQuery(sql);
+            if (r.next()) {
+                jLabel_totalTagihan.setText(r.getString("jumlah_tagihan"));
+            }
+            }
+            
+        String sql ="SELECT SUM(jumlah_tagihan) AS jumlah_tagihan FROM tb_tagihan_fasilitas";
+        Statement st =(Statement)Konek.getConnection().createStatement();
+        ResultSet r =st.executeQuery(sql);
+            if (r.next()) {
+                jLabel_totalTagihan.setText(r.getString("jumlah_tagihan"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+    }
+    public void showTables(){
+        DefaultTableModel t = new DefaultTableModel();
+        t.addColumn("Nama Fasilitas");
+        t.addColumn("Kode Blok");
+        t.addColumn("Biaya Per-bulan");
+        t.addColumn("Status");
+        t.addColumn("Bulan");
+        jTable1.setModel(t);
+        try {
+            String sql="SELECT tb_fasilitas.nama_fasilitas, tb_blok.kode_blok, tb_fasilitas.tagihan_perbulan, tb_tagihan_fasilitas.status, tb_bulan.bulan FROM tb_blok LEFT JOIN tb_fasilitas  ON tb_blok.kode_blok = tb_fasilitas.kode_blok INNER JOIN tb_tagihan_fasilitas ON tb_fasilitas.id_fasilitas = tb_tagihan_fasilitas.id_fasilitas INNER JOIN tb_bulan ON tb_bulan.id_bulan = tb_tagihan_fasilitas.id_bulan";
+            Connection c =(Connection)Config.configDB();
+            Statement s = c.prepareStatement(sql);
+            ResultSet r = s.executeQuery(sql);
+            while (r.next()) {                
+                t.addRow(new Object[]{
+                    r.getString("nama_fasilitas"),
+                    r.getString("kode_blok"),
+                    r.getString("tagihan_perbulan"),
+                    r.getString("status"),
+                    r.getString("bulan")
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+}
     public void comboBox(){
         try {
-            String sql ="SELECT bulan FROM tb_bulan";
+            String sql ="SELECT * FROM tb_bulan GROUP BY id_bulan ORDER BY id_bulan ASC";
             Statement s =(Statement)Konek.getConnection().createStatement();
             ResultSet r =s.executeQuery(sql);
             while (r.next()) {                
@@ -44,24 +106,20 @@ public class TagihanFasilitas extends javax.swing.JFrame {
         
         
     }
-    public void showChart(){
-        try {
-        
-        } catch (Exception e) {
-        }
-           DefaultPieDataset dps = new DefaultPieDataset();
-        dps.setValue("Wifi", 60);
-        dps.setValue("Tv Kabel", 40);
-        JFreeChart chart = ChartFactory.createPieChart("Presentase tagihan dengan nominal terbanyak", dps,true, true, false);
-        ChartPanel cpnl = new ChartPanel(chart);
-        PieChart.removeAll();
-        PieChart.add(cpnl);
-        PieChart.updateUI();
-    }
-
-    public void showTables(){
-        
-    }
+//    public void showChart(){
+//      
+//           DefaultPieDataset dps = new DefaultPieDataset();
+//        dps.setValue("Wifi", 60);
+//        dps.setValue("Tv Kabel", 40);
+//        JFreeChart chart = ChartFactory.createPieChart("Presentase tagihan dengan nominal terbanyak", dps,true, true, false);
+//        ChartPanel cpnl = new ChartPanel(chart);
+//        PieChart.removeAll();
+//        PieChart.add(cpnl);
+//        PieChart.updateUI();
+//    }
+   
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,12 +133,12 @@ public class TagihanFasilitas extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        DiagramBody = new javax.swing.JPanel();
-        PieChart = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jComboBox_bulan = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel_totalTagihan = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -127,31 +185,15 @@ public class TagihanFasilitas extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        PieChart.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        PieChart.setLayout(new javax.swing.BoxLayout(PieChart, javax.swing.BoxLayout.LINE_AXIS));
-
-        javax.swing.GroupLayout DiagramBodyLayout = new javax.swing.GroupLayout(DiagramBody);
-        DiagramBody.setLayout(DiagramBodyLayout);
-        DiagramBodyLayout.setHorizontalGroup(
-            DiagramBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        DiagramBodyLayout.setVerticalGroup(
-            DiagramBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DiagramBodyLayout.createSequentialGroup()
-                .addComponent(PieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nama Fasilitas", "Kode Blok", "Biaya Per-bulan", "Status"
+                "Nama Fasilitas", "Kode Blok", "Biaya Per-bulan", "Status", "Bulan"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -162,38 +204,53 @@ public class TagihanFasilitas extends javax.swing.JFrame {
 
         jComboBox_bulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bulan Ini" }));
 
+        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Total tagihan Bulan Ini");
+
+        jLabel_totalTagihan.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
+        jLabel_totalTagihan.setForeground(new java.awt.Color(0, 0, 0));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DiagramBody, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(146, Short.MAX_VALUE))
+                .addGap(45, 45, 45)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboBox_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(206, 206, 206))))
+                        .addComponent(jComboBox_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(82, 82, 82)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel_totalTagihan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 248, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(DiagramBody, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 89, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel_totalTagihan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -253,12 +310,12 @@ public class TagihanFasilitas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel DiagramBody;
-    private javax.swing.JPanel PieChart;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox_bulan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel_totalTagihan;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
