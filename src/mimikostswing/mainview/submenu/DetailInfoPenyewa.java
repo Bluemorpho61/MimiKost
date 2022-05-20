@@ -33,7 +33,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
     public void showInfo(){
         String NIK = model.SetterGetter.getNIK();
         try {
-        String SQL="SELECT * FROM tb_penyewa WHERE NIK='"+model.SetterGetter.getNIK()+"'";
+        String SQL="SELECT * FROM tb_penyewa WHERE kode_ktp='"+model.SetterGetter.getNIK()+"'";
             Connection conn =(Connection)mimikostswing.Config.configDB();
             PreparedStatement ps = conn.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery(SQL);
@@ -44,7 +44,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 Image getIM=imic.getImage();
                 Image setIM = getIM.getScaledInstance(375, 275, Image.SCALE_SMOOTH);
                 jLabel_Foto.setIcon(new ImageIcon(setIM));
-                jTextField_NIK.setText(rs.getString("NIK"));
+                jTextField_NIK.setText(rs.getString("kode_ktp"));
                 jTextField_Nama.setText(rs.getString("nama_penyewa"));
                 jTextField_Usia.setText(rs.getString("usia"));
                 jTextField_Asal.setText(rs.getString("asal_kota"));
@@ -164,7 +164,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("NIK:");
+        jLabel2.setText("Kode KTP:");
 
         jTextField_NIK.setEditable(false);
         jTextField_NIK.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -312,12 +312,12 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -387,7 +387,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -413,7 +413,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(195, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -451,7 +451,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
     private void jPanel_KonfirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel_KonfirMouseClicked
         // TODO add your handling code here:
         try {
-         String SQL ="UPDATE tb_penyewa SET NIK='"+jTextField_NIK.getText()+"' WHERE NIK='"+model.SetterGetter.getNIK()+"'";
+         String SQL ="UPDATE tb_penyewa SET kode_ktp='"+jTextField_NIK.getText()+"' WHERE kode_ktp='"+model.SetterGetter.getNIK()+"'";
          Connection conn = (Connection)mimikostswing.Config.configDB();
          PreparedStatement ps = conn.prepareStatement(SQL);
          ps.execute();

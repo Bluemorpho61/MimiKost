@@ -62,13 +62,13 @@ public class PerpanjangKos extends javax.swing.JFrame {
         tb.addColumn("No. Kamar");
         jTable_Perpanjang.setModel(tb);
         try {
-        String sql ="SELECT tb_blok.kode_blok, tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_kamar.no_kamar FROM tb_blok JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar";
+        String sql ="SELECT tb_blok.kode_blok, tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_kamar.no_kamar FROM tb_blok JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar";
         Statement stm = (Statement)Konek.getConnection().createStatement();
         ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 tb.addRow(new Object[]{
                     rs.getString("kode_blok"),
-                    rs.getString("NIK"),
+                    rs.getString("kode_ktp"),
                     rs.getString("nama_penyewa"),
                     rs.getString("no_kamar")
                 });
@@ -168,7 +168,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
         
         try {
        // String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Belum Lunas','"+ tglSKRG+"')";
-        String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Belum Lunas', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`NIK` ="+NIK+";";
+        String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Belum Lunas', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`kode_ktp` ="+NIK+";";
         Connection conn = (Connection)mimikostswing.Config.configDB();
         PreparedStatement pst =conn.prepareStatement(sqlUpdate);
         pst.execute();

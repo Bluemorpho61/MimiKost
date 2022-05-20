@@ -1008,7 +1008,7 @@
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="7" rowCount="4">
                             <Column editable="true" title="kode_blok" type="java.lang.Object"/>
-                            <Column editable="true" title="NIK" type="java.lang.Object"/>
+                            <Column editable="true" title="Kode KTP" type="java.lang.Object"/>
                             <Column editable="true" title="Nama" type="java.lang.Object"/>
                             <Column editable="true" title="Asal Kota" type="java.lang.Object"/>
                             <Column editable="true" title="Usia" type="java.lang.Object"/>

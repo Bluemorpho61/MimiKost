@@ -473,7 +473,7 @@
                               <Component id="jButton_pilihFoto" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="117" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -490,7 +490,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="NIK"/>
+                <Property name="text" type="java.lang.String" value="No. KTP"/>
               </Properties>
             </Component>
             <Container class="model.panelRound" name="panelRound3">

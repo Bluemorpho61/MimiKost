@@ -44,7 +44,7 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         try {
             int row =jTable_Pelanggar.getSelectedRow();
             String NIK=jTable_Pelanggar.getValueAt(row, 0).toString();
-            String sql="SELECT tb_pelanggar.id_pelanggar, tb_penyewa.nama_penyewa ,tb_pelanggaran.pelanggaran, tb_pelanggar.waktu_pelanggaran FROM tb_pelanggar, tb_penyewa,tb_pelanggaran WHERE tb_pelanggar.NIK = '"+NIK+"' AND tb_penyewa.NIK ='"+NIK+"' AND tb_pelanggaran.id_pelanggaran =tb_pelanggar.id_pelanggaran";
+            String sql="SELECT tb_pelanggar.id_pelanggar, tb_penyewa.nama_penyewa ,tb_pelanggaran.pelanggaran, tb_pelanggar.waktu_pelanggaran FROM tb_pelanggar, tb_penyewa,tb_pelanggaran WHERE tb_pelanggar.kode_ktp = '"+NIK+"' AND tb_penyewa.kode_ktp ='"+NIK+"' AND tb_pelanggaran.id_pelanggaran =tb_pelanggar.id_pelanggaran";
             Statement st =(Statement)Konek.getConnection().createStatement();
             ResultSet r = st.executeQuery(sql);
             
@@ -70,12 +70,12 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         tb.addColumn("No Kamar");
         jTable_Pelanggar.setModel(tb);
         try {
-            String sql="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_penyewa.kode_blok, tb_kamar.no_kamar, tb_pelanggar.id_pelanggar FROM tb_penyewa, tb_kamar, tb_pelanggar WHERE tb_penyewa.id_kamar = tb_kamar.id_kamar AND tb_penyewa.NIK = tb_pelanggar.NIK";
+            String sql="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_penyewa.kode_blok, tb_kamar.no_kamar, tb_pelanggar.id_pelanggar FROM tb_penyewa, tb_kamar, tb_pelanggar WHERE tb_penyewa.id_kamar = tb_kamar.id_kamar AND tb_penyewa.kode_ktp = tb_pelanggar.kode_ktp";
         Statement stm =(Statement)Konek.getConnection().createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {                
                 tb.addRow(new Object[]{
-                    rs.getString("NIK"),
+                    rs.getString("kode_ktp"),
                     rs.getString("nama_penyewa"),
                     rs.getString("kode_blok"),
                     rs.getString("no_kamar")
@@ -465,11 +465,11 @@ public class LaporanPelanggaran extends javax.swing.JFrame {
         try {
         int row = jTable_Pelanggar.getSelectedRow();
         String NIK = jTable_Pelanggar.getValueAt(row, 0).toString();
-        String SQL ="SELECT * FROM tb_penyewa WHERE NIK='"+NIK+"'";
+        String SQL ="SELECT * FROM tb_penyewa WHERE kode_ktp='"+NIK+"'";
         Statement st =(Statement)Konek.getConnection().createStatement();
         ResultSet r = st.executeQuery(SQL);
             if (r.next()) {
-                jTextField_nik.setText(r.getString("NIK"));
+                jTextField_nik.setText(r.getString("kode_ktp"));
                 jTextField_Nama.setText(r.getString("nama_penyewa"));
                 jTextField_asal.setText(r.getString("asal_kota"));
                 jTextField_telp.setText(r.getString("telp"));

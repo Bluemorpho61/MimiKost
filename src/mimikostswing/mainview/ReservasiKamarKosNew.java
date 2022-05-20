@@ -355,7 +355,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("NIK");
+        jLabel2.setText("No. KTP");
 
         panelRound3.setBackground(new java.awt.Color(204, 204, 204));
         panelRound3.setRoundBottomLeft(30);
@@ -647,7 +647,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
                     .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton_pilihFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel_BodyLayout = new javax.swing.GroupLayout(jPanel_Body);
@@ -764,7 +764,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
                 InputStream is = new FileInputStream(foto);
                 //query = "INSERT INTO tb_penyewa (NIK, nama_penyewa, usia, asal_kota, telp, email, foto, kode_blok, id_kamar, waktu_sewa_pertama) VALUES"
                     //  + "('"+NIK+"', '"+nm+"', '"+usi+"', '"+asalK+"', '"+tel+"', '"+email+"','"+foto+"', " + Types.NULL + ", '"+kodB+"', '"+convNokam+"', '"+skrg+"')";     
-                query="INSERT INTO tb_penyewa (NIK, nama_penyewa, usia, asal_kota, telp, email, foto, kode_blok, id_kamar, waktu_sewa_pertama) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                query="INSERT INTO tb_penyewa (kode_ktp, nama_penyewa, usia, asal_kota, telp, email, foto, kode_blok, id_kamar, waktu_sewa_pertama) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                
                 ps = conn.prepareStatement(query);
                 //ps.setBinaryStream(1, is);

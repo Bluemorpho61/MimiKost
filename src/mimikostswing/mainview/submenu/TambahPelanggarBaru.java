@@ -71,14 +71,14 @@ public class TambahPelanggarBaru extends javax.swing.JFrame {
         tb.addColumn("Kode Blok");
         tb.addColumn("No Kamar");
         jTable_Penyewa.setModel(tb);
-        String sql="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar FROM tb_penyewa, tb_blok, tb_kamar WHERE tb_penyewa.kode_blok = tb_blok.kode_blok AND tb_kamar.kode_blok = tb_blok.kode_blok GROUP BY tb_penyewa.nama_penyewa";
+        String sql="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar FROM tb_penyewa, tb_blok, tb_kamar WHERE tb_penyewa.kode_blok = tb_blok.kode_blok AND tb_kamar.kode_blok = tb_blok.kode_blok GROUP BY tb_penyewa.nama_penyewa";
         try {
             Statement s = (Statement)Konek.getConnection().createStatement();
             ResultSet r =s.executeQuery(sql);
             
             while (r.next()) {                
                 tb.addRow(new Object[]{
-                    r.getString("NIK"),
+                    r.getString("kode_ktp"),
                     r.getString("nama_penyewa"),
                     r.getString("kode_blok"),
                     r.getString("no_kamar")

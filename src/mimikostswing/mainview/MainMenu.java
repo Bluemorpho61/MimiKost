@@ -83,14 +83,14 @@ public void showTableDataPenyewa(){
     tb.addColumn("E-Mail");
     jTable_DataPenyewa.setModel(tb);
     try {
-        String sql ="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_penyewa.asal_kota, tb_penyewa.usia, tb_penyewa.telp, tb_penyewa.email, tb_blok.kode_blok FROM tb_penyewa JOIN tb_blok ON tb_blok.kode_blok=tb_penyewa.kode_blok";
+        String sql ="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_penyewa.asal_kota, tb_penyewa.usia, tb_penyewa.telp, tb_penyewa.email, tb_blok.kode_blok FROM tb_penyewa JOIN tb_blok ON tb_blok.kode_blok=tb_penyewa.kode_blok";
         String newQuery="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_penyewa.asal_kota, tb_penyewa.usia, tb_penyewa.telp, tb_penyewa.email, tb_blok.kode_blok FROM tb_penyewa JOIN tb_blok ON tb_blok.kode_blok=tb_penyewa.kode_blok WHERE tb_blok.kode_blok='"+jComboBox_Blok.getSelectedItem().toString()+"' AND tb_blok.kode_blok='"+jComboBox_Blok.getSelectedItem().toString()+"'";
         java.sql.Statement stm = (Statement)Konek.getConnection().createStatement();
         java.sql.ResultSet rs = stm.executeQuery(sql);
         while (rs.next()) {            
             tb.addRow(new Object[]{
                 rs.getString("kode_blok"),
-                rs.getString("NIK"),
+                rs.getString("kode_ktp"),
                 rs.getString("nama_penyewa"),
                 rs.getString("asal_kota"),
                 rs.getString("usia"),
@@ -114,7 +114,7 @@ public void showTableDataPenyewa(){
 //        String TotalPenyewa ="SELECT COUNT(*) AS 'jumlah' FROM tb_penyewa";
 //        model.SetterGetter.setTotalPenyewaForChart(TotalPenyewa);
 //        dps.setValue("Total Penghuni", Float.valueOf(SetterGetter.getTotalPenyewaForChart()));
-        String countTotalPenyewaBasedOnBlok="SELECT tb_blok.kode_blok, COUNT(tb_penyewa.NIK) AS jumlah FROM tb_penyewa LEFT JOIN tb_blok ON tb_blok.kode_blok = tb_penyewa.kode_blok GROUP BY tb_blok.kode_blok";
+        String countTotalPenyewaBasedOnBlok="SELECT tb_blok.kode_blok, COUNT(tb_penyewa.kode_ktp) AS jumlah FROM tb_penyewa LEFT JOIN tb_blok ON tb_blok.kode_blok = tb_penyewa.kode_blok GROUP BY tb_blok.kode_blok";
         try { 
             Statement s =(Statement)Konek.getConnection().createStatement();
             ResultSet r =s.executeQuery(countTotalPenyewaBasedOnBlok);
@@ -173,7 +173,7 @@ public void showTableDataPenyewa(){
          }
          
          try {
-            String sql ="SELECT COUNT(NIK) AS lunas FROM tb_tagihan_penyewa WHERE status='Terbayar' ";
+            String sql ="SELECT COUNT(kode_ktp) AS lunas FROM tb_tagihan_penyewa WHERE status='Terbayar' ";
             Connection conn = (Connection)Konek.getConnection();
             PreparedStatement pst=conn.prepareStatement(sql);
             ResultSet res=pst.executeQuery();
@@ -184,7 +184,7 @@ public void showTableDataPenyewa(){
              JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
          }
          try {
-            String sql ="SELECT COUNT(NIK) AS blmlunas FROM tb_tagihan_penyewa WHERE status='Belum Terbayar' ";
+            String sql ="SELECT COUNT(kode_ktp) AS blmlunas FROM tb_tagihan_penyewa WHERE status='Belum Terbayar' ";
             Connection conn = (Connection)Konek.getConnection();
             PreparedStatement pst=conn.prepareStatement(sql);
             ResultSet res=pst.executeQuery();
@@ -849,7 +849,7 @@ public void showTableDataPenyewa(){
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "kode_blok", "NIK", "Nama", "Asal Kota", "Usia", "No. Telp", "E-Mail"
+                "kode_blok", "Kode KTP", "Nama", "Asal Kota", "Usia", "No. Telp", "E-Mail"
             }
         ));
         jTable_DataPenyewa.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1776,7 +1776,7 @@ public void showTableDataPenyewa(){
       jButton_batal.setEnabled(false);
         try {
       //InputStream is = new FileInputStream(new File(gmbr));
-      String SQL ="UPDATE tb_penyewa SET nama_penyewa='"+Nama+"', usia='"+usia+"', asal_kota='"+asal+"', telp='"+no+"', email='"+jTextField_nik5.getText()+"' WHERE NIK='"+NIK+"'";
+      String SQL ="UPDATE tb_penyewa SET nama_penyewa='"+Nama+"', usia='"+usia+"', asal_kota='"+asal+"', telp='"+no+"', email='"+jTextField_nik5.getText()+"' WHERE kode_ktp='"+NIK+"'";
       Connection conn =(Connection)mimikostswing.Config.configDB();
       PreparedStatement pst =conn.prepareStatement(SQL);
       //pst.setBinaryStream(1, is);
@@ -1835,7 +1835,7 @@ public void showTableDataPenyewa(){
         
         
         try {
-        String sql="SELECT foto FROM tb_penyewa WHERE NIK='"+NIK+"'";
+        String sql="SELECT foto FROM tb_penyewa WHERE kode_ktp='"+NIK+"'";
         java.sql.Connection conn=(Connection)mimikostswing.Config.configDB();
         java.sql.Statement pst = conn.prepareStatement(sql);
         java.sql.ResultSet rs =pst.executeQuery(sql);
@@ -1887,10 +1887,15 @@ public void showTableDataPenyewa(){
 
     private void jButton_DetailInfoPenyewaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DetailInfoPenyewaActionPerformed
         // TODO add your handling code here:
+        try {
         int row = jTable_DataPenyewa.getSelectedRow();
         String NIK = jTable_DataPenyewa.getValueAt(row, 1).toString();
         model.SetterGetter.setNIK(NIK);
         new DetailInfoPenyewa().setVisible(true);
+        } catch (Exception e) {
+            
+        }
+        
        
         
     }//GEN-LAST:event_jButton_DetailInfoPenyewaActionPerformed
@@ -1903,7 +1908,7 @@ public void showTableDataPenyewa(){
         try{    
           int row = jTable_DataPenyewa.getSelectedRow();
         String NIK = jTable_DataPenyewa.getValueAt(row, 1).toString();
-        String SQL ="DELETE FROM tb_penyewa WHERE NIK='"+NIK+"'";
+        String SQL ="DELETE FROM tb_penyewa WHERE kode_ktp='"+NIK+"'";
         Connection conn=(Connection)mimikostswing.Config.configDB();
         PreparedStatement ps = conn.prepareStatement(SQL);
         ps.execute(SQL);

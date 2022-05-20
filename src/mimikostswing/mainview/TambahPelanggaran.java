@@ -66,11 +66,11 @@ public class TambahPelanggaran extends javax.swing.JFrame {
     public void showData(){
         try {
             String n =model.SetterGetter.getNIK();
-            String sql ="SELECT NIK, nama_penyewa, kode_blok,foto  FROM tb_penyewa WHERE NIK='"+n+"'";
+            String sql ="SELECT kode_ktp, nama_penyewa, kode_blok,foto  FROM tb_penyewa WHERE kode_ktp='"+n+"'";
             s =(Statement)Konek.getConnection().createStatement();
             r=s.executeQuery(sql);
             while (r.next()) {                
-                jTextField_nik.setText(r.getString("NIK"));
+                jTextField_nik.setText(r.getString("kode_ktp"));
                 jTextField_Nama.setText(r.getString("nama_penyewa"));
                 jTextField_KodeBlok.setText(r.getString("kode_blok"));
                jTextField_NoKam.setText(model.SetterGetter.getGetActualNoKam());

@@ -43,7 +43,7 @@ public class Foto extends javax.swing.JFrame {
     
     public void DisplayImage(){
         try {
-            String SQL ="SELECT foto FROM tb_penyewa WHERE NIK='"+model.SetterGetter.getNIK()+"'";
+            String SQL ="SELECT foto FROM tb_penyewa WHERE kode_ktp='"+model.SetterGetter.getNIK()+"'";
             Connection conn=(Connection)mimikostswing.Config.configDB();
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(SQL);
@@ -278,7 +278,7 @@ public class Foto extends javax.swing.JFrame {
             String nik = model.SetterGetter.getNIK();
             String foto = jTextField_addressFoto.getText();
             InputStream is = new FileInputStream(new File(foto));
-        String SQL="UPDATE tb_penyewa SET foto=? WHERE NIK='"+nik+"'";
+        String SQL="UPDATE tb_penyewa SET foto=? WHERE kode_ktp='"+nik+"'";
         Connection conn =(Connection)mimikostswing.Config.configDB();
         PreparedStatement ps = conn.prepareStatement(SQL);
         ps.setBinaryStream(1, is);
