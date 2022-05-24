@@ -72,11 +72,13 @@ public class SetterGetter {
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
+        
 //         prop.put("mail.imap.ssl.enable", "true");
 //         prop.put("mail.imap.auth.mechanism", "XOAUTH2");
          
         String email ="vanda10.dava@gmail.com";
-        String pass ="Bludax666";
+        String pass ="ejyumbizexximtzl";
+        
         
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override

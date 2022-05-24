@@ -225,8 +225,9 @@ public void showTableDataPenyewa(){
         try {
             Statement statement =(Statement)Konek.getConnection().createStatement();
             String sql ="SELECT no_kamar,jumlah_penghuni FROM tb_kamar WHERE kode_blok='"+jComboBox_Blok.getSelectedItem().toString()+"'";
-            String sqq ="SELECT tb_blok.kode_blok, tb_kamar.no_kamar , COUNT( tb_penyewa.nama_penyewa) AS jumlah FROM tb_blok INNER JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok RIGHT JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar GROUP BY tb_kamar.no_kamar";
-            ResultSet res = statement.executeQuery(sqq);
+           // String sqq ="SELECT tb_blok.kode_blok, tb_kamar.no_kamar , COUNT( tb_penyewa.nama_penyewa) AS jumlah FROM tb_blok INNER JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok RIGHT JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar GROUP BY tb_kamar.no_kamar";
+           String sqll="SELECT tb_blok.kode_blok, tb_kamar.no_kamar, COUNT(tb_penyewa.kode_ktp) AS jumlah FROM tb_blok RIGHT JOIN tb_kamar ON tb_blok.kode_blok =tb_kamar.kode_blok LEFT JOIN tb_penyewa ON tb_kamar.id_kamar = tb_penyewa.id_kamar GROUP BY tb_blok.kode_blok, tb_kamar.no_kamar";
+            ResultSet res = statement.executeQuery(sqll);
             while (res.next()) {                
                 tbl.addRow(new Object[]{
                     res.getString("kode_blok"),
@@ -1329,6 +1330,8 @@ public void showTableDataPenyewa(){
 
         jPanel_BlkNK.setBackground(new java.awt.Color(236, 236, 236));
 
+        jComboBox_Blok.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Filter Blok-" }));
+        jComboBox_Blok.setToolTipText("");
         jComboBox_Blok.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox_BlokItemStateChanged(evt);
@@ -1739,6 +1742,13 @@ public void showTableDataPenyewa(){
     private void jComboBox_BlokItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_BlokItemStateChanged
         // TODO add your handling code here:
        // TableModelBlok();
+         String kodeBl =jComboBox_Blok.getSelectedItem().toString();
+        TableRowSorter tr = new TableRowSorter(jTable_K_basedOnBlok.getModel());
+        jTable_K_basedOnBlok.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(kodeBl, 0));
+        if (jComboBoxBlok_DataPenyewa.getSelectedItem().equals("-Filter Blok-")) {
+            jTable_DataPenyewa.setRowSorter(new TableRowSorter<>(jTable_DataPenyewa.getModel()));
+        }
 //       String kodeBl =jComboBox_Blok.getSelectedItem().toString();
 //        TableRowSorter tr = new TableRowSorter(jTable_K_basedOnBlok.getModel());
 //        jTable_K_basedOnBlok.setRowSorter(tr);
