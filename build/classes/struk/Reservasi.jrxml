@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3b16f1a2-f377-4143-8286-ac14cc3de54a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="kode" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT tb_tagihan_penyewa.id_tagihan_penyewa, tb_penyewa.kode_ktp ,tb_penyewa.nama_penyewa, tb_blok.kode_blok,tb_blok.harga ,tb_kamar.no_kamar, tb_penyewa.waktu_sewa_pertama, tb_tagihan_penyewa.status
+FROM tb_penyewa
+JOIN tb_tagihan_penyewa
+ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp AND tb_penyewa.kode_ktp =$P{kode}
+JOIN tb_blok
+ON tb_blok.kode_blok =tb_penyewa.kode_blok
+JOIN tb_kamar
+ON tb_blok.kode_blok = tb_kamar.kode_blok
+GROUP BY tb_penyewa.nama_penyewa]]>
+	</queryString>
+	<field name="id_tagihan_penyewa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kode_ktp" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama_penyewa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kode_blok" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="harga" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="no_kamar" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="waktu_sewa_pertama" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="200" y="12" width="161" height="48" uuid="9930a222-3ed8-42cb-952e-7504b2af4698"/>
+				<textElement textAlignment="Center">
+					<font size="36"/>
+				</textElement>
+				<text><![CDATA[Mimi Kost]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="116" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="e355b14b-e021-4b3e-8884-8d62ef4698d6"/>
+				<textFieldExpression><![CDATA[$F{waktu_sewa_pertama}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="36" width="100" height="20" uuid="6dbc6bc8-1ebf-4dca-828a-a294da451017"/>
+				<text><![CDATA[nama_penyewa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="86" height="20" uuid="ba6a41da-5178-4ef4-b92c-bacada98fa26"/>
+				<text><![CDATA[Kode Transaksi]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="114" y="0" width="100" height="20" uuid="5b047013-fdcc-45d1-bbb0-bb14d78e5192"/>
+				<textFieldExpression><![CDATA[$F{id_tagihan_penyewa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="36" width="100" height="20" uuid="56b97a3f-d4f6-47cf-b54f-8dfd48caa97d"/>
+				<textFieldExpression><![CDATA[$F{nama_penyewa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="56" width="86" height="20" uuid="9a54b3e8-e605-484a-963e-a509af4ac32f"/>
+				<text><![CDATA[kode_blok]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="114" y="56" width="86" height="20" uuid="bfb75fa5-6cf3-428e-a04d-4bcf585c4fd4"/>
+				<textFieldExpression><![CDATA[$F{kode_blok}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="214" y="56" width="100" height="20" uuid="cefa2664-d2c9-4cee-bfd4-785ef9b5b977"/>
+				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="76" width="100" height="20" uuid="3b683410-034c-41d9-a972-a5197da89a12"/>
+				<text><![CDATA[no_kamar]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="114" y="76" width="86" height="20" uuid="1babb321-7d40-4743-9d68-4438fbe35032"/>
+				<textFieldExpression><![CDATA[$F{no_kamar}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="96" width="100" height="20" uuid="1de77e1a-da99-4a84-86d6-fc0586e61dc6"/>
+				<text><![CDATA[status]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="114" y="96" width="100" height="20" uuid="de44f2cb-ef43-4ebc-9b64-01687c8007be"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="16" width="100" height="20" uuid="b8579f63-1f75-4e61-a21c-f15ff206eeca"/>
+				<textFieldExpression><![CDATA[$F{kode_ktp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="100" height="20" uuid="af6b141a-4a34-4302-a12f-963c74c2771e"/>
+				<text><![CDATA[Kode KTP]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

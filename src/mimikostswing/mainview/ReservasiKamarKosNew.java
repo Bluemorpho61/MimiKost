@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -29,6 +30,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import mimikostswing.Config;
 import mimikostswing.Konek;
 import model.SetterGetter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -60,6 +70,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
+//         JOptionPane.showMessageDialog(this, "Silahkan pilih kamar");
         }
         
         
@@ -75,6 +86,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
+//           JOptionPane.showMessageDialog(this, "Silahkan pilih blok");
         }
     }
       public void showStatus(){
@@ -93,7 +105,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
                   jLabel_warningKamar.setText(null);
               }
           } catch (Exception e) {
-              
+             // JOptionPane.showMessageDialog(this, e);
           }
           
           
@@ -146,8 +158,6 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         panelRound4 = new model.panelRound();
         jTextField_NmCln = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        panelRound5 = new model.panelRound();
-        jTextField_usia = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         panelRound6 = new model.panelRound();
         jTextField_telp = new javax.swing.JTextField();
@@ -163,6 +173,8 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         panelRound10 = new model.panelRound();
         jTextField_asalKot = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -413,31 +425,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Usia");
-
-        panelRound5.setBackground(new java.awt.Color(204, 204, 204));
-        panelRound5.setRoundBottomLeft(30);
-        panelRound5.setRoundBottomRight(30);
-        panelRound5.setRoundTopRight(30);
-        panelRound5.setRoundedTopLeft(30);
-
-        jTextField_usia.setBackground(new java.awt.Color(204, 204, 204));
-        jTextField_usia.setBorder(null);
-        jTextField_usia.setOpaque(false);
-
-        javax.swing.GroupLayout panelRound5Layout = new javax.swing.GroupLayout(panelRound5);
-        panelRound5.setLayout(panelRound5Layout);
-        panelRound5Layout.setHorizontalGroup(
-            panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_usia, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelRound5Layout.setVerticalGroup(
-            panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTextField_usia, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-        );
+        jLabel4.setText("Tanggal Lahir");
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -512,7 +500,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Foto KTP (Jika ada)");
+        jLabel7.setText("Foto diri Penyewa (Jika ada)");
 
         panelRound8.setBackground(new java.awt.Color(204, 204, 204));
         panelRound8.setRoundBottomLeft(50);
@@ -551,7 +539,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         jLabel11.setBackground(new java.awt.Color(0, 0, 0));
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("Asal Kota");
+        jLabel11.setText("Alamat");
 
         panelRound10.setBackground(new java.awt.Color(204, 204, 204));
         panelRound10.setRoundBottomLeft(30);
@@ -577,6 +565,10 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
             .addComponent(jTextField_asalKot, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
         );
 
+        jLabel14.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("*) Scan KTP dengan perangkat RFID");
+
         javax.swing.GroupLayout panelRound2Layout = new javax.swing.GroupLayout(panelRound2);
         panelRound2.setLayout(panelRound2Layout);
         panelRound2Layout.setHorizontalGroup(
@@ -584,38 +576,54 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
             .addGroup(panelRound2Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(panelRound6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelRound10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound2Layout.createSequentialGroup()
+                    .addGroup(panelRound2Layout.createSequentialGroup()
                         .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel_foto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(39, 39, 39))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound2Layout.createSequentialGroup()
-                        .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton_pilihFoto)
-                        .addGap(8, 8, 8))))
+                            .addComponent(jLabel2)
+                            .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel14)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(panelRound6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelRound10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelRound2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound2Layout.createSequentialGroup()
+                                        .addComponent(jPanel_foto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(39, 39, 39))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound2Layout.createSequentialGroup()
+                                        .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton_pilihFoto)
+                                        .addGap(8, 8, 8))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7)
+                                .addGap(0, 0, Short.MAX_VALUE))))))
         );
         panelRound2Layout.setVerticalGroup(
             panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRound2Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel14)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelRound2Layout.createSequentialGroup()
@@ -629,8 +637,8 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(panelRound10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -742,10 +750,11 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
 //        String convDate = dtIme.format(fm);
          Date d = new Date();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sInput = new SimpleDateFormat("yyyy-MM-dd");
         String skrg = s.format(d);
         String NIK = jTextField_NIK.getText();
         String nm = jTextField_NmCln.getText();
-        String usi = jTextField_usia.getText();
+        String usi =  sInput.format(jDateChooser1.getDate()); //jDateChooser1.getDate().toString();
         String asalK = jTextField_asalKot.getText();
         String tel = jTextField_telp.getText();
         String email = jTextField_email.getText();
@@ -764,7 +773,7 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
                 InputStream is = new FileInputStream(foto);
                 //query = "INSERT INTO tb_penyewa (NIK, nama_penyewa, usia, asal_kota, telp, email, foto, kode_blok, id_kamar, waktu_sewa_pertama) VALUES"
                     //  + "('"+NIK+"', '"+nm+"', '"+usi+"', '"+asalK+"', '"+tel+"', '"+email+"','"+foto+"', " + Types.NULL + ", '"+kodB+"', '"+convNokam+"', '"+skrg+"')";     
-                query="INSERT INTO tb_penyewa (kode_ktp, nama_penyewa, usia, asal_kota, telp, email, foto, kode_blok, id_kamar, waktu_sewa_pertama) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                query="INSERT INTO tb_penyewa (kode_ktp, nama_penyewa, tanggal_lahir, asal_kota, telp, email, foto, kode_blok, id_kamar, waktu_sewa_pertama) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                
                 ps = conn.prepareStatement(query);
                 //ps.setBinaryStream(1, is);
@@ -811,6 +820,22 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
             
         }
         
+        try {
+            Connection conn =(Connection)Config.configDB();
+            JasperDesign jsDi =JRXmlLoader.load("F:\\Programming Project\\Java\\MimiKostSwing\\src\\struk\\Reservasi.jrxml");
+            HashMap hash = new HashMap();
+            hash.put("kode", jTextField_NIK.getText());
+                                                                                                                                                                                                                                                                                                                                                              //$P{kode}      
+            String sql="SELECT tb_tagihan_penyewa.id_tagihan_penyewa, tb_penyewa.kode_ktp ,tb_penyewa.nama_penyewa, tb_blok.kode_blok,tb_blok.harga ,tb_kamar.no_kamar, tb_penyewa.waktu_sewa_pertama, tb_tagihan_penyewa.status FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp AND tb_penyewa.kode_ktp ='"+jTextField_NIK.getText()+"' JOIN tb_blok ON tb_blok.kode_blok =tb_penyewa.kode_blok JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok GROUP BY tb_penyewa.nama_penyewa";
+            JRDesignQuery newQ = new JRDesignQuery();
+            newQ.setText(sql);
+            JasperReport js = JasperCompileManager.compileReport(jsDi);
+            JasperPrint jp = JasperFillManager.fillReport(js, hash, conn );
+//            JasperViewer.viewReport(jp);
+            JasperPrintManager.printReport(jp, false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         //Input ke tb_tagihan_penyewa 
 //       try {
 //            //Untuk mengambil tgl lokal yang ada pada sistem 
@@ -881,11 +906,13 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
     private javax.swing.JButton jButton_pilihFoto;
     private javax.swing.JComboBox<String> jComboBox_Blok;
     private javax.swing.JComboBox<String> jComboBox_Kamar;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel1_Harga;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -907,13 +934,11 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_email;
     private javax.swing.JTextField jTextField_nominal;
     private javax.swing.JTextField jTextField_telp;
-    private javax.swing.JTextField jTextField_usia;
     private model.panelRound panelRound1;
     private model.panelRound panelRound10;
     private model.panelRound panelRound2;
     private model.panelRound panelRound3;
     private model.panelRound panelRound4;
-    private model.panelRound panelRound5;
     private model.panelRound panelRound6;
     private model.panelRound panelRound7;
     private model.panelRound panelRound8;

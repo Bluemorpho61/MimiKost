@@ -67,7 +67,7 @@ public class PindahBlokNKamar extends javax.swing.JFrame {
     public void SetData(){
         try {
         String NIK = model.SetterGetter.getNIK();
-        String SQL ="SELECT * FROM tb_penyewa WHERE NIK='"+NIK+"'";
+        String SQL ="SELECT * FROM tb_penyewa WHERE kode_ktp='"+NIK+"'";
         Statement st =(Statement)mimikostswing.Konek.getConnection().createStatement();
             ResultSet r = st.executeQuery(SQL);
             if (r.next()) {
@@ -76,7 +76,7 @@ public class PindahBlokNKamar extends javax.swing.JFrame {
                 Image img = imic.getImage();
                 Image setIM = img.getScaledInstance(jPanel_foto.getWidth(), jPanel_foto.getHeight(), Image.SCALE_SMOOTH);
                 jLabel1_Foto.setIcon(new ImageIcon(setIM));
-                jTextField_NIK.setText(r.getString("NIK"));
+                jTextField_NIK.setText(r.getString("kode_ktp"));
                 jTextField_nama.setText(r.getString("nama_penyewa"));
                 jTextField_kdBlok.setText(r.getString("kode_blok"));
                 jTextField_NoKama.setText(model.SetterGetter.getGetActualNoKam());
@@ -168,7 +168,7 @@ public class PindahBlokNKamar extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("NIK");
+        jLabel1.setText("Kode KTP");
 
         jTextField_NIK.setEditable(false);
 
@@ -246,8 +246,8 @@ public class PindahBlokNKamar extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
                         .addGap(33, 33, 33)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField_NIK, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -374,7 +374,7 @@ public class PindahBlokNKamar extends javax.swing.JFrame {
         String NIK =jTextField_NIK.getText();
         model.SetterGetter.setNoKam(nonConvKam);
         String getIDkam = model.SetterGetter.getNoKam();
-        String sql="UPDATE `tb_penyewa` SET `kode_blok` = '"+kdBlok+"', `id_kamar` = '"+getIDkam+"' WHERE `tb_penyewa`.`NIK` = '"+NIK+"'";
+        String sql="UPDATE `tb_penyewa` SET `kode_blok` = '"+kdBlok+"', `id_kamar` = '"+getIDkam+"' WHERE `tb_penyewa`.`kode_ktp` = '"+NIK+"'";
         Connection c =(Connection)Config.configDB();
         PreparedStatement ps = c.prepareStatement(sql);
         ps.execute();

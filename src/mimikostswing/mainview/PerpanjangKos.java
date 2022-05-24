@@ -505,7 +505,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = jTable_Perpanjang.getSelectedRow();
         String NIK = jTable_Perpanjang.getValueAt(row, 1).toString();
-        String nama = jTable_Perpanjang.getValueAt(row, 1).toString();
+        String nama = jTable_Perpanjang.getValueAt(row, 2).toString();
         String noKamar = jTable_Perpanjang.getValueAt(row, 3).toString();
         String kdBlok = jTable_Perpanjang.getValueAt(row, 0).toString();
         jTextField_NIK.setText(NIK);

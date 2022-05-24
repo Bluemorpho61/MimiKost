@@ -44,19 +44,19 @@ public class LaporanTagihanPenyewa extends javax.swing.JFrame {
 
     public void showTableBelumLunas(){
         DefaultTableModel tL = new DefaultTableModel();
-         tL.addColumn("NIK");
+         tL.addColumn("No. KTP");
             tL.addColumn("Nama");
             tL.addColumn("Kode Blok");
             tL.addColumn("No Kamar");
             tL.addColumn("Status");
             jTable2.setModel(tL);
-            String sql ="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar, tb_tagihan_penyewa.status, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa INNER JOIN tb_tagihan_penyewa ON tb_penyewa.NIK = tb_tagihan_penyewa.NIK AND tb_tagihan_penyewa.status ='Belum Terbayar' LEFT JOIN tb_kamar ON tb_penyewa.id_kamar = tb_kamar.id_kamar LEFT JOIN tb_blok ON tb_penyewa.kode_blok = tb_blok.kode_blok";
+            String sql ="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar, tb_tagihan_penyewa.status, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa INNER JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp AND tb_tagihan_penyewa.status ='Belum Terbayar' LEFT JOIN tb_kamar ON tb_penyewa.id_kamar = tb_kamar.id_kamar LEFT JOIN tb_blok ON tb_penyewa.kode_blok = tb_blok.kode_blok";
            try {
             Statement s = (Statement)Konek.getConnection().createStatement();
             ResultSet r =s.executeQuery(sql);
                while (r.next()) {                   
                    tL.addRow(new Object[]{
-                       r.getString("NIK"),
+                       r.getString("kode_ktp"),
                        r.getString("nama_penyewa"),
                        r.getString("kode_blok"),
                        r.getString("no_kamar"),
@@ -71,7 +71,7 @@ public class LaporanTagihanPenyewa extends javax.swing.JFrame {
        
         try {
             DefaultTableModel tb = new DefaultTableModel();
-            tb.addColumn("NIK");
+            tb.addColumn("Kode KTP");
             tb.addColumn("Nama");
             tb.addColumn("Kode Blok");
             tb.addColumn("No Kamar");
@@ -79,12 +79,12 @@ public class LaporanTagihanPenyewa extends javax.swing.JFrame {
             tb.addColumn("Tanggal Bayar");
             jTable1.setModel(tb);
             String sql ="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar, tb_tagihan_penyewa.status, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa INNER JOIN tb_tagihan_penyewa ON tb_penyewa.NIK = tb_tagihan_penyewa.NIK LEFT JOIN tb_kamar ON tb_penyewa.id_kamar = tb_kamar.id_kamar LEFT JOIN tb_blok ON tb_penyewa.kode_blok = tb_blok.kode_blok";
-            String sqlNew="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar, tb_tagihan_penyewa.status, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa INNER JOIN tb_tagihan_penyewa ON tb_penyewa.NIK = tb_tagihan_penyewa.NIK AND tb_tagihan_penyewa.status ='Terbayar' LEFT JOIN tb_kamar ON tb_penyewa.id_kamar = tb_kamar.id_kamar LEFT JOIN tb_blok ON tb_penyewa.kode_blok = tb_blok.kode_blok";
+            String sqlNew="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar, tb_tagihan_penyewa.status, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa INNER JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp AND tb_tagihan_penyewa.status ='Terbayar' LEFT JOIN tb_kamar ON tb_penyewa.id_kamar = tb_kamar.id_kamar LEFT JOIN tb_blok ON tb_penyewa.kode_blok = tb_blok.kode_blok";
             Statement s = (Statement)Konek.getConnection().createStatement();
             ResultSet r = s.executeQuery(sqlNew);
             while (r.next()) {                
                 tb.addRow(new Object[]{
-                    r.getString("NIK"),
+                    r.getString("kode_ktp"),
                     r.getString("nama_penyewa"),
                     r.getString("kode_blok"),
                     r.getString("no_kamar"),
@@ -101,7 +101,7 @@ public class LaporanTagihanPenyewa extends javax.swing.JFrame {
     public void showChart(){
         try {
             DefaultPieDataset dp = new DefaultPieDataset();
-            String sqlLunas="SELECT status, COUNT(NIK) AS jumlah FROM tb_tagihan_penyewa GROUP BY status LIMIT 1";
+            String sqlLunas="SELECT status, COUNT(kode_ktp) AS jumlah FROM tb_tagihan_penyewa GROUP BY status LIMIT 1";
             String sqlblmLunas="SELECT status, COUNT(NIK) AS jumlah FROM tb_tagihan_penyewa WHERE status ='Belum Terbayar' GROUP BY status LIMIT 1";
             try {
           Statement st =(Statement)Konek.getConnection().createStatement();

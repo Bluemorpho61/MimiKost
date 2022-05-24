@@ -38,18 +38,18 @@ public class AturKamarNew extends javax.swing.JFrame {
     
      public void TablePenyewaAturKamar(){
         DefaultTableModel tbl = new DefaultTableModel();
-        tbl.addColumn("NIK");
+        tbl.addColumn("No. KTP");
         tbl.addColumn("Nama");
         tbl.addColumn("Blok");
         tbl.addColumn("Kamar");
         jTable_nmPenyewa.setModel(tbl);
         try {
-            String sql="SELECT tb_penyewa.NIK, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar FROM tb_blok JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar";
+            String sql="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_blok.kode_blok, tb_kamar.no_kamar FROM tb_blok JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar";
             Statement statement =(Statement)mimikostswing.Konek.getConnection().createStatement();
             ResultSet res = statement.executeQuery(sql);
             while (res.next()) {                
             tbl.addRow(new Object[]{
-                res.getString("NIK"),
+                res.getString("kode_ktp"),
                 res.getString("nama_penyewa"),
                 res.getString("kode_blok"),
                 res.getString("no_kamar")
@@ -567,7 +567,7 @@ public class AturKamarNew extends javax.swing.JFrame {
             
           //  int row=jTable_nama.getSelectedRow();
         String nik =jTable_nmPenyewa.getValueAt(row, 0).toString();
-        String sql="SELECT foto FROM tb_penyewa WHERE NIK='"+nik+"'";
+        String sql="SELECT foto FROM tb_penyewa WHERE kode_ktp='"+nik+"'";
         Connection c =(Connection)mimikostswing.Config.configDB();
         Statement st = c.prepareStatement(sql);
         ResultSet r =st.executeQuery(sql);

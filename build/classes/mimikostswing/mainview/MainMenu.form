@@ -846,14 +846,14 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jPanel11" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="324" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxBlok_DataPenyewa" min="-2" pref="167" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                                  <Component id="jTextField_cariPenyewa" min="-2" pref="180" max="-2" attributes="0"/>
-                              </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jScrollPane2" min="-2" pref="664" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -864,39 +864,35 @@
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel_nik1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jTextField_nik1" alignment="0" min="-2" pref="151" max="-2" attributes="0"/>
+                                              <Component id="jLabel_nik3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jTextField_nik3" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel_nik2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jTextField_nik2" min="-2" pref="64" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel_nik4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jTextField_nik4" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel_nik3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jTextField_nik3" min="-2" pref="143" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel_nik5" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jTextField_nik5" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel_nik1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jTextField_nik1" alignment="0" min="-2" pref="151" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel_nik6" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jTextField_tglLhir" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel_nik4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextField_nik4" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -911,14 +907,27 @@
                                       </Group>
                                   </Group>
                               </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="jComboBoxBlok_DataPenyewa" min="-2" pref="167" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jTextField_rfid" max="32767" attributes="0"/>
+                                      <Component id="jTextField_cariPenyewa" pref="180" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                                          <Component id="jLabel23" min="-2" pref="13" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace pref="365" max="32767" attributes="0"/>
+                                          <Component id="jLabel28" min="-2" pref="195" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <EmptySpace pref="171" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="jPanel11" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="324" max="-2" attributes="0"/>
+                          <EmptySpace pref="114" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -927,11 +936,24 @@
                       <Group type="102" attributes="0">
                           <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jComboBoxBlok_DataPenyewa" pref="35" max="32767" attributes="0"/>
-                              <Component id="jTextField_cariPenyewa" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jComboBoxBlok_DataPenyewa" pref="35" max="32767" attributes="0"/>
+                                  <Component id="jTextField_cariPenyewa" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jTextField_rfid" min="-2" pref="31" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                                  <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jButton_DetailInfoPenyewa" min="-2" pref="51" max="-2" attributes="0"/>
@@ -947,22 +969,20 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jLabel_nik2" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jTextField_nik2" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
-                                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
                                           <Component id="jLabel_nik4" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="jTextField_nik4" min="-2" pref="29" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jLabel_nik1" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel_nik1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel_nik6" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="jTextField_nik1" min="-2" pref="29" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jTextField_nik1" pref="29" max="32767" attributes="0"/>
+                                              <Component id="jTextField_tglLhir" max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -1010,8 +1030,8 @@
                             <Column editable="true" title="kode_blok" type="java.lang.Object"/>
                             <Column editable="true" title="Kode KTP" type="java.lang.Object"/>
                             <Column editable="true" title="Nama" type="java.lang.Object"/>
-                            <Column editable="true" title="Asal Kota" type="java.lang.Object"/>
-                            <Column editable="true" title="Usia" type="java.lang.Object"/>
+                            <Column editable="true" title="Alamat" type="java.lang.Object"/>
+                            <Column editable="true" title="Tanggal Lahir" type="java.lang.Object"/>
                             <Column editable="true" title="No. Telp" type="java.lang.Object"/>
                             <Column editable="true" title="E-Mail" type="java.lang.Object"/>
                           </Table>
@@ -1049,7 +1069,7 @@
                               <Renderer/>
                             </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
+                              <Title value=""/>
                               <Editor/>
                               <Renderer/>
                             </Column>
@@ -1120,22 +1140,6 @@
                     <Property name="editable" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel_nik2">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="11" style="1"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="0" red="0" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Usia"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextField_nik2">
-                  <Properties>
-                    <Property name="editable" type="boolean" value="false"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel_nik3">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1182,14 +1186,6 @@
                 <Component class="javax.swing.JTextField" name="jTextField_nik5">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel7">
-                  <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="0" red="0" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Tahun"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanel4">
@@ -1364,6 +1360,57 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JTextField" name="jTextField_rfid">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="11" style="2"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Cari Dengan KTP"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField_rfidMouseClicked"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_rfidKeyReleased"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel23">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="14" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="0" red="0" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="**"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel28">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="11" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="0" red="0" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="**) Diperlukan perangkat RFID"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel_nik6">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="11" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="0" red="0" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Tanggal Lahir"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jTextField_tglLhir">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel_lprn">

@@ -5,16 +5,21 @@
  */
 package mimikostswing.mainview.submenu;
 
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.net.URI;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Properties;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import mimikostswing.Konek;
+import model.SetterGetter;
 
 /**
  *
@@ -28,8 +33,24 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
     public DetailInfoPenyewa() {
         initComponents();
         showInfo();
+        showStatus();
     }
 
+    public void showStatus(){
+        try {
+            String sql="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_tagihan_penyewa.status FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp AND tb_penyewa.kode_ktp='"+jTextField_NIK.getText()+"'";
+       Statement st =(Statement)Konek.getConnection().createStatement();
+       ResultSet res =st.executeQuery(sql);
+       if(res.next()){
+           jLabel10.setText(null);
+           jLabel10.setText(res.getString("status"));
+       }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+       
+       
+    }
     public void showInfo(){
         String NIK = model.SetterGetter.getNIK();
         try {
@@ -46,7 +67,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 jLabel_Foto.setIcon(new ImageIcon(setIM));
                 jTextField_NIK.setText(rs.getString("kode_ktp"));
                 jTextField_Nama.setText(rs.getString("nama_penyewa"));
-                jTextField_Usia.setText(rs.getString("usia"));
+                jTextField_Usia.setText(rs.getString("tanggal_lahir"));
                 jTextField_Asal.setText(rs.getString("asal_kota"));
                 jTextField_email.setText(rs.getString("email"));
                 jTextField_telp.setText(rs.getString("telp"));
@@ -55,7 +76,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+          //  JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
         }
     }
     /**
@@ -96,6 +117,8 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel_tglPertamaKOs = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -185,7 +208,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Usia:");
+        jLabel6.setText("Tanggal Lahir:");
 
         jTextField_Usia.setEditable(false);
         jTextField_Usia.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -210,9 +233,9 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Dialog", 2, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("lunas");
+        jLabel10.setText("N/A");
 
-        jButton2.setText("Edit NIK");
+        jButton2.setText("Edit Kode KTP");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -304,6 +327,28 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 .addGap(0, 27, Short.MAX_VALUE))
         );
 
+        jButton3.setBackground(new java.awt.Color(0, 153, 102));
+        jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Hubungi VIA Whatsapp");
+        jButton3.setBorder(null);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setBackground(new java.awt.Color(102, 102, 0));
+        jButton4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Hubungi VIA E-Mail");
+        jButton4.setBorder(null);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -331,16 +376,23 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel_batal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextField_Nama, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_email, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField_email, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(145, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField_Asal, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Usia, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_telp, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField_Asal, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Usia, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_telp, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(179, 179, 179)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(36, 36, 36))))
         );
         jPanel4Layout.setVerticalGroup(
@@ -386,8 +438,11 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(163, Short.MAX_VALUE))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -413,7 +468,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -470,6 +525,29 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jPanel_KonfirMouseClicked
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try {
+            String telp = jTextField_telp.getText().substring(1,12);
+            String noTelp ="62"+telp;
+             Desktop.getDesktop().browse(new URL("https://api.whatsapp.com/send?phone="+noTelp).toURI());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        try {
+            SetterGetter s = new SetterGetter();
+       s.kirimEmail("e41212208@student.polije.ac.id");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+       
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -509,6 +587,8 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel1_Konfir;
