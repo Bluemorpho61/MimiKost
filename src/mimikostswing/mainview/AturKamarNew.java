@@ -15,7 +15,9 @@ import java.sql.Types;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import mimikostswing.Config;
 import mimikostswing.Konek;
 import mimikostswing.mainview.submenu.PindahBlokNKamar;
@@ -209,26 +211,39 @@ public class AturKamarNew extends javax.swing.JFrame {
         jLabel6.setText("Daftar Nama Penyewa (beserta blok & kamar)");
 
         panelRound3.setBackground(new java.awt.Color(204, 204, 204));
-        panelRound3.setRoundBottomLeft(50);
-        panelRound3.setRoundBottomRight(50);
-        panelRound3.setRoundTopRight(50);
-        panelRound3.setRoundedTopLeft(50);
+        panelRound3.setRoundBottomLeft(42);
+        panelRound3.setRoundBottomRight(42);
+        panelRound3.setRoundTopRight(42);
+        panelRound3.setRoundedTopLeft(42);
 
         jTextField_cari.setBackground(new java.awt.Color(204, 204, 204));
+        jTextField_cari.setFont(new java.awt.Font("Dialog", 2, 11)); // NOI18N
+        jTextField_cari.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField_cari.setText("Cari Nama Disini");
         jTextField_cari.setBorder(null);
+        jTextField_cari.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField_cariMouseClicked(evt);
+            }
+        });
+        jTextField_cari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_cariKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
         panelRound3.setLayout(panelRound3Layout);
         panelRound3Layout.setHorizontalGroup(
             panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField_cari, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addContainerGap()
+                .addComponent(jTextField_cari)
+                .addContainerGap())
         );
         panelRound3Layout.setVerticalGroup(
             panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTextField_cari, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+            .addComponent(jTextField_cari, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jTable_nmPenyewa.setModel(new javax.swing.table.DefaultTableModel(
@@ -600,6 +615,21 @@ public class AturKamarNew extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton_pindahBlokNkActionPerformed
+
+    private void jTextField_cariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_cariMouseClicked
+        // TODO add your handling code here:
+        jTextField_cari.setText(null);
+        
+    }//GEN-LAST:event_jTextField_cariMouseClicked
+
+    private void jTextField_cariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_cariKeyReleased
+        // TODO add your handling code here:
+         String cari = jTextField_cari.getText();
+         TableRowSorter tr = new TableRowSorter(jTable_nmPenyewa.getModel());
+        jTable_nmPenyewa.setRowSorter(tr);
+        
+        tr.setRowFilter(RowFilter.regexFilter(cari, 1));
+    }//GEN-LAST:event_jTextField_cariKeyReleased
 
     /**
      * @param args the command line arguments

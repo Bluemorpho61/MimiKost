@@ -35,6 +35,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         comboBox();
     }
 
+    
      public void ShowTableFasilitas(){
         DefaultTableModel tb = new DefaultTableModel();
         tb.addColumn("id_fasilitas");
@@ -95,6 +96,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
        ResultSet rs =stm.executeQuery(sql);
         while (rs.next()) {            
             jComboBox_kdBlok.addItem(rs.getString("kode_blok"));
+            jComboBox1.addItem(rs.getString("kode_blok"));
         }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
@@ -133,6 +135,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jTextField_Tagihan = new javax.swing.JTextField();
         jButton_KonfEditFas = new javax.swing.JButton();
         jButton_BatEditFas = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         panelRound3 = new model.panelRound();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -366,6 +369,8 @@ public class BlokNFasilitas extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih Blok--" }));
+
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
         panelRound1.setLayout(panelRound1Layout);
         panelRound1Layout.setHorizontalGroup(
@@ -384,13 +389,14 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                     .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(jLabel8)
-                    .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addGap(250, 250, 250))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(77, 77, 77)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(250, 250, 250))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77))
                     .addComponent(panelRound6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelRound1Layout.createSequentialGroup()
                         .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,9 +413,15 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound1Layout.setVerticalGroup(
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)))
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -963,7 +975,9 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                 }
          
        
-               
+               jTextField_namFas.setText(null);
+               jTextField_bykFas.setText(null);
+               jTextField_Tagihan.setText(null);
                 ShowTableFasilitas();
                 JOptionPane.showMessageDialog(this, "Input berhasil");
                 
@@ -1057,6 +1071,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
     private javax.swing.JButton jButton_hps;
     private javax.swing.JButton jButton_tmbHFas;
     private javax.swing.JButton jButton_tmbhBlok;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox_kdBlok;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

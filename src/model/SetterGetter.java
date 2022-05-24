@@ -44,15 +44,36 @@ public class SetterGetter {
         private static String Bulan;
     private static String getActualNoKam;
 
+         private static String Email;
+
+    /**
+     * Get the value of Email
+     *
+     * @return the value of Email
+     */
+    public static String getEmail() {
+        return Email;
+    }
+
+    /**
+     * Set the value of Email
+     *
+     * @param Email new value of Email
+     */
+    public static void setEmail(String Email) {
+        SetterGetter.Email = Email;
+    }
+
+
     
-    public void kirimEmail(String recepient) throws MessagingException{
+    public void kirimEmail(String recepient, String Subyek, String pesan) throws MessagingException{
         Properties prop  = new Properties();
-//        prop.put("mail.smtp.auth", "true");
-//        prop.put("mail.smtp.starttls.enable", "true");
-//        prop.put("mail.smtp.host", "smtp.gmail.com");
-//        prop.put("mail.smtp.port", "587");
-         prop.put("mail.imap.ssl.enable", "true");
-         prop.put("mail.imap.auth.mechanism", "XOAUTH2");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "587");
+//         prop.put("mail.imap.ssl.enable", "true");
+//         prop.put("mail.imap.auth.mechanism", "XOAUTH2");
          
         String email ="vanda10.dava@gmail.com";
         String pass ="Bludax666";
@@ -65,21 +86,21 @@ public class SetterGetter {
           
 });
           //Store store
-          Message msg = prepareMessage(session,email,recepient);
+          Message msg = prepareMessage(session,email,recepient,Subyek, pesan);
           Transport.send(msg);
           System.out.println("Email berhasil terkirim");
     }
     
-    private static  Message prepareMessage(Session session, String email, String recepient){
+    private static  Message prepareMessage(Session session, String email, String recepient, String Subyek, String Pesan){
         Message msg = new MimeMessage(session);
         try {
             msg.setFrom(new InternetAddress(email));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
-            msg.setSubject("Test subyek");
-            msg.setText("Test coy");
+            msg.setSubject(Subyek);
+            msg.setText(Pesan);
             return  msg;
         } catch (Exception e) {
-            
+            System.err.print(e);
         }
         return  null;
     }
@@ -243,6 +264,8 @@ public class SetterGetter {
         }
         
     }
+
+  
     
     
 }

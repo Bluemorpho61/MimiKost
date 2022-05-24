@@ -822,17 +822,18 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
         
         try {
             Connection conn =(Connection)Config.configDB();
-            JasperDesign jsDi =JRXmlLoader.load("F:\\Programming Project\\Java\\MimiKostSwing\\src\\struk\\Reservasi.jrxml");
+            JasperDesign jsDi =JRXmlLoader.load("F:\\Programming Project\\Java\\MimiKostSwing\\src\\struk\\reservasi_1.jrxml");
             HashMap hash = new HashMap();
             hash.put("kode", jTextField_NIK.getText());
+            hash.put("Tunai", jTextField_nominal.getText());
                                                                                                                                                                                                                                                                                                                                                               //$P{kode}      
             String sql="SELECT tb_tagihan_penyewa.id_tagihan_penyewa, tb_penyewa.kode_ktp ,tb_penyewa.nama_penyewa, tb_blok.kode_blok,tb_blok.harga ,tb_kamar.no_kamar, tb_penyewa.waktu_sewa_pertama, tb_tagihan_penyewa.status FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp AND tb_penyewa.kode_ktp ='"+jTextField_NIK.getText()+"' JOIN tb_blok ON tb_blok.kode_blok =tb_penyewa.kode_blok JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok GROUP BY tb_penyewa.nama_penyewa";
             JRDesignQuery newQ = new JRDesignQuery();
             newQ.setText(sql);
             JasperReport js = JasperCompileManager.compileReport(jsDi);
             JasperPrint jp = JasperFillManager.fillReport(js, hash, conn );
-//            JasperViewer.viewReport(jp);
-            JasperPrintManager.printReport(jp, false);
+            JasperViewer.viewReport(jp);
+           // JasperPrintManager.printReport(jp, false);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }

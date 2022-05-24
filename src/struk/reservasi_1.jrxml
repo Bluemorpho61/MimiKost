@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7b521739-5653-4e5f-8a8e-6da33bab59d2">
-	<property name="ireport.zoom" value="0.8264462809917463"/>
+	<property name="ireport.zoom" value="1.6105100000000223"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="16"/>
-	<queryString language="SQL">
-		<![CDATA[SELECT tb_tagihan_penyewa.id_tagihan_penyewa, tb_penyewa.nama_penyewa, tb_blok.kode_blok,tb_blok.harga ,tb_kamar.no_kamar, tb_penyewa.waktu_sewa_pertama, tb_tagihan_penyewa.status
+	<property name="ireport.y" value="201"/>
+	<parameter name="Tunai" class="java.lang.String"/>
+	<parameter name="kode" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT tb_tagihan_penyewa.id_tagihan_penyewa, tb_penyewa.kode_ktp ,tb_penyewa.nama_penyewa, tb_blok.kode_blok,tb_blok.harga ,tb_kamar.no_kamar, tb_penyewa.waktu_sewa_pertama, tb_tagihan_penyewa.status
 FROM tb_penyewa
 JOIN tb_tagihan_penyewa
 ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp
@@ -15,6 +17,9 @@ ON tb_blok.kode_blok = tb_kamar.kode_blok
 GROUP BY tb_penyewa.nama_penyewa]]>
 	</queryString>
 	<field name="id_tagihan_penyewa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kode_ktp" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="nama_penyewa" class="java.lang.String">
@@ -84,7 +89,7 @@ GROUP BY tb_penyewa.nama_penyewa]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Lucida Sans Typewriter" size="11"/>
 				</textElement>
-				<text><![CDATA[ID Tagihan         ]]></text>
+				<text><![CDATA[Kode KTP]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="65" width="64" height="20" uuid="547c5ad7-b9ad-485c-97ef-49a6578261a3"/>
@@ -107,34 +112,6 @@ GROUP BY tb_penyewa.nama_penyewa]]>
 				</textElement>
 				<text><![CDATA[No. Kamar         ]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="96" y="45" width="186" height="20" uuid="016bea13-8f0c-4842-b383-a33bebe0e63d"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Lucida Sans Typewriter"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{id_tagihan_penyewa}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="96" y="65" width="186" height="20" uuid="68d8a633-7efb-47f9-94e7-de75e01e0a63"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Lucida Sans Typewriter"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nama_penyewa}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="96" y="85" width="186" height="20" uuid="31a9df1d-ed3a-446c-bb4a-76010fcc8bed"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Lucida Sans Typewriter"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{kode_blok}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="96" y="105" width="186" height="20" uuid="961cdc47-781e-47b0-bc43-0cb1ade4d770"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Lucida Sans Typewriter"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{no_kamar}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="74" y="45" width="10" height="20" uuid="47fb76fc-2c1a-4c19-97cb-141266118c8f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -178,26 +155,12 @@ GROUP BY tb_penyewa.nama_penyewa]]>
 				<text><![CDATA[Tanggal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="19" width="64" height="13" uuid="6942f9f4-e851-48ab-b78e-cb0df0f13429"/>
-				<textElement>
-					<font fontName="Lucida Sans Typewriter"/>
-				</textElement>
-				<text><![CDATA[Sewa Awal]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="74" y="19" width="10" height="13" uuid="68f7e641-2aa3-47cb-af06-d45b6c54b184"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Lucida Sans Typewriter" size="10"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="96" y="19" width="186" height="13" uuid="9fc7ad1e-db8f-47bc-8df6-91df942ff485"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Lucida Sans Typewriter"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{id_tagihan_penyewa}]]></textFieldExpression>
-			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="96" y="2" width="186" height="13" uuid="6a3daf7e-1006-481e-a51b-5a89345a22f1"/>
 				<textElement>
@@ -241,17 +204,25 @@ GROUP BY tb_penyewa.nama_penyewa]]>
 	<columnFooter>
 		<band height="54" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="181" height="20" uuid="e222d35d-ef27-4342-9183-0cb828bd741d"/>
+				<reportElement x="0" y="0" width="64" height="20" uuid="e222d35d-ef27-4342-9183-0cb828bd741d"/>
 				<textElement>
 					<font fontName="Lucida Sans Typewriter" size="13"/>
 				</textElement>
-				<text><![CDATA[Total]]></text>
+				<text><![CDATA[Harga]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2" y="28" width="181" height="20" uuid="6ea01429-83f1-4402-8524-5830e3ebeb71"/>
+				<reportElement x="2" y="28" width="62" height="20" uuid="6ea01429-83f1-4402-8524-5830e3ebeb71"/>
 				<textElement>
 					<font fontName="Lucida Sans Typewriter" size="13"/>
 				</textElement>
+				<text><![CDATA[Tunai]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="74" y="0" width="109" height="20" uuid="e633136b-6ca1-443d-9e2f-48780685c61c"/>
+				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="74" y="28" width="100" height="20" uuid="1d4aa3e9-21e8-4ea3-a988-f81d63efe918"/>
 				<text><![CDATA[Tunai]]></text>
 			</staticText>
 		</band>
