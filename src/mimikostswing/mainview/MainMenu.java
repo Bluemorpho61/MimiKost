@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import javafx.util.converter.LocalDateTimeStringConverter;
 import javax.imageio.ImageIO;
@@ -233,25 +234,35 @@ public void showTableDataPenyewa(){
                     res.getString("kode_blok"),
                     res.getString("no_kamar"),
                     res.getString("jumlah")+(" orang"),
-                });
-                
+                });                
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"ERROR: " +e.getMessage());
-        }
-        
-        
+        }   
     }
     //Auto Reset tagihan perbulan
     private void DetectorLunasTagihan(){
         try {
            
+            
             //Launch every month: 42 4 1 * *
             Scheduler schedule = new Scheduler();
             schedule.schedule("00 0 1 * *", new Runnable() {
                 @Override
                 public void run() {
                     try {
+            Date d = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            //Ambil bulan sistem
+            int blnIni =cal.get(Calendar.MONTH);
+            int ThnIni =cal.get(Calendar.YEAR);
+                        System.out.println(blnIni);
+                        System.out.println(ThnIni);
+            String sqlll="SELECT tb_penyewa.kode_ktp,tb_penyewa.nama_penyewa  ,tb_tagihan_penyewa.id_bulan, tb_tagihan_penyewa.tahun FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp";
+            Statement statt =(Statement)Konek.getConnection().createStatement();
+            ResultSet ress =statt.executeQuery(sqlll);
+                        
                         LocalDate tg = LocalDate.now();
                         Object t = tg;
                      String sqll="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_tagihan_penyewa.id_tagihan_penyewa, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp";
