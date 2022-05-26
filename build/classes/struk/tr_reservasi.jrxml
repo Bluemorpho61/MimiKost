@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91c2d4c7-cfce-42fa-b70a-b328ccd54da1">
+	<property name="ireport.zoom" value="0.9090909090909113"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="72"/>
+	<parameter name="ForDataSource" class="java.lang.String"/>
+	<parameter name="ForApp" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT tb_tagihan_penyewa.id_tagihan_penyewa, tb_penyewa.kode_ktp ,tb_penyewa.nama_penyewa, tb_blok.kode_blok,tb_blok.harga ,tb_kamar.no_kamar, tb_penyewa.waktu_sewa_pertama, tb_tagihan_penyewa.status
+FROM tb_penyewa
+JOIN tb_tagihan_penyewa
+ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp
+JOIN tb_blok
+ON tb_blok.kode_blok =tb_penyewa.kode_blok
+JOIN tb_kamar
+ON tb_blok.kode_blok = tb_kamar.kode_blok
+GROUP BY tb_penyewa.nama_penyewa]]>
+	</queryString>
+	<field name="id_tagihan_penyewa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kode_ktp" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama_penyewa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kode_blok" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="harga" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="no_kamar" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="waktu_sewa_pertama" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="101" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="180" y="0" width="217" height="101" uuid="b970b144-92ea-48cb-bf74-34a1c99ec28a"/>
+				<imageExpression><![CDATA["F:\\Programming Project\\Java\\MimiKostSwing\\src\\mimikostswing\\images\\Mask group.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="59850d83-8203-4fd8-9282-57eb02a76e19"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{waktu_sewa_pertama}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="73" splitType="Stretch">
+			<staticText>
+				<reportElement x="129" y="0" width="300" height="30" uuid="10dd07d1-f48a-4f76-9c17-bc20d6f56e5b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Perumahan Cluster Tidar Asri]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="30" width="300" height="30" uuid="de72dc5e-99cf-4b66-96f3-a0b9f88b9d99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Kabupaten Jember]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="0" width="229" height="38" uuid="b39b7f4e-a7a2-474c-8751-5a910f20a8c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Adobe Arabic" size="20"/>
+				</textElement>
+				<text><![CDATA[Reservasi Kamar]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="154" splitType="Stretch">
+			<textField>
+				<reportElement x="121" y="0" width="112" height="30" uuid="2e35577c-71b6-4a8b-9f8c-2d3b99778862"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kode_ktp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="30" width="185" height="30" uuid="59267af4-649e-4e29-b4fa-4ab0708ce526"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama_penyewa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="30" width="110" height="30" uuid="edc96195-4a23-4919-ba45-fd7e757697f4"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="30" width="11" height="30" uuid="38a74331-0d37-4a50-b241-d7104316fb54"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="110" height="34" uuid="dcc4b446-188e-4120-b2c9-55e62cdd5f66"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Kode Blok]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="121" y="60" width="136" height="34" uuid="b4e24256-d7bc-4e80-b0b1-346288d76522"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kode_blok}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="94" width="138" height="29" uuid="456125be-53d1-4c8b-bc32-0cf758131125"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_kamar}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="94" width="110" height="29" uuid="ea7aae0a-219a-4475-b3c2-fc8e18fdfa89"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[No. Kamar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="94" width="11" height="29" uuid="67b63118-751f-4356-9446-83c13c8a0828"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="121" y="123" width="187" height="31" uuid="dca68716-cef8-4773-92a4-4810890f3122"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="123" width="110" height="31" uuid="a78bb23a-4f2f-4bcc-b802-7834cc0100bc"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="123" width="11" height="31" uuid="523de779-9988-41aa-82b6-553c6925523c"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="60" width="11" height="34" uuid="3834063d-83ef-45cf-a22c-3ee8a6613e1a"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="110" height="30" uuid="ed0f8d72-e036-42b5-8f0e-c3cf186d79df"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Kode KTP]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="124" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="129" height="39" uuid="98ada558-ba21-49cc-b2d3-07c1d5b879f2"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Biaya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="0" width="20" height="39" uuid="489d43dd-9413-4f60-b8a5-a969d11d6edd"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="0" width="49" height="39" uuid="f4d413ad-8145-4009-be4e-798b3c99f068"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="198" y="0" width="115" height="40" uuid="4b8ccaa5-ea9d-41e7-af20-611047a15cee"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="39" width="129" height="39" uuid="d9195ff0-411f-46c6-8e40-90915b08ece8"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Tunai]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="39" width="20" height="39" uuid="3849adeb-a1a8-40dd-ae15-ac023587b6a7"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="39" width="49" height="39" uuid="0bb1466e-6177-4920-9811-dbdeafb2bbf1"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="198" y="38" width="115" height="40" uuid="ce82c289-cf24-493f-8745-4d01fe4b666b"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="42" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

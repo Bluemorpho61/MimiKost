@@ -61,7 +61,7 @@ public class MainMenu extends javax.swing.JFrame {
         //ChartlilinDiagram();
         showTableDataPenyewa();
         pieChart();
-        DetectorLunasTagihan();
+        //DetectorLunasTagihan();
         getLocal();
     }
 
@@ -241,59 +241,71 @@ public void showTableDataPenyewa(){
         }   
     }
     //Auto Reset tagihan perbulan
-    private void DetectorLunasTagihan(){
-        try {
-           
-            
-            //Launch every month: 42 4 1 * *
-            Scheduler schedule = new Scheduler();
-            schedule.schedule("00 0 1 * *", new Runnable() {
-                @Override
-                public void run() {
-                    try {
-            Date d = new Date();
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(d);
-            //Ambil bulan sistem
-            int blnIni =cal.get(Calendar.MONTH);
-            int ThnIni =cal.get(Calendar.YEAR);
-                        System.out.println(blnIni);
-                        System.out.println(ThnIni);
-            String sqlll="SELECT tb_penyewa.kode_ktp,tb_penyewa.nama_penyewa  ,tb_tagihan_penyewa.id_bulan, tb_tagihan_penyewa.tahun FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp";
-            Statement statt =(Statement)Konek.getConnection().createStatement();
-            ResultSet ress =statt.executeQuery(sqlll);
-                        
-                        LocalDate tg = LocalDate.now();
-                        Object t = tg;
-                     String sqll="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_tagihan_penyewa.id_tagihan_penyewa, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp";
-                     Statement stat =(Statement)Konek.getConnection().createStatement();
-                     
-                     ResultSet res =stat.executeQuery(sqll);
-
-                    String sql="UPDATE tb_tagihan_penyewa SET tb_tagihan_penyewa.status ='Belum Lunas'";
-                    Connection conn = (Connection)Config.configDB();
-                    PreparedStatement ps =conn.prepareStatement(sql);
-                    ps.execute();
-                        System.out.println("CRON TERPANGGIL");
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(rootPane, e.getMessage());
-                    }
-                }
-            });
-            schedule.start();
-            try {
-                
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
-            }
-          //  schedule.schedule(sp, task)
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
-        }
-        
-        //schedule.schedule(, task)
-    
-    }
+//    private void DetectorLunasTagihan(){
+//        try {
+//           
+//            
+//            //Launch every months: 42 4 1 * *
+//            Scheduler schedule = new Scheduler();
+//            schedule.schedule("00 0 1 * *", new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//            Date d = new Date();
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(d);
+//            //Ambil bulan sistem
+//            int blnIni =cal.get(Calendar.MONTH);
+//            int ThnIni =cal.get(Calendar.YEAR);
+//                        System.out.println(blnIni);
+//                        System.out.println(ThnIni);
+//            //Ambil bulan pada database
+//            int blnDatabase;
+//            int thnDatabase;
+//            String sqlll="SELECT tb_penyewa.kode_ktp,tb_penyewa.nama_penyewa  ,tb_tagihan_penyewa.id_bulan, tb_tagihan_penyewa.tahun FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp";
+//            Statement statt =(Statement)Konek.getConnection().createStatement();
+//            ResultSet ress =statt.executeQuery(sqlll);
+//                        while (ress.next()) {                            
+//                            blnDatabase = ress.getInt("id_bulan");
+//                            thnDatabase = ress.getInt("tahun");
+//                            System.out.println("Cron getBulan Bekerja");
+//                            System.out.println("Cron getTahun Bekerja");
+//                            System.out.println(blnDatabase);
+//                            System.out.println(thnDatabase);
+//                        }
+//            
+//            
+//                        LocalDate tg = LocalDate.now();
+//                        Object t = tg;
+//                     String sqll="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_tagihan_penyewa.id_tagihan_penyewa, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp";
+//                     Statement stat =(Statement)Konek.getConnection().createStatement();
+//                     
+//                     ResultSet res =stat.executeQuery(sqll);
+//
+//                    String sql="UPDATE tb_tagihan_penyewa SET tb_tagihan_penyewa.status ='Belum Lunas'";
+//                    Connection conn = (Connection)Config.configDB();
+//                    PreparedStatement ps =conn.prepareStatement(sql);
+//                    ps.execute();
+//                        System.out.println("CRON TERPANGGIL");
+//                    } catch (Exception e) {
+//                        JOptionPane.showMessageDialog(rootPane, e.getMessage());
+//                    }
+//                }
+//            });
+//            schedule.start();
+//            try {
+//                
+//            } catch (Exception e) {
+//                JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+//            }
+//          //  schedule.schedule(sp, task)
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+//        }
+//        
+//        //schedule.schedule(, task)
+//    
+//    }
     
     public void Desc(){
           try {
@@ -1748,8 +1760,8 @@ public void showTableDataPenyewa(){
         TableRowSorter tr = new TableRowSorter(jTable_K_basedOnBlok.getModel());
         jTable_K_basedOnBlok.setRowSorter(tr);
         tr.setRowFilter(RowFilter.regexFilter(kodeBl, 0));
-        if (jComboBoxBlok_DataPenyewa.getSelectedItem().equals("-Filter Blok-")) {
-            jTable_DataPenyewa.setRowSorter(new TableRowSorter<>(jTable_DataPenyewa.getModel()));
+        if (jComboBox_Blok.getSelectedItem().equals("-Filter Blok-")) {
+            jTable_K_basedOnBlok.setRowSorter(new TableRowSorter<>(jTable_K_basedOnBlok.getModel()));
         }
 //       String kodeBl =jComboBox_Blok.getSelectedItem().toString();
 //        TableRowSorter tr = new TableRowSorter(jTable_K_basedOnBlok.getModel());
