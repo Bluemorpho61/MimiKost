@@ -10,8 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -34,10 +37,61 @@ public class PerpanjangKos extends javax.swing.JFrame {
         showCombobox();
        showcombobox2();
        this.setResizable(false);
-       
+        
+       jDateChooser_dari.setDate(Date.from(Instant.now()));
     }
     
-    
+    private void bayar(){
+        SimpleDateFormat sdf = new SimpleDateFormat("M");
+        SimpleDateFormat thn = new SimpleDateFormat("yyyy");
+        String bulan = sdf.format(jDateChooser_hingga.getDate());
+        String tahun = thn.format(jDateChooser_hingga.getDate());
+        LocalDate ld = LocalDate.now();
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String tgSkrg = df.format(ld);
+        String kdKTP = jTextField_NIK.getText();
+        try {
+            String SQL="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+bulan+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+jTextField_biaya.getText()+"', `status` = 'Terbayar' ,`tanggal_bayar` = '"+tgSkrg+"' WHERE `tb_tagihan_penyewa`.`kode_ktp` ="+kdKTP+";";
+            java.sql.Connection con =(Connection)Config.configDB();
+           java.sql.PreparedStatement ps =con.prepareStatement(SQL);
+            ps.execute();
+            JOptionPane.showMessageDialog(this, "Transaksi Perpanjangan Sewa Berhasil!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+        
+        
+        System.out.println(bulan);
+        System.out.println(tahun);
+    }
+    private void hitung(){
+        try {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String strtg11 = sdf.format(jDateChooser_dari.getDate());
+        String strtgl2 =sdf.format(jDateChooser_hingga.getDate());
+        Date tg11 = sdf.parse(strtg11);
+        Date tgl2 =sdf.parse(strtgl2);
+        long hari1 = tg11.getTime();
+        long hari2 = tgl2.getTime();
+        long diff = hari2 - hari1;
+        long lama = diff / (24*60*60*1000);
+        String total = (Long.toString(lama));
+        jTextField_total.setText(total);
+        
+        
+        
+        int harga_blok = Integer.parseInt(jTextField_hargaBlok.getText());
+        int lamaHari = Integer.parseInt(jTextField_total.getText());
+        int TOTAL = harga_blok *lamaHari;
+        String totall = Integer.toString(TOTAL);
+        jTextField_biaya.setText(totall);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+        
+    }
     public void showCombobox(){
        
         try {
@@ -57,7 +111,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
     public void showTable(){
         DefaultTableModel tb = new DefaultTableModel();
         tb.addColumn("Kode Blok");
-        tb.addColumn("NIK");
+        tb.addColumn("Kode KTP");
         tb.addColumn("Nama");
         tb.addColumn("No. Kamar");
         jTable_Perpanjang.setModel(tb);
@@ -89,7 +143,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
         Statement st =(Statement)Konek.getConnection().createStatement();
         ResultSet r =st.executeQuery(sql);
             if (r.next()) {
-                jTextField_biaya.setText(r.getString("harga"));
+                jTextField_hargaBlok.setText(r.getString("harga"));
             }
             
         } catch (Exception e) {
@@ -101,7 +155,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
             Statement statement=(Statement)Konek.getConnection().createStatement();
             ResultSet res=statement.executeQuery("SELECT * FROM `tb_bulan` GROUP BY id_bulan ORDER BY id_bulan ASC");
             while (res.next()) {
-                jComboBox_bulan.addItem(res.getString("bulan"));
+             //   jComboBox_bulan.addItem(res.getString("bulan"));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
@@ -115,19 +169,19 @@ public class PerpanjangKos extends javax.swing.JFrame {
         DateTimeFormatter d =DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String tglSKRG = d.format(ld);
         String NIK = jTextField_NIK.getText();
-        String bln = jComboBox_bulan.getSelectedItem().toString();
-        model.SetterGetter.setBulan(bln);
+    //    String bln = jComboBox_bulan.getSelectedItem().toString();
+     //   model.SetterGetter.setBulan(bln);
         String blnConver=model.SetterGetter.getBulan();
-        String thn = jTextField_thn.getText();
+     //   String thn = jTextField_thn.getText();
         String ua=jTextField_nom.getText();
         
         
         try {
        // String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Terbayar','"+ tglSKRG+"')";
-       String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Terbayar', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`NIK` ="+NIK+";";
+      // String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Terbayar', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`NIK` ="+NIK+";";
         Connection conn = (Connection)mimikostswing.Config.configDB();
-        PreparedStatement pst =conn.prepareStatement(sqlUpdate);
-        pst.execute();
+      //  PreparedStatement pst =conn.prepareStatement(sqlUpdate);
+      //  pst.execute();
         JOptionPane.showMessageDialog(this, "Transaksi Perpanjangan Berhasil");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error: "+ e);
@@ -137,19 +191,19 @@ public class PerpanjangKos extends javax.swing.JFrame {
         DateTimeFormatter d =DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String tglSKRG = d.format(ld);
         String NIK = jTextField_NIK.getText();
-        String bln = jComboBox_bulan.getSelectedItem().toString();
-        model.SetterGetter.setBulan(bln);
+        //String bln = jComboBox_bulan.getSelectedItem().toString();
+     //   model.SetterGetter.setBulan(bln);
         String blnConver=model.SetterGetter.getBulan();
-        String thn = jTextField_thn.getText();
+      //  String thn = jTextField_thn.getText();
         String ua=jTextField_nom.getText();
         
         
         try {
        // String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Terbayar','"+ tglSKRG+"')";
-        String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Terbayar', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`NIK` ="+NIK+";";
+//       String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Terbayar', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`NIK` ="+NIK+";";
         Connection conn = (Connection)mimikostswing.Config.configDB();
-        PreparedStatement pst =conn.prepareStatement(sqlUpdate);
-        pst.execute();
+        //PreparedStatement pst =conn.prepareStatement(sqlUpdate);
+      //  pst.execute();
         JOptionPane.showMessageDialog(this, "Transaksi Perpanjangan Berhasil");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error: "+ e);
@@ -159,19 +213,19 @@ public class PerpanjangKos extends javax.swing.JFrame {
         DateTimeFormatter d =DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String tglSKRG = d.format(ld);
         String NIK = jTextField_NIK.getText();
-        String bln = jComboBox_bulan.getSelectedItem().toString();
-        model.SetterGetter.setBulan(bln);
+       // String bln = jComboBox_bulan.getSelectedItem().toString();
+        //model.SetterGetter.setBulan(bln);
         String blnConver=model.SetterGetter.getBulan();
-        String thn = jTextField_thn.getText();
+      //  String thn = jTextField_thn.getText();
         String ua=jTextField_nom.getText();
         
         
         try {
        // String sql ="INSERT INTO `tb_tagihan_penyewa` (`id_tagihan_penyewa`, `id_bulan`, `tahun`, `NIK`, `jumlah_tagihan`, `status`, `tanggal_bayar`) VALUES ("+Types.NULL+",'"+ blnConver+"', '"+thn+"', '"+NIK+"', '"+ua+"', 'Belum Lunas','"+ tglSKRG+"')";
-        String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Belum Lunas', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`kode_ktp` ="+NIK+";";
+     //  String sqlUpdate="UPDATE `tb_tagihan_penyewa` SET `id_bulan` = '"+blnConver+"', `tahun` = '"+thn+"', `jumlah_tagihan` = '"+ua+"', `status` = 'Belum Lunas', `tanggal_bayar` = '"+tglSKRG+"' WHERE `tb_tagihan_penyewa`.`kode_ktp` ="+NIK+";";
         Connection conn = (Connection)mimikostswing.Config.configDB();
-        PreparedStatement pst =conn.prepareStatement(sqlUpdate);
-        pst.execute();
+      //  PreparedStatement pst =conn.prepareStatement(sqlUpdate);
+    //    pst.execute();
         JOptionPane.showMessageDialog(this, "Transaksi telah berhasil, namun penyewa masih belum melunasi tagihan");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error: "+ e);
@@ -202,9 +256,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTextField_noKam = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox_bulan = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jTextField_thn = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jTextField_nom = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -217,6 +269,16 @@ public class PerpanjangKos extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jTextField_total = new javax.swing.JTextField();
+        jDateChooser_dari = new com.toedter.calendar.JDateChooser();
+        jDateChooser_hingga = new com.toedter.calendar.JDateChooser();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField_hargaBlok = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jTextField_Kembalian = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -240,7 +302,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("NIK");
+        jLabel2.setText("Kode KTP");
 
         jTextField_NIK.setEditable(false);
 
@@ -264,23 +326,22 @@ public class PerpanjangKos extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Perpanjang tagihan hingga bulan:");
-
-        jComboBox_bulan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_bulanActionPerformed(evt);
-            }
-        });
+        jLabel6.setText("Perpanjang tagihan dari");
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Tahun");
+        jLabel7.setText("Hingga");
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Masukkan Nominal");
 
         jTextField_nom.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jTextField_nom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_nomActionPerformed(evt);
+            }
+        });
 
         jTable_Perpanjang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -290,7 +351,7 @@ public class PerpanjangKos extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Kode Blok", "NIK", "Nama", "No. Kamar"
+                "Kode Blok", "Kode KTP", "Nama", "No. Kamar"
             }
         ));
         jTable_Perpanjang.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -374,6 +435,38 @@ public class PerpanjangKos extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Rp.");
 
+        jButton1.setText("Hitung");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setText("Total Hari");
+
+        jTextField_total.setEditable(false);
+        jTextField_total.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_totalActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("Harga Blok: ");
+
+        jTextField_hargaBlok.setEditable(false);
+
+        jLabel14.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("Kembalian: ");
+
+        jTextField_Kembalian.setEditable(false);
+
+        jLabel15.setText("jLabel15");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -382,52 +475,79 @@ public class PerpanjangKos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField_NIK, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_Nama, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField_k_blok, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_noKam, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField_NIK, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField_thn, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(44, 44, 44))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jTextField_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jComboBox_blok, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField_criNM, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(445, 445, 445))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(180, 180, 180))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jComboBox_blok, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jTextField_k_blok, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel13))
+                                    .addComponent(jTextField_Nama, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField_biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextField_hargaBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(78, 78, 78)
-                                .addComponent(jButton_bayar)))
-                        .addContainerGap())))
+                                .addComponent(jTextField_noKam, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(170, 170, 170)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField_total, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jDateChooser_dari, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                        .addComponent(jDateChooser_hingga, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGap(93, 93, 93))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1)
+                                    .addGap(32, 32, 32))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 131, Short.MAX_VALUE)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jTextField_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(119, 119, 119)
+                                .addComponent(jButton_bayar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jTextField_criNM, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(445, 445, 445))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(180, 180, 180)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jTextField_Kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField_biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(32, 32, 32))))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -454,7 +574,10 @@ public class PerpanjangKos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_k_blok, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField_k_blok, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_hargaBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -462,28 +585,36 @@ public class PerpanjangKos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox_bulan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField_thn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton_bayar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(97, Short.MAX_VALUE))
+                            .addComponent(jDateChooser_dari, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_total, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 54, Short.MAX_VALUE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel15)
+                        .addGap(30, 30, 30))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField_biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField_Kembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDateChooser_hingga, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_bayar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -515,14 +646,12 @@ public class PerpanjangKos extends javax.swing.JFrame {
         
         LocalDate curDate = LocalDate.now();
         int year=curDate.getYear();
-        jTextField_thn.setText(String.valueOf(year));
-        showHarga();
+        int bln = curDate.getMonthValue();
+     //   jTextField_thn.setText(String.valueOf(year));
+      //  jComboBox_bulan.setSelectedIndex(bln);
+       showHarga();
         //jTextField3
     }//GEN-LAST:event_jTable_PerpanjangMouseClicked
-
-    private void jComboBox_bulanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_bulanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_bulanActionPerformed
 
     private void jComboBox_blokItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_blokItemStateChanged
         // TODO add your handling code here:
@@ -550,7 +679,8 @@ public class PerpanjangKos extends javax.swing.JFrame {
 
     private void jButton_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_bayarActionPerformed
         // TODO add your handling code here:
-        paymentLogic();
+       // paymentLogic();
+       bayar();
 //        LocalDate ld = LocalDate.now();
 //        DateTimeFormatter d =DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //        String tglSKRG = d.format(ld);
@@ -598,6 +728,33 @@ public class PerpanjangKos extends javax.swing.JFrame {
         tr.setRowFilter(RowFilter.regexFilter(find, 2));
     }//GEN-LAST:event_jTextField_criNMKeyReleased
 
+    private void jTextField_totalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_totalActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTextField_totalActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        hitung();
+      //  bayar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField_nomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_nomActionPerformed
+        // TODO add your handling code here:
+        try {
+            int harga = Integer.parseInt(jTextField_biaya.getText());
+            int nominal = Integer.parseInt(jTextField_nom.getText());
+            int kembalian = nominal - harga;
+            if (harga>nominal) {
+                JOptionPane.showMessageDialog(this, "Tidak ada kembalian untuk ini");
+            }else{
+                jTextField_Kembalian.setText(String.valueOf(kembalian));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_jTextField_nomActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -634,13 +791,19 @@ public class PerpanjangKos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton_bayar;
     private javax.swing.JComboBox<String> jComboBox_blok;
-    private javax.swing.JComboBox<String> jComboBox_bulan;
+    private com.toedter.calendar.JDateChooser jDateChooser_dari;
+    private com.toedter.calendar.JDateChooser jDateChooser_hingga;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -653,13 +816,15 @@ public class PerpanjangKos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Perpanjang;
+    private javax.swing.JTextField jTextField_Kembalian;
     private javax.swing.JTextField jTextField_NIK;
     private javax.swing.JTextField jTextField_Nama;
     private javax.swing.JTextField jTextField_biaya;
     private javax.swing.JTextField jTextField_criNM;
+    private javax.swing.JTextField jTextField_hargaBlok;
     private javax.swing.JTextField jTextField_k_blok;
     private javax.swing.JTextField jTextField_noKam;
     private javax.swing.JTextField jTextField_nom;
-    private javax.swing.JTextField jTextField_thn;
+    private javax.swing.JTextField jTextField_total;
     // End of variables declaration//GEN-END:variables
 }

@@ -174,7 +174,7 @@ public void showTableDataPenyewa(){
          }
          
          try {
-            String sql ="SELECT COUNT(kode_ktp) AS lunas FROM tb_tagihan_penyewa WHERE status='Terbayar' ";
+            String sql ="SELECT COUNT(kode_ktp) AS lunas FROM tb_transaksi WHERE status='Terbayar' ";
             Connection conn = (Connection)Konek.getConnection();
             PreparedStatement pst=conn.prepareStatement(sql);
             ResultSet res=pst.executeQuery();
@@ -185,7 +185,7 @@ public void showTableDataPenyewa(){
              JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
          }
          try {
-            String sql ="SELECT COUNT(kode_ktp) AS blmlunas FROM tb_tagihan_penyewa WHERE status='Belum Terbayar' ";
+            String sql ="SELECT COUNT(kode_ktp) AS blmlunas FROM tb_transaksi WHERE status='Belum Lunas'";
             Connection conn = (Connection)Konek.getConnection();
             PreparedStatement pst=conn.prepareStatement(sql);
             ResultSet res=pst.executeQuery();
@@ -221,19 +221,21 @@ public void showTableDataPenyewa(){
         tbl.addColumn("Kode Blok");
         tbl.addColumn("No Kamar");
         tbl.addColumn("Jumlah Penghuni");
+        tbl.addColumn("Max Penghuni");
         jTable_K_basedOnBlok.setModel(tbl);
         
         try {
             Statement statement =(Statement)Konek.getConnection().createStatement();
             String sql ="SELECT no_kamar,jumlah_penghuni FROM tb_kamar WHERE kode_blok='"+jComboBox_Blok.getSelectedItem().toString()+"'";
            // String sqq ="SELECT tb_blok.kode_blok, tb_kamar.no_kamar , COUNT( tb_penyewa.nama_penyewa) AS jumlah FROM tb_blok INNER JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok RIGHT JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar GROUP BY tb_kamar.no_kamar";
-           String sqll="SELECT tb_blok.kode_blok, tb_kamar.no_kamar, COUNT(tb_penyewa.kode_ktp) AS jumlah FROM tb_blok RIGHT JOIN tb_kamar ON tb_blok.kode_blok =tb_kamar.kode_blok LEFT JOIN tb_penyewa ON tb_kamar.id_kamar = tb_penyewa.id_kamar GROUP BY tb_blok.kode_blok, tb_kamar.no_kamar";
+           String sqll="SELECT tb_blok.kode_blok, tb_kamar.no_kamar, COUNT(tb_penyewa.kode_ktp) AS jumlah, tb_kamar.max_penghuni FROM tb_blok RIGHT JOIN tb_kamar ON tb_blok.kode_blok =tb_kamar.kode_blok LEFT JOIN tb_penyewa ON tb_kamar.id_kamar = tb_penyewa.id_kamar GROUP BY tb_blok.kode_blok, tb_kamar.no_kamar";
             ResultSet res = statement.executeQuery(sqll);
             while (res.next()) {                
                 tbl.addRow(new Object[]{
                     res.getString("kode_blok"),
                     res.getString("no_kamar"),
                     res.getString("jumlah")+(" orang"),
+                    res.getString("max_penghuni")
                 });                
             }
         } catch (Exception e) {
@@ -1398,12 +1400,13 @@ public void showTableDataPenyewa(){
 
         jLabel24.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel24.setText("Sewa Per-bulan");
+        jLabel24.setText("Sewa Kamar Per Hari: ");
 
         jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         jTextArea_Deskripsi.setColumns(20);
+        jTextArea_Deskripsi.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jTextArea_Deskripsi.setRows(5);
         jScrollPane3.setViewportView(jTextArea_Deskripsi);
 
@@ -1479,8 +1482,8 @@ public void showTableDataPenyewa(){
                             .addGroup(jPanel_BlkNKLayout.createSequentialGroup()
                                 .addComponent(jComboBox_Blok, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
-                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1947,11 +1950,15 @@ public void showTableDataPenyewa(){
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        
+        try {
         int row = jTable_DataPenyewa.getSelectedRow();
         String NIK = jTable_DataPenyewa.getValueAt(row, 1).toString();
         model.SetterGetter.setNIK(NIK);
         new Foto().setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Silahkan klik salah satu identitas yang ada pada tabel");
+        }
+        
        // jButton7.setEnabled(false);
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -2001,7 +2008,7 @@ public void showTableDataPenyewa(){
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
           this.setVisible(false);
-        new PerpanjangKos().setVisible(true);
+        new PerpanjangSewa().setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

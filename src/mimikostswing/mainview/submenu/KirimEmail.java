@@ -189,6 +189,7 @@ public class KirimEmail extends javax.swing.JFrame {
         try {
         SetterGetter s = new SetterGetter();
        s.kirimEmail(jTextField_email.getText(), jTextField_subyel.getText(), jTextArea1.getText());
+       JOptionPane.showMessageDialog(this, "E-Mail telah berhasil terkirim");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }

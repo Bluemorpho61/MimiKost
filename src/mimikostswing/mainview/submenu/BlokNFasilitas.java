@@ -216,6 +216,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound2.setRoundTopRight(30);
         panelRound2.setRoundedTopLeft(30);
 
+        jTextField_kdBlok.setEditable(false);
         jTextField_kdBlok.setBackground(new java.awt.Color(229, 229, 229));
         jTextField_kdBlok.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextField_kdBlok.setBorder(null);
@@ -240,6 +241,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound4.setRoundTopRight(30);
         panelRound4.setRoundedTopLeft(30);
 
+        jTextField_Harga.setEditable(false);
         jTextField_Harga.setBackground(new java.awt.Color(229, 229, 229));
         jTextField_Harga.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextField_Harga.setBorder(null);
@@ -274,6 +276,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound5.setRoundTopRight(45);
         panelRound5.setRoundedTopLeft(45);
 
+        jTextArea_Desc.setEditable(false);
         jTextArea_Desc.setBackground(new java.awt.Color(229, 229, 229));
         jTextArea_Desc.setColumns(20);
         jTextArea_Desc.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -465,6 +468,9 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jButton_tmbhBlok.setEnabled(false);
         jButton_KonfEdit.setEnabled(true);
         jButton_BatEdit.setEnabled(true);
+        jTextArea_Desc.setEditable(true);
+        jTextField_Harga.setEditable(true);
+        jTextField_kdBlok.setEditable(true);
     }//GEN-LAST:event_jButton_EditBlokActionPerformed
 
     private void jTable_BlokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_BlokMouseClicked
@@ -501,6 +507,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
             pst.execute();
             JOptionPane.showMessageDialog(this, "Data telah berhasil diubah");
             ShowTableBlok();
+            
 //            jButton_konfEdit.setEnabled(false);
 //             jTextField_kodeBlok.setEnabled(false);
 //        jTextField_harga.setEnabled(false);
@@ -517,6 +524,9 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jButton_Hps.setEnabled(true);
         //jButton_Edit.setEnabled(true);
         jButton_tmbhBlok.setEnabled(true);
+        jTextArea_Desc.setEditable(false);
+        jTextField_Harga.setEditable(false);
+        jTextField_kdBlok.setEditable(false);
     }//GEN-LAST:event_jButton_KonfEditActionPerformed
 
     private void jButton_BatEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BatEditActionPerformed
@@ -527,6 +537,9 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jButton_Hps.setEnabled(true);
        // jButton_Edit.setEnabled(true);
         jButton_tmbhBlok.setEnabled(true);
+        jTextArea_Desc.setEditable(false);
+        jTextField_Harga.setEditable(false);
+        jTextField_kdBlok.setEditable(false);
     }//GEN-LAST:event_jButton_BatEditActionPerformed
 
     private void jButton_tmbhBlokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_tmbhBlokActionPerformed

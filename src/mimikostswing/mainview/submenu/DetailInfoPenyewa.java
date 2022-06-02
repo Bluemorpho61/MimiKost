@@ -39,8 +39,9 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
     public void showStatus(){
         try {
             String sql="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_tagihan_penyewa.status FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp AND tb_penyewa.kode_ktp='"+jTextField_NIK.getText()+"'";
+            String sqll="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_transaksi.status FROM tb_penyewa JOIN tb_transaksi ON tb_penyewa.kode_ktp = tb_transaksi.kode_ktp AND tb_penyewa.kode_ktp ='"+jTextField_NIK.getText()+"'";
        Statement st =(Statement)Konek.getConnection().createStatement();
-       ResultSet res =st.executeQuery(sql);
+       ResultSet res =st.executeQuery(sqll);
        if(res.next()){
            jLabel10.setText(null);
            jLabel10.setText(res.getString("status"));
@@ -79,6 +80,7 @@ public class DetailInfoPenyewa extends javax.swing.JFrame {
           //  JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
         }
     }
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
