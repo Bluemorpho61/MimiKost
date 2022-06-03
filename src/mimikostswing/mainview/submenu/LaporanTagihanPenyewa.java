@@ -106,11 +106,17 @@ public class LaporanTagihanPenyewa extends javax.swing.JFrame {
             DefaultPieDataset dp = new DefaultPieDataset();
             String sqlLunas="SELECT status, COUNT(kode_ktp) AS jumlah FROM tb_tagihan_penyewa GROUP BY status LIMIT 1";
             String sqlblmLunas="SELECT status, COUNT(NIK) AS jumlah FROM tb_tagihan_penyewa WHERE status ='Belum Terbayar' GROUP BY status LIMIT 1";
+            String sql="SELECT tb_transaksi.status, COUNT(tb_penyewa.kode_ktp) AS jumlah FROM tb_transaksi LEFT JOIN tb_penyewa ON tb_penyewa.kode_ktp = tb_transaksi.kode_ktp GROUP BY tb_transaksi.status";
             try {
           Statement st =(Statement)Konek.getConnection().createStatement();
-          ResultSet rLns =st.executeQuery(sqlLunas);
-                while (rLns.next()) {                    
+          ResultSet rLns =st.executeQuery(sql);
+                if (rLns.first()) {                    
                     dp.setValue("Terbayar", rLns.getFloat("jumlah"));
+                    System.out.println(rLns.getFloat("jumlah"));
+                }
+                if (rLns.last()) {                    
+                    dp.setValue("Belum Terbayar", rLns.getFloat("jumlah"));
+                    System.out.println(rLns.getFloat("jumlah"));
                 }
 //                while (rBlm.next()) {                    
 //                    dp.setValue("Belum Membayar", rBlm.getFloat("jumlah"));
@@ -292,9 +298,9 @@ public class LaporanTagihanPenyewa extends javax.swing.JFrame {
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(45, 45, 45))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
