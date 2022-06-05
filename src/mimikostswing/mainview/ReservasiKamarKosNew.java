@@ -1015,23 +1015,14 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
                 ps.setString(9, "Terbayar");
                 ps.execute();
 //        ps.setBlob(1, is);
-//                    JOptionPane.showMessageDialog(this, "Tidak dapat menyewa kamar ini, karena kapasitas maksimal kamar sudah penuh");
-//                    conn.rollback();
-                JOptionPane.showMessageDialog(this, "Input berhasil");
+            if (Integer.parseInt(jLabel_maxPnghuni.getText())<=0) {
+                    JOptionPane.showMessageDialog(this, "Tidak dapat menyewa kamar ini, karena kapasitas maksimal kamar sudah penuh");
+                    conn.rollback();
+                } else {
+              JOptionPane.showMessageDialog(this, "Input berhasil");
               conn.commit();
-            } catch(Exception e) {
-                conn.rollback();
-                
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            System.err.println(e);
-            
-        }
-        
-        
-        try {
+              
+                try {
             //Connection conn =(Connection)Config.configDB();
             JasperDesign jsDi =JRXmlLoader.load("F:\\Programming Project\\Java\\MimiKostSwing\\src\\struk\\tr_reservasi.jrxml");
             
@@ -1079,6 +1070,23 @@ public class ReservasiKamarKosNew extends javax.swing.JFrame {
 //        } catch (Exception e) {
 //            JOptionPane.showMessageDialog(this, e);
 //        }
+                }
+//                    JOptionPane.showMessageDialog(this, "Tidak dapat menyewa kamar ini, karena kapasitas maksimal kamar sudah penuh");
+//                    conn.rollback();
+                
+            } catch(Exception e) {
+                conn.rollback();
+                
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            System.err.println(e);
+            
+        }
+        
+        
+      
     }//GEN-LAST:event_jButton_KonfirActionPerformed
 
     private void jTextField_nominalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_nominalActionPerformed
