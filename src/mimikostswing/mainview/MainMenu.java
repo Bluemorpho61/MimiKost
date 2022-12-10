@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import javafx.util.converter.LocalDateTimeStringConverter;
 import javax.imageio.ImageIO;
@@ -60,7 +61,7 @@ public class MainMenu extends javax.swing.JFrame {
         //ChartlilinDiagram();
         showTableDataPenyewa();
         pieChart();
-        DetectorLunasTagihan();
+        //DetectorLunasTagihan();
         getLocal();
     }
 
@@ -173,7 +174,7 @@ public void showTableDataPenyewa(){
          }
          
          try {
-            String sql ="SELECT COUNT(kode_ktp) AS lunas FROM tb_tagihan_penyewa WHERE status='Terbayar' ";
+            String sql ="SELECT COUNT(kode_ktp) AS lunas FROM tb_transaksi WHERE status='Terbayar' ";
             Connection conn = (Connection)Konek.getConnection();
             PreparedStatement pst=conn.prepareStatement(sql);
             ResultSet res=pst.executeQuery();
@@ -184,7 +185,7 @@ public void showTableDataPenyewa(){
              JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
          }
          try {
-            String sql ="SELECT COUNT(kode_ktp) AS blmlunas FROM tb_tagihan_penyewa WHERE status='Belum Terbayar' ";
+            String sql ="SELECT COUNT(kode_ktp) AS blmlunas FROM tb_transaksi WHERE status='Belum Lunas'";
             Connection conn = (Connection)Konek.getConnection();
             PreparedStatement pst=conn.prepareStatement(sql);
             ResultSet res=pst.executeQuery();
@@ -220,69 +221,93 @@ public void showTableDataPenyewa(){
         tbl.addColumn("Kode Blok");
         tbl.addColumn("No Kamar");
         tbl.addColumn("Jumlah Penghuni");
+        tbl.addColumn("Max Penghuni");
         jTable_K_basedOnBlok.setModel(tbl);
         
         try {
             Statement statement =(Statement)Konek.getConnection().createStatement();
             String sql ="SELECT no_kamar,jumlah_penghuni FROM tb_kamar WHERE kode_blok='"+jComboBox_Blok.getSelectedItem().toString()+"'";
            // String sqq ="SELECT tb_blok.kode_blok, tb_kamar.no_kamar , COUNT( tb_penyewa.nama_penyewa) AS jumlah FROM tb_blok INNER JOIN tb_kamar ON tb_blok.kode_blok = tb_kamar.kode_blok RIGHT JOIN tb_penyewa ON tb_penyewa.id_kamar = tb_kamar.id_kamar GROUP BY tb_kamar.no_kamar";
-           String sqll="SELECT tb_blok.kode_blok, tb_kamar.no_kamar, COUNT(tb_penyewa.kode_ktp) AS jumlah FROM tb_blok RIGHT JOIN tb_kamar ON tb_blok.kode_blok =tb_kamar.kode_blok LEFT JOIN tb_penyewa ON tb_kamar.id_kamar = tb_penyewa.id_kamar GROUP BY tb_blok.kode_blok, tb_kamar.no_kamar";
+           String sqll="SELECT tb_blok.kode_blok, tb_kamar.no_kamar, COUNT(tb_penyewa.kode_ktp) AS jumlah, tb_kamar.max_penghuni FROM tb_blok RIGHT JOIN tb_kamar ON tb_blok.kode_blok =tb_kamar.kode_blok LEFT JOIN tb_penyewa ON tb_kamar.id_kamar = tb_penyewa.id_kamar GROUP BY tb_blok.kode_blok, tb_kamar.no_kamar";
             ResultSet res = statement.executeQuery(sqll);
             while (res.next()) {                
                 tbl.addRow(new Object[]{
                     res.getString("kode_blok"),
                     res.getString("no_kamar"),
                     res.getString("jumlah")+(" orang"),
-                });
-                
+                    res.getString("max_penghuni")
+                });                
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"ERROR: " +e.getMessage());
-        }
-        
-        
+        }   
     }
     //Auto Reset tagihan perbulan
-    private void DetectorLunasTagihan(){
-        try {
-           
-            //Launch every month: 42 4 1 * *
-            Scheduler schedule = new Scheduler();
-            schedule.schedule("00 0 1 * *", new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        LocalDate tg = LocalDate.now();
-                        Object t = tg;
-                     String sqll="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_tagihan_penyewa.id_tagihan_penyewa, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp";
-                     Statement stat =(Statement)Konek.getConnection().createStatement();
-                     
-                     ResultSet res =stat.executeQuery(sqll);
-
-                    String sql="UPDATE tb_tagihan_penyewa SET tb_tagihan_penyewa.status ='Belum Lunas'";
-                    Connection conn = (Connection)Config.configDB();
-                    PreparedStatement ps =conn.prepareStatement(sql);
-                    ps.execute();
-                        System.out.println("CRON TERPANGGIL");
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(rootPane, e.getMessage());
-                    }
-                }
-            });
-            schedule.start();
-            try {
-                
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
-            }
-          //  schedule.schedule(sp, task)
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
-        }
-        
-        //schedule.schedule(, task)
-    
-    }
+//    private void DetectorLunasTagihan(){
+//        try {
+//           
+//            
+//            //Launch every months: 42 4 1 * *
+//            Scheduler schedule = new Scheduler();
+//            schedule.schedule("00 0 1 * *", new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//            Date d = new Date();
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(d);
+//            //Ambil bulan sistem
+//            int blnIni =cal.get(Calendar.MONTH);
+//            int ThnIni =cal.get(Calendar.YEAR);
+//                        System.out.println(blnIni);
+//                        System.out.println(ThnIni);
+//            //Ambil bulan pada database
+//            int blnDatabase;
+//            int thnDatabase;
+//            String sqlll="SELECT tb_penyewa.kode_ktp,tb_penyewa.nama_penyewa  ,tb_tagihan_penyewa.id_bulan, tb_tagihan_penyewa.tahun FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp";
+//            Statement statt =(Statement)Konek.getConnection().createStatement();
+//            ResultSet ress =statt.executeQuery(sqlll);
+//                        while (ress.next()) {                            
+//                            blnDatabase = ress.getInt("id_bulan");
+//                            thnDatabase = ress.getInt("tahun");
+//                            System.out.println("Cron getBulan Bekerja");
+//                            System.out.println("Cron getTahun Bekerja");
+//                            System.out.println(blnDatabase);
+//                            System.out.println(thnDatabase);
+//                        }
+//            
+//            
+//                        LocalDate tg = LocalDate.now();
+//                        Object t = tg;
+//                     String sqll="SELECT tb_penyewa.kode_ktp, tb_penyewa.nama_penyewa, tb_tagihan_penyewa.id_tagihan_penyewa, tb_tagihan_penyewa.tanggal_bayar FROM tb_penyewa JOIN tb_tagihan_penyewa ON tb_penyewa.kode_ktp = tb_tagihan_penyewa.kode_ktp";
+//                     Statement stat =(Statement)Konek.getConnection().createStatement();
+//                     
+//                     ResultSet res =stat.executeQuery(sqll);
+//
+//                    String sql="UPDATE tb_tagihan_penyewa SET tb_tagihan_penyewa.status ='Belum Lunas'";
+//                    Connection conn = (Connection)Config.configDB();
+//                    PreparedStatement ps =conn.prepareStatement(sql);
+//                    ps.execute();
+//                        System.out.println("CRON TERPANGGIL");
+//                    } catch (Exception e) {
+//                        JOptionPane.showMessageDialog(rootPane, e.getMessage());
+//                    }
+//                }
+//            });
+//            schedule.start();
+//            try {
+//                
+//            } catch (Exception e) {
+//                JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+//            }
+//          //  schedule.schedule(sp, task)
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+//        }
+//        
+//        //schedule.schedule(, task)
+//    
+//    }
     
     public void Desc(){
           try {
@@ -374,7 +399,6 @@ public void showTableDataPenyewa(){
         jLabel25 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jPanel13 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
@@ -1216,6 +1240,7 @@ public void showTableDataPenyewa(){
         jLabel25.setText("Pie Diagram ");
         jPanel5.add(jLabel25);
 
+        jButton4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jButton4.setText("Detail Tagihan Penyewa");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1223,19 +1248,12 @@ public void showTableDataPenyewa(){
             }
         });
 
+        jButton5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jButton5.setText("Laporan Pelanggaran");
         jButton5.setPreferredSize(new java.awt.Dimension(150, 25));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Detail Tagihan Fasilitas");
-        jButton6.setPreferredSize(new java.awt.Dimension(150, 25));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
             }
         });
 
@@ -1299,17 +1317,16 @@ public void showTableDataPenyewa(){
         jPanel_lprnLayout.setHorizontalGroup(
             jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel_lprnLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_lprnLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 933, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel_lprnLayout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel_lprnLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 933, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(154, 154, 154))
         );
         jPanel_lprnLayout.setVerticalGroup(
@@ -1318,12 +1335,11 @@ public void showTableDataPenyewa(){
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(92, 92, 92)
-                .addGroup(jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addGap(48, 48, 48)
+                .addGroup(jPanel_lprnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
 
         jPanel_MainP.add(jPanel_lprn, "card4");
@@ -1384,12 +1400,13 @@ public void showTableDataPenyewa(){
 
         jLabel24.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel24.setText("Sewa Per-bulan");
+        jLabel24.setText("Sewa Kamar Per Hari: ");
 
         jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         jTextArea_Deskripsi.setColumns(20);
+        jTextArea_Deskripsi.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jTextArea_Deskripsi.setRows(5);
         jScrollPane3.setViewportView(jTextArea_Deskripsi);
 
@@ -1465,8 +1482,8 @@ public void showTableDataPenyewa(){
                             .addGroup(jPanel_BlkNKLayout.createSequentialGroup()
                                 .addComponent(jComboBox_Blok, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
-                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1746,8 +1763,8 @@ public void showTableDataPenyewa(){
         TableRowSorter tr = new TableRowSorter(jTable_K_basedOnBlok.getModel());
         jTable_K_basedOnBlok.setRowSorter(tr);
         tr.setRowFilter(RowFilter.regexFilter(kodeBl, 0));
-        if (jComboBoxBlok_DataPenyewa.getSelectedItem().equals("-Filter Blok-")) {
-            jTable_DataPenyewa.setRowSorter(new TableRowSorter<>(jTable_DataPenyewa.getModel()));
+        if (jComboBox_Blok.getSelectedItem().equals("-Filter Blok-")) {
+            jTable_K_basedOnBlok.setRowSorter(new TableRowSorter<>(jTable_K_basedOnBlok.getModel()));
         }
 //       String kodeBl =jComboBox_Blok.getSelectedItem().toString();
 //        TableRowSorter tr = new TableRowSorter(jTable_K_basedOnBlok.getModel());
@@ -1933,11 +1950,15 @@ public void showTableDataPenyewa(){
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        
+        try {
         int row = jTable_DataPenyewa.getSelectedRow();
         String NIK = jTable_DataPenyewa.getValueAt(row, 1).toString();
         model.SetterGetter.setNIK(NIK);
         new Foto().setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Silahkan klik salah satu identitas yang ada pada tabel");
+        }
+        
        // jButton7.setEnabled(false);
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -1987,7 +2008,7 @@ public void showTableDataPenyewa(){
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
           this.setVisible(false);
-        new PerpanjangKos().setVisible(true);
+        new PerpanjangSewa().setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1995,11 +2016,6 @@ public void showTableDataPenyewa(){
         // TODO add your handling code here:
         new LaporanPelanggaran().setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        new TagihanFasilitas().setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTextField_cariPenyewaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_cariPenyewaKeyReleased
         // TODO add your handling code here:
@@ -2098,7 +2114,6 @@ public void showTableDataPenyewa(){
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton_DetailInfoPenyewa;

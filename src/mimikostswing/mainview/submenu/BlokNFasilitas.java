@@ -31,36 +31,36 @@ public class BlokNFasilitas extends javax.swing.JFrame {
     public BlokNFasilitas() {
         initComponents();
         ShowTableBlok();
-        ShowTableFasilitas();
-        comboBox();
+//        ShowTableFasilitas();
+//        comboBox();
     }
 
     
-     public void ShowTableFasilitas(){
-        DefaultTableModel tb = new DefaultTableModel();
-        tb.addColumn("id_fasilitas");
-        tb.addColumn("Nama Fasilitas");
-        tb.addColumn("Kode Blok");
-        tb.addColumn("Banyak Fasilitas");
-        tb.addColumn("Tagihan Perbulan");
-        jTable_Fasilitas.setModel(tb);
-        try {
-            String sql ="SELECT tb_fasilitas.id_fasilitas, tb_fasilitas.nama_fasilitas, tb_blok.kode_blok, tb_fasilitas.banyak_fasilitas, tb_fasilitas.tagihan_perbulan FROM tb_fasilitas, tb_blok WHERE tb_fasilitas.kode_blok = tb_blok.kode_blok";
-            Statement stm = (Statement)Konek.getConnection().createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            while (rs.next()) {                
-                tb.addRow(new Object[]{
-                    rs.getString("id_fasilitas"),
-                    rs.getString("nama_fasilitas"),
-                    rs.getString("kode_blok"),
-                    rs.getString("banyak_fasilitas"),
-                    rs.getString("tagihan_perbulan")
-                });
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
-        }
-    }
+//     public void ShowTableFasilitas(){
+//        DefaultTableModel tb = new DefaultTableModel();
+//        tb.addColumn("id_fasilitas");
+//        tb.addColumn("Nama Fasilitas");
+//        tb.addColumn("Kode Blok");
+//        tb.addColumn("Banyak Fasilitas");
+//        tb.addColumn("Tagihan Perbulan");
+//        jTable_Fasilitas.setModel(tb);
+//        try {
+//            String sql ="SELECT tb_fasilitas.id_fasilitas, tb_fasilitas.nama_fasilitas, tb_blok.kode_blok, tb_fasilitas.banyak_fasilitas, tb_fasilitas.tagihan_perbulan FROM tb_fasilitas, tb_blok WHERE tb_fasilitas.kode_blok = tb_blok.kode_blok";
+//            Statement stm = (Statement)Konek.getConnection().createStatement();
+//            ResultSet rs = stm.executeQuery(sql);
+//            while (rs.next()) {                
+//                tb.addRow(new Object[]{
+//                    rs.getString("id_fasilitas"),
+//                    rs.getString("nama_fasilitas"),
+//                    rs.getString("kode_blok"),
+//                    rs.getString("banyak_fasilitas"),
+//                    rs.getString("tagihan_perbulan")
+//                });
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
+//        }
+//    }
        public void ShowTableBlok(){
         DefaultTableModel tb = new DefaultTableModel();
         tb.addColumn("Kode Blok");
@@ -88,20 +88,20 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         }
        }
        
-        public void comboBox(){
-        try {
-            // String sql="SELECT tb_blok.id_blok, tb_blok.kode_blok FROM tb_blok, tb_fasilitas WHERE tb_blok.id_blok = tb_fasilitas.id_blok";
-       String sql ="SELECT kode_blok FROM tb_blok";
-       Statement stm =(Statement)Konek.getConnection().createStatement();
-       ResultSet rs =stm.executeQuery(sql);
-        while (rs.next()) {            
-            jComboBox_kdBlok.addItem(rs.getString("kode_blok"));
-            jComboBox1.addItem(rs.getString("kode_blok"));
-        }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
-        }
-    }
+//        public void comboBox(){
+//        try {
+//            // String sql="SELECT tb_blok.id_blok, tb_blok.kode_blok FROM tb_blok, tb_fasilitas WHERE tb_blok.id_blok = tb_fasilitas.id_blok";
+//       String sql ="SELECT kode_blok FROM tb_blok";
+//       Statement stm =(Statement)Konek.getConnection().createStatement();
+//       ResultSet rs =stm.executeQuery(sql);
+//        while (rs.next()) {            
+//            jComboBox_kdBlok.addItem(rs.getString("kode_blok"));
+//            jComboBox1.addItem(rs.getString("kode_blok"));
+//        }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this,"Error:"+ e.getMessage());
+//        }
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,27 +115,6 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        panelRound1 = new model.panelRound();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable_Fasilitas = new javax.swing.JTable();
-        jLabel7 = new javax.swing.JLabel();
-        panelRound6 = new model.panelRound();
-        jTextField_namFas = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jComboBox_kdBlok = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
-        jButton_Edit = new javax.swing.JButton();
-        jButton_tmbHFas = new javax.swing.JButton();
-        jButton_hps = new javax.swing.JButton();
-        panelRound7 = new model.panelRound();
-        jTextField_bykFas = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        panelRound8 = new model.panelRound();
-        jTextField_Tagihan = new javax.swing.JTextField();
-        jButton_KonfEditFas = new javax.swing.JButton();
-        jButton_BatEditFas = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
         panelRound3 = new model.panelRound();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -176,7 +155,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Blok dan Fasilitas");
+        jLabel1.setText("Kelola Blok");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -185,8 +164,8 @@ public class BlokNFasilitas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addGap(401, 401, 401)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(137, 137, 137)
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -197,260 +176,6 @@ public class BlokNFasilitas extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-        );
-
-        panelRound1.setBackground(new java.awt.Color(236, 236, 236));
-        panelRound1.setRoundBottomLeft(100);
-        panelRound1.setRoundBottomRight(100);
-        panelRound1.setRoundTopRight(100);
-        panelRound1.setRoundedTopLeft(100);
-
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Fasilitas");
-
-        jTable_Fasilitas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "id_fasilitas", "Nama Fasilitas", "Kode Blok", "Banyak Fasilitas", "Tagihan Perbulan"
-            }
-        ));
-        jTable_Fasilitas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable_FasilitasMouseClicked(evt);
-            }
-        });
-        jScrollPane3.setViewportView(jTable_Fasilitas);
-
-        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Banyak Fasilitas");
-
-        panelRound6.setRoundBottomLeft(30);
-        panelRound6.setRoundBottomRight(30);
-        panelRound6.setRoundTopRight(30);
-        panelRound6.setRoundedTopLeft(30);
-
-        jTextField_namFas.setBackground(new java.awt.Color(229, 229, 229));
-        jTextField_namFas.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextField_namFas.setBorder(null);
-        jTextField_namFas.setOpaque(false);
-
-        javax.swing.GroupLayout panelRound6Layout = new javax.swing.GroupLayout(panelRound6);
-        panelRound6.setLayout(panelRound6Layout);
-        panelRound6Layout.setHorizontalGroup(
-            panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_namFas, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelRound6Layout.setVerticalGroup(
-            panelRound6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_namFas, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
-        );
-
-        jLabel8.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("Kode Blok");
-
-        jLabel9.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("Nama Fasilitas");
-
-        jButton_Edit.setText("Edit");
-        jButton_Edit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton_Edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_EditActionPerformed(evt);
-            }
-        });
-
-        jButton_tmbHFas.setText("Tambah");
-        jButton_tmbHFas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton_tmbHFas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_tmbHFasActionPerformed(evt);
-            }
-        });
-
-        jButton_hps.setText("Hapus");
-        jButton_hps.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton_hps.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_hpsActionPerformed(evt);
-            }
-        });
-
-        panelRound7.setRoundBottomLeft(30);
-        panelRound7.setRoundBottomRight(30);
-        panelRound7.setRoundTopRight(30);
-        panelRound7.setRoundedTopLeft(30);
-
-        jTextField_bykFas.setBackground(new java.awt.Color(229, 229, 229));
-        jTextField_bykFas.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextField_bykFas.setBorder(null);
-        jTextField_bykFas.setOpaque(false);
-
-        javax.swing.GroupLayout panelRound7Layout = new javax.swing.GroupLayout(panelRound7);
-        panelRound7.setLayout(panelRound7Layout);
-        panelRound7Layout.setHorizontalGroup(
-            panelRound7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_bykFas, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelRound7Layout.setVerticalGroup(
-            panelRound7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_bykFas, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jLabel10.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("Biaya Tagihan Perbulan");
-
-        panelRound8.setRoundBottomLeft(30);
-        panelRound8.setRoundBottomRight(30);
-        panelRound8.setRoundTopRight(30);
-        panelRound8.setRoundedTopLeft(30);
-
-        jTextField_Tagihan.setBackground(new java.awt.Color(229, 229, 229));
-        jTextField_Tagihan.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        jTextField_Tagihan.setBorder(null);
-        jTextField_Tagihan.setOpaque(false);
-
-        javax.swing.GroupLayout panelRound8Layout = new javax.swing.GroupLayout(panelRound8);
-        panelRound8.setLayout(panelRound8Layout);
-        panelRound8Layout.setHorizontalGroup(
-            panelRound8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_Tagihan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelRound8Layout.setVerticalGroup(
-            panelRound8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_Tagihan, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jButton_KonfEditFas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jButton_KonfEditFas.setText("Konfirmasi Edit");
-        jButton_KonfEditFas.setEnabled(false);
-        jButton_KonfEditFas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_KonfEditFasActionPerformed(evt);
-            }
-        });
-
-        jButton_BatEditFas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jButton_BatEditFas.setText("Batalkan Edit");
-        jButton_BatEditFas.setEnabled(false);
-        jButton_BatEditFas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_BatEditFasActionPerformed(evt);
-            }
-        });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih Blok--" }));
-
-        javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
-        panelRound1.setLayout(panelRound1Layout);
-        panelRound1Layout.setHorizontalGroup(
-            panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound1Layout.createSequentialGroup()
-                .addGap(156, 156, 156)
-                .addComponent(jButton_tmbHFas, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jButton_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jButton_hps, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
-                .addContainerGap(94, Short.MAX_VALUE)
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel8)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(250, 250, 250))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(77, 77, 77))
-                    .addComponent(panelRound6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelRound1Layout.createSequentialGroup()
-                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(jComboBox_kdBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton_KonfEditFas, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton_BatEditFas, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(66, 66, 66))))
-        );
-        panelRound1Layout.setVerticalGroup(
-            panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound1Layout.createSequentialGroup()
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRound1Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)))
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_tmbHFas, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_hps, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelRound6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelRound1Layout.createSequentialGroup()
-                        .addComponent(jComboBox_kdBlok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelRound7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound1Layout.createSequentialGroup()
-                        .addComponent(jButton_KonfEditFas, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_BatEditFas, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelRound8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         panelRound3.setBackground(new java.awt.Color(236, 236, 236));
@@ -491,6 +216,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound2.setRoundTopRight(30);
         panelRound2.setRoundedTopLeft(30);
 
+        jTextField_kdBlok.setEditable(false);
         jTextField_kdBlok.setBackground(new java.awt.Color(229, 229, 229));
         jTextField_kdBlok.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextField_kdBlok.setBorder(null);
@@ -507,10 +233,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         );
         panelRound2Layout.setVerticalGroup(
             panelRound2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_kdBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTextField_kdBlok, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
         );
 
         panelRound4.setRoundBottomLeft(30);
@@ -518,6 +241,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound4.setRoundTopRight(30);
         panelRound4.setRoundedTopLeft(30);
 
+        jTextField_Harga.setEditable(false);
         jTextField_Harga.setBackground(new java.awt.Color(229, 229, 229));
         jTextField_Harga.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextField_Harga.setBorder(null);
@@ -534,10 +258,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         );
         panelRound4Layout.setVerticalGroup(
             panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_Harga, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTextField_Harga, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
@@ -555,6 +276,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound5.setRoundTopRight(45);
         panelRound5.setRoundedTopLeft(45);
 
+        jTextArea_Desc.setEditable(false);
         jTextArea_Desc.setBackground(new java.awt.Color(229, 229, 229));
         jTextArea_Desc.setColumns(20);
         jTextArea_Desc.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -574,9 +296,9 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         );
         panelRound5Layout.setVerticalGroup(
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound5Layout.createSequentialGroup()
+            .addGroup(panelRound5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -630,79 +352,80 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         panelRound3Layout.setHorizontalGroup(
             panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound3Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(65, 65, 65)
                 .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRound3Layout.createSequentialGroup()
+                        .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(panelRound3Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_tmbhBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton_KonfEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelRound3Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel5))
-                            .addGroup(panelRound3Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
+                                .addComponent(jButton_EditBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton_Hps, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound3Layout.createSequentialGroup()
                                 .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton_KonfEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton_BatEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(panelRound3Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                                        .addComponent(jLabel6)
+                                        .addGap(248, 248, 248)))
+                                .addGap(46, 46, 46))))
                     .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
-                        .addGap(167, 167, 167))))
+                        .addComponent(jButton_BatEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
             .addGroup(panelRound3Layout.createSequentialGroup()
                 .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addGap(245, 245, 245)
-                        .addComponent(jLabel2))
+                        .addGap(74, 74, 74)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound3Layout.createSequentialGroup()
-                                .addComponent(jButton_tmbhBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(jButton_EditBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45)
-                                .addComponent(jButton_Hps, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(66, 66, 66)))))
-                .addGap(0, 60, Short.MAX_VALUE))
+                        .addGap(235, 235, 235)
+                        .addComponent(jLabel2)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelRound3Layout.setVerticalGroup(
             panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_EditBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_Hps, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_tmbhBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelRound3Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
                         .addComponent(panelRound2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton_KonfEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_BatEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelRound3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton_tmbhBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_EditBlok, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_Hps, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelRound5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(125, 125, 125))))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -710,29 +433,24 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -750,6 +468,9 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jButton_tmbhBlok.setEnabled(false);
         jButton_KonfEdit.setEnabled(true);
         jButton_BatEdit.setEnabled(true);
+        jTextArea_Desc.setEditable(true);
+        jTextField_Harga.setEditable(true);
+        jTextField_kdBlok.setEditable(true);
     }//GEN-LAST:event_jButton_EditBlokActionPerformed
 
     private void jTable_BlokMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_BlokMouseClicked
@@ -786,6 +507,7 @@ public class BlokNFasilitas extends javax.swing.JFrame {
             pst.execute();
             JOptionPane.showMessageDialog(this, "Data telah berhasil diubah");
             ShowTableBlok();
+            
 //            jButton_konfEdit.setEnabled(false);
 //             jTextField_kodeBlok.setEnabled(false);
 //        jTextField_harga.setEnabled(false);
@@ -800,8 +522,11 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jButton_KonfEdit.setEnabled(false);
         jButton_EditBlok.setEnabled(true);
         jButton_Hps.setEnabled(true);
-        jButton_Edit.setEnabled(true);
+        //jButton_Edit.setEnabled(true);
         jButton_tmbhBlok.setEnabled(true);
+        jTextArea_Desc.setEditable(false);
+        jTextField_Harga.setEditable(false);
+        jTextField_kdBlok.setEditable(false);
     }//GEN-LAST:event_jButton_KonfEditActionPerformed
 
     private void jButton_BatEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BatEditActionPerformed
@@ -810,8 +535,11 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         jButton_KonfEdit.setEnabled(false);
         jButton_EditBlok.setEnabled(true);
         jButton_Hps.setEnabled(true);
-        jButton_Edit.setEnabled(true);
+       // jButton_Edit.setEnabled(true);
         jButton_tmbhBlok.setEnabled(true);
+        jTextArea_Desc.setEditable(false);
+        jTextField_Harga.setEditable(false);
+        jTextField_kdBlok.setEditable(false);
     }//GEN-LAST:event_jButton_BatEditActionPerformed
 
     private void jButton_tmbhBlokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_tmbhBlokActionPerformed
@@ -844,66 +572,6 @@ public class BlokNFasilitas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_HpsActionPerformed
 
-    private void jTable_FasilitasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_FasilitasMouseClicked
-        // TODO add your handling code here:
-          int row = jTable_Fasilitas.getSelectedRow();
-          String nama =jTable_Fasilitas.getValueAt(row, 1).toString();
-          String kdBlok = jTable_Fasilitas.getValueAt(row, 2).toString();
-          //String blok =jTable2.getValueAt(row, 2).toString();
-          String banyak =jTable_Fasilitas.getValueAt(row, 3).toString();
-          String harga =jTable_Fasilitas.getValueAt(row, 4).toString();
-          
-          jTextField_namFas.setText(nama);
-          //jTextField_kodeBlok.set
-          jTextField_bykFas.setText(banyak);
-          jTextField_Tagihan.setText(harga);
-          jComboBox_kdBlok.setSelectedItem(kdBlok);
-    }//GEN-LAST:event_jTable_FasilitasMouseClicked
-
-    private void jButton_KonfEditFasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_KonfEditFasActionPerformed
-        // TODO add your handling code here:
-        try {
-            int row = jTable_Fasilitas.getSelectedRow();
-            String id = jTable_Fasilitas.getValueAt(row, 0).toString();
-            String SQL ="UPDATE tb_fasilitas SET nama_fasilitas='"+jTextField_namFas.getText()+"', kode_blok='"+jComboBox_kdBlok.getSelectedItem().toString()
-                    +"', banyak_fasilitas='"+jTextField_bykFas.getText()+"', tagihan_perbulan='"+jTextField_Tagihan.getText()+"' WHERE id_fasilitas='"+id+"'";
-            Connection conn =(Connection)mimikostswing.Config.configDB();
-            PreparedStatement ps = conn.prepareStatement(SQL);
-            ps.execute();
-            JOptionPane.showMessageDialog(this, "Data telah berhasil diubah");
-            ShowTableFasilitas();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
-        }
-        
-        
-         jButton_BatEditFas.setEnabled(false);
-        jButton_KonfEditFas.setEnabled(false);
-        jButton_Edit.setEnabled(true);
-        jButton_hps.setEnabled(true);
-        jButton_Edit.setEnabled(true);
-        jButton_tmbHFas.setEnabled(true);
-    }//GEN-LAST:event_jButton_KonfEditFasActionPerformed
-
-    private void jButton_BatEditFasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BatEditFasActionPerformed
-        // TODO add your handling code here:
-         jButton_BatEditFas.setEnabled(false);
-        jButton_KonfEditFas.setEnabled(false);
-        jButton_Edit.setEnabled(true);
-        jButton_hps.setEnabled(true);
-        jButton_Edit.setEnabled(true);
-        jButton_tmbHFas.setEnabled(true);
-    }//GEN-LAST:event_jButton_BatEditFasActionPerformed
-
-    private void jButton_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EditActionPerformed
-        // TODO add your handling code here:
-         jButton_Edit.setEnabled(false);
-        jButton_hps.setEnabled(false);
-        jButton_tmbHFas.setEnabled(false);
-        jButton_KonfEditFas.setEnabled(true);
-        jButton_BatEditFas.setEnabled(true);
-    }//GEN-LAST:event_jButton_EditActionPerformed
-
    public String getid(){
        String idd = null;
         String sql="select id_fasilitas, @rowid:=@rowid+1 as myrow from tb_fasilitas, (SELECT @rowid:=0) as init ORDER BY myrow desc LIMIT 1;";
@@ -918,106 +586,6 @@ public class BlokNFasilitas extends javax.swing.JFrame {
        }
        return idd;
     }
-    private void jButton_tmbHFasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_tmbHFasActionPerformed
-        // TODO add your handling code here:
-        int id =Types.NULL;
-         String nama = jTextField_namFas.getText();
-        String blok = jComboBox_kdBlok.getSelectedItem().toString();
-        String banyak = jTextField_bykFas.getText();
-        Integer harga = Integer.valueOf(jTextField_Tagihan.getText()); 
-        
-      
-        
-        
-        try {
-            String query;
-            PreparedStatement ps;
-            Connection conn =(Connection)Config.configDB();
-            try {
-                
-                query="INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `kode_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES("+Types.NULL+",'"+nama+"','"+blok+"','"+banyak+"','"+harga+"')";
-                //query="INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `kode_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES (?, ?, ?, ? ,?)";
-                ps =conn.prepareStatement(query);
-//                ps.setNull(1, id);
-//                ps.setString(2, nama);
-//                ps.setString(3, blok);
-//                ps.setString(4, banyak);
-//                ps.setInt(5, harga);
-                ps.execute();
-                
-                for (int i = 1; i <= Integer.parseInt(banyak); i++) {
-                    try {
-                           Date d = new Date();
-            Calendar c =Calendar.getInstance();
-            c.setTime(d); 
-            int bln =c.get(Calendar.MONTH);
-            int thn =c.get(Calendar.YEAR);
-            int idTag =Types.NULL;
-            String status ="Sudah Dibayarkan";
-            java.sql.Date tglSkrg = java.sql.Date.valueOf(LocalDate.now());
-                query="INSERT INTO tb_tagihan_fasilitas  VALUES("+idTag+" ,'"+bln+"','"+thn+"','"+getid()+"','"+harga+"','"+status+"','"+tglSkrg+"')";
-                ps = conn.prepareStatement(query);
-                System.out.println(getid());
-//                ps.setNull(1, idTag);
-//                ps.setInt(2, bln);
-//                ps.setInt(3, thn);
-//                ps.setString(4, getid());
-//                ps.setInt(5, harga);
-//                ps.setString(6, "Sudah Dibayarkan");
-//                ps.setDate(7, tglSkrg);
-                ps.execute();
-                i++;
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, e.getMessage());
-                        System.err.println(e);
-                    }
-        
-                }
-         
-       
-               jTextField_namFas.setText(null);
-               jTextField_bykFas.setText(null);
-               jTextField_Tagihan.setText(null);
-                ShowTableFasilitas();
-                JOptionPane.showMessageDialog(this, "Input berhasil");
-                
-                
-            } catch (Exception e) {
-                conn.rollback();
-                JOptionPane.showMessageDialog(this, e);
-                e.printStackTrace();
-            }
-            // String sql = "INSERT INTO `tb_fasilitas` (`id_fasilitas`, `nama_fasilitas`, `kode_blok`, `banyak_fasilitas`, `tagihan_perbulan`) VALUES("+Types.NULL+",'"+nama+"','"+blok+"','"+banyak+"','"+harga+"')";
-//             //Connection conn = (Connection)mimikostswing.Config.configDB();
-//             PreparedStatement pst = conn.prepareStatement(sql);
-//             pst.execute(sql);
-//             JOptionPane.showMessageDialog(this, "Input data berhasil");
-//             ShowTableFasilitas();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error: "+ e.getMessage());
-            System.err.println(e);
-        }
-    }//GEN-LAST:event_jButton_tmbHFasActionPerformed
-
-    private void jButton_hpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_hpsActionPerformed
-        // TODO add your handling code here:
-         int row = jTable_Fasilitas.getSelectedRow();
-        String id = jTable_Fasilitas.getValueAt(row, 0).toString();
-        jTextField_namFas.setText("");
-        jTextField_bykFas.setText("");
-        jTextField_Tagihan.setText("");
-        try {
-            String SQL ="DELETE FROM tb_fasilitas WHERE id_fasilitas='"+id+"'";
-        Connection conn =(Connection)mimikostswing.Config.configDB();
-        PreparedStatement pst = conn.prepareStatement(SQL);
-        pst.execute(SQL);
-        JOptionPane.showMessageDialog(this, "Data telah berhasil dihapus");
-        ShowTableFasilitas();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error "+ e.getMessage());
-        }
-    }//GEN-LAST:event_jButton_hpsActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
@@ -1062,47 +630,26 @@ public class BlokNFasilitas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_BatEdit;
-    private javax.swing.JButton jButton_BatEditFas;
-    private javax.swing.JButton jButton_Edit;
     private javax.swing.JButton jButton_EditBlok;
     private javax.swing.JButton jButton_Hps;
     private javax.swing.JButton jButton_KonfEdit;
-    private javax.swing.JButton jButton_KonfEditFas;
-    private javax.swing.JButton jButton_hps;
-    private javax.swing.JButton jButton_tmbHFas;
     private javax.swing.JButton jButton_tmbhBlok;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox_kdBlok;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable_Blok;
-    private javax.swing.JTable jTable_Fasilitas;
     private javax.swing.JTextArea jTextArea_Desc;
     private javax.swing.JTextField jTextField_Harga;
-    private javax.swing.JTextField jTextField_Tagihan;
-    private javax.swing.JTextField jTextField_bykFas;
     private javax.swing.JTextField jTextField_kdBlok;
-    private javax.swing.JTextField jTextField_namFas;
-    private model.panelRound panelRound1;
     private model.panelRound panelRound2;
     private model.panelRound panelRound3;
     private model.panelRound panelRound4;
     private model.panelRound panelRound5;
-    private model.panelRound panelRound6;
-    private model.panelRound panelRound7;
-    private model.panelRound panelRound8;
     // End of variables declaration//GEN-END:variables
 }

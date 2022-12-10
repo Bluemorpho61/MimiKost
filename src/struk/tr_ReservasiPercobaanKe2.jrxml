@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="82f5774d-1d32-4078-b15c-49dffdbd2efd">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="CollectionBeanParam" class="java.lang.String"/>
+	<field name="KodeKTP" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="113" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="172" y="0" width="227" height="113" uuid="4b290e98-8142-4f26-a65f-8e561f42d55b"/>
+				<imageExpression><![CDATA["F:\\Programming Project\\Java\\MimiKostSwing\\src\\mimikostswing\\images\\Mask group.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="127" y="0" width="300" height="30" uuid="1eab9896-e5f6-48d3-9497-08b1b316a0ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Perumahan Cluster Tidar Asri]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="127" y="30" width="300" height="30" uuid="e098d5d1-533f-4e5a-83c2-d06f53bae26a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Kabupaten Jember]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="172" y="0" width="229" height="38" uuid="8f4cdcbd-9005-40c1-8f28-a5858805a511"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Adobe Arabic" size="20"/>
+				</textElement>
+				<text><![CDATA[Reservasi Kamar]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="30" width="110" height="30" uuid="2abcc5f6-b044-49b7-aac7-147a5bcb60ac"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="94" width="110" height="29" uuid="df4cc62a-17e2-40d7-bb09-d0422544e605"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[No. Kamar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="0" width="110" height="30" uuid="bd76c269-aaf5-4f70-874a-f24c2e8bdc7b"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Kode KTP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="60" width="110" height="34" uuid="d07d8232-d7f1-4a83-9c1b-4a6b16b3762e"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Kode Blok]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="127" y="0" width="129" height="29" uuid="231cc312-e961-4ffe-b748-c869baa15f56"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{KodeKTP}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
